@@ -40,14 +40,16 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
-          <a
-            href={profile.resumeHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-[var(--hair)] px-4 py-1.5 text-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
-          >
-            Résumé
-          </a>
+          {profile.resumeHref ? (
+            <a
+              href={profile.resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-[var(--hair)] px-4 py-1.5 text-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            >
+              Résumé
+            </a>
+          ) : null}
         </div>
 
         <button
@@ -76,14 +78,16 @@ export default function Nav() {
                 {link.label}
               </a>
             ))}
-            <a
-              href={profile.resumeHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-3 text-sm text-[var(--accent)]"
-            >
-              Résumé ↗
-            </a>
+            {profile.resumeHref ? (
+              <a
+                href={profile.resumeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 text-sm text-[var(--accent)]"
+              >
+                Résumé ↗
+              </a>
+            ) : null}
           </div>
         </div>
       ) : null}

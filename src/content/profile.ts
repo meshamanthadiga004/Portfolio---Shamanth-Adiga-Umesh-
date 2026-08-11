@@ -50,9 +50,14 @@ export const profile = {
   subhead:
     "TODO: MBA candidate at Jain Deemed-to be-University, [Data Science & Analytics]. I work across strategy, financial analysis and product analytics — building the case, the model, and the recommendation.",
   location: "Bengaluru, KA, India",
-  /** Put your resume PDF at public/resume.pdf and leave this as-is. */
-  resumeHref: "/Shamanth_Adiga_Umesh_Resume.pdf", 
-  
+  /**
+   * Path to your resume PDF. Leave as "" and every Résumé button hides itself —
+   * better than linking to a 404. When you have the file, drop it in public/
+   * with this exact name and restore the path below.
+   */
+  resumeHref: "", // "/Shamanth_Adiga_Umesh_Resume.pdf"
+
+
   // ------------------------------------------------------------------- about
   about: [
     "TODO: Paragraph one. What kind of problems you're drawn to and why. Avoid adjectives about yourself — describe the work instead. Two or three sentences.",
@@ -97,96 +102,69 @@ export const profile = {
 
 export const projects: Project[] = [
   {
-    slug: "market-entry-study",
-    title: "TODO: Market Entry Assessment — [Company] into [Market]",
-    category: "Strategy",
-    status: "shipped",
-    timeframe: "TODO: Mar 2026",
-    context: "TODO: National case competition / Course capstone / Self-initiated",
-    problem:
-      "TODO: State the decision, not the topic. 'Should [X] enter [Y] market, and if so through which channel?' beats 'A study of the [Y] market.'",
-    approach: [
-      "TODO: Sized the market bottom-up from [source], cross-checked against [source].",
-      "TODO: Screened three entry modes against capital intensity, time-to-revenue and regulatory exposure.",
-      "TODO: Interviewed N practitioners / ran a survey of N respondents to test the demand assumption.",
-    ],
-    outcome: [
-      "TODO: Recommended [specific action] over [alternative], on the basis of [the one number that decided it].",
-      "TODO: Placed top-N of M teams / adopted by [whoever] / published at [link].",
-    ],
-    metrics: [
-      { value: "TODO ₹XXCr", label: "Addressable market sized" },
-      { value: "TODO 3", label: "Entry modes evaluated" },
-      { value: "TODO Top 5", label: "of 120 teams" },
-    ],
-    tools: ["Porter's Five Forces", "TAM/SAM/SOM", "Excel", "PowerPoint"],
-    links: [
-      { label: "Deck (PDF)", href: "TODO: link to a public Drive/Notion file" },
-    ],
-  },
-  {
-    slug: "equity-valuation",
-    title: "TODO: Equity Research & DCF Valuation — [Ticker]",
-    category: "Finance",
-    status: "shipped",
-    timeframe: "TODO: Jan 2026",
-    context: "TODO: Finance & Investment Club / Independent",
-    problem:
-      "TODO: Is [Company] mispriced at its current level, and what would have to be true for the market to be right?",
-    approach: [
-      "TODO: Built a three-statement model with revenue driven by [volume × price / segment build-up].",
-      "TODO: Valued via DCF (WACC X%, terminal growth Y%) and triangulated against a comparables set of N peers.",
-      "TODO: Ran scenarios on the two assumptions the valuation was most sensitive to.",
-    ],
-    outcome: [
-      "TODO: Arrived at a fair value of ₹X vs a market price of ₹Y — a BUY/HOLD/SELL with a Z% margin of safety.",
-      "TODO: Thesis rested on [the non-consensus view], which the sell-side was under-weighting.",
-    ],
-    metrics: [
-      { value: "TODO ₹X", label: "Intrinsic value / share" },
-      { value: "TODO ±X%", label: "vs market price" },
-      { value: "TODO 5yr", label: "Forecast horizon" },
-    ],
-    tools: ["DCF", "Comparable Companies", "Sensitivity Analysis", "Excel"],
-    links: [{ label: "Model & write-up", href: "TODO" }],
-  },
-  {
-    slug: "product-teardown",
-    title: "TODO: Growth Analysis — [Product]",
+    slug: "smartphone-market-analytics",
+    title:
+      "What Drives Smartphone Pricing — Specifications or the Buyer?",
     category: "Analytics",
-    status: "in-progress",
-    timeframe: "TODO: In progress — targeting May 2026",
-    context: "TODO: Self-initiated",
+    status: "shipped",
+    timeframe: "Jul 2026",
+    context: "MBA data science capstone",
     problem:
-      "TODO: Where is [Product] losing users between acquisition and habit, and which fix has the best return on effort?",
+      "A smartphone retailer wanted to know whether price, adoption and satisfaction are driven by what a device is, or by who is buying it — the answer decides whether segmentation should be built on specifications or on demographics.",
     approach: [
-      "TODO: Rebuilt the funnel from public data / an instrumented clone and located the largest drop-off.",
-      "TODO: Segmented cohorts by acquisition channel to separate a traffic-quality problem from a product problem.",
-      "TODO: Sized each candidate intervention by reach × expected lift × build cost.",
+      "Ran 18 hypothesis tests — t-tests, ANOVA and chi-square — across 990 records and 22 variables in Python, testing brand, hardware specification and buyer demographics against price tier.",
+      "Tested specification effects and demographic effects separately, so the demographic question could be answered rather than assumed.",
+      "Built 15 Tableau worksheets into a 12-panel storyboard, mapping each statistical result to a merchandising decision it could inform.",
     ],
     outcome: [
-      "TODO: Expected outcome — leave this honest while the work is open. 'Aiming to produce a prioritised backlog with sized impact per item.'",
+      "Brand is the dominant price driver (ANOVA F = 105.69, p < 0.001), and operating system determines hardware tier — RAM F = 143.92, screen size F = 389.85.",
+      "No demographic variable held up — neither age, gender nor occupation predicted device choice — so recommended specification-based segmentation over demographic targeting.",
+      "Mumbai salaries came in significantly above Delhi (p = 0.00024), consistent with the regional skew toward premium devices.",
     ],
-    metrics: [{ value: "TODO", label: "Fill in on completion" }],
-    tools: ["SQL", "Python", "Cohort Analysis", "RICE Prioritisation"],
+    metrics: [
+      { value: "990", label: "Records, 22 variables" },
+      { value: "18", label: "Hypothesis tests run" },
+      { value: "0", label: "Demographic predictors that held" },
+    ],
+    tools: [
+      "Python",
+      "Pandas",
+      "SciPy",
+      "ANOVA",
+      "Chi-square",
+      "Tableau",
+      "Jupyter",
+    ],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/meshamanthadiga004/smartphone-market-analytics",
+      },
+    ],
   },
+
+  // --------------------------------------------------------------------------
+  // TEMPLATE — copy this block for each new project.
+  // Delete it once you have two or three real projects; an empty pipeline
+  // reads better than a visible placeholder.
+  // --------------------------------------------------------------------------
   {
-    slug: "ops-improvement",
-    title: "TODO: Process Redesign — [Function] at [Company]",
-    category: "Operations",
-    status: "planned",
-    timeframe: "TODO: Planned — Aug 2026",
-    context: "TODO: Live project with [Company] / Summer internship",
+    slug: "next-project",
+    title: "TODO: Name the project by its question, not its topic",
+    category: "Strategy", // Strategy | Finance | Analytics | Operations | Marketing
+    status: "planned", // shipped | in-progress | planned
+    timeframe: "TODO: Planned — Oct 2026",
+    context: "TODO: Self-initiated / Course capstone / Live project with [X]",
     problem:
-      "TODO: The question you'll be answering. Write it now — it sharpens the project before you start.",
+      "TODO: The decision you're answering, in one sentence. Write this before you start — it sharpens the project.",
     approach: [
-      "TODO: Planned method. Value stream mapping, time-and-motion study, queueing analysis — whatever you actually intend to do.",
+      "TODO: The method you intend to use — data source, framework, test.",
     ],
     outcome: [
-      "TODO: What good looks like. Keep it as an intention, not a claim.",
+      "TODO: What good looks like. Keep it as an intention until it's done.",
     ],
     metrics: [],
-    tools: ["Value Stream Mapping", "Lean", "Excel"],
+    tools: ["TODO: Excel", "Python"],
   },
 ];
 

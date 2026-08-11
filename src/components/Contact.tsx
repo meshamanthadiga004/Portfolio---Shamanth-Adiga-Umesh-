@@ -33,14 +33,16 @@ export default function Contact() {
               {s.label} ↗
             </a>
           ))}
-          <a
-            href={profile.resumeHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--ink)]"
-          >
-            Résumé ↗
-          </a>
+          {profile.resumeHref ? (
+            <a
+              href={profile.resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--ink)]"
+            >
+              Résumé ↗
+            </a>
+          ) : null}
         </div>
       </Reveal>
     </Section>

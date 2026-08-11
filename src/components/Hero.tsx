@@ -31,14 +31,16 @@ export default function Hero() {
             >
               See the work
             </a>
-            <a
-              href={profile.resumeHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-[var(--hair)] px-6 py-2.5 text-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            >
-              Résumé ↗
-            </a>
+            {profile.resumeHref ? (
+              <a
+                href={profile.resumeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-[var(--hair)] px-6 py-2.5 text-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                Résumé ↗
+              </a>
+            ) : null}
             <a
               href={`mailto:${profile.email}`}
               className="px-2 py-2.5 text-sm text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--ink)]"
