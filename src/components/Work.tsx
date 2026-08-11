@@ -1,0 +1,64 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { projects } from "@/content/profile";
+import ProjectCard from "./ProjectCard";
+import Reveal from "./Reveal";
+import Section from "./Section";
+
+export default function Work() {
+  const [filter, setFilter] = useState<string>("All");
+
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(projects.map((p) => p.category)))],
+    []
+  );
+
+  const shown = useMemo(
+    () =>
+      filter === "All" ? projects : projects.filter((p) => p.category === filter),
+    [filter]
+  );
+
+  const completed = projects.filter((p) => p.status === "shipped").length;
+
+  return (
+    <Section id="work" label="Work" title="Selected projects">
+      <Reveal>
+        <div className="mb-10 flex flex-wrap items-center gap-2">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setFilter(cat)}
+              aria-pressed={filter === cat}
+              className={`rounded-full border px-3.5 py-1 text-sm transition-colors ${
+                filter === cat
+                  ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
+                  : "border-[var(--hair)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+          <span className="ml-auto text-xs text-[var(--muted)]">
+            {completed} complete · {projects.length - completed} in the pipeline
+          </span>
+        </div>
+      </Reveal>
+
+      <div>
+        {shown.map((project, i) => (
+          <Reveal key={project.slug} delay={Math.min(i, 3) * 60}>
+            <ProjectCard project={project} isFirst={i === 0} />
+          </Reveal>
+        ))}
+        {shown.length === 0 ? (
+          <p className="py-10 text-sm text-[var(--muted)]">
+            Nothing here yet under {filter}.
+          </p>
+        ) : null}
+      </div>
+    </Section>
+  );
+}
