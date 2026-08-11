@@ -34,9 +34,9 @@ export type Project = {
 
 export const profile = {
   // ---------------------------------------------------------------- identity
-  name: "TODO: Your Full Name",
+  name: "Shamanth Adiga Umesh",
   /** Appears in the browser tab and in Google results. */
-  seoTitle: "TODO: Your Full Name — MBA | Strategy & Finance",
+  seoTitle: "Shamanth Adiga Umesh — MBA | Data Science & Analytics",
   seoDescription:
     "TODO: One line a recruiter would read in search results. e.g. MBA candidate at X, working at the intersection of strategy, finance and analytics.",
   /** Your live URL once deployed. Used for social share cards. */
@@ -45,14 +45,14 @@ export const profile = {
   // -------------------------------------------------------------------- hero
   /** Short. This is your positioning, not your job title. */
   headline:
-    "I turn ambiguous business problems into decisions someone can act on.",
+    "I turn ambiguous business problems into decisions to can act on.",
   /** 1-2 sentences under the headline. Concrete beats grand. */
   subhead:
-    "TODO: MBA candidate at [School], [Specialisation]. I work across strategy, financial analysis and product analytics — building the case, the model, and the recommendation.",
-  location: "TODO: City, Country",
+    "TODO: MBA candidate at Jain Deemed-to be-University, [Data Science & Analytics]. I work across strategy, financial analysis and product analytics — building the case, the model, and the recommendation.",
+  location: "Bengaluru, KA, India",
   /** Put your resume PDF at public/resume.pdf and leave this as-is. */
-  resumeHref: "/resume.pdf",
-
+  resumeHref: "/Shamanth_Adiga_Umesh_Resume.pdf", 
+  
   // ------------------------------------------------------------------- about
   about: [
     "TODO: Paragraph one. What kind of problems you're drawn to and why. Avoid adjectives about yourself — describe the work instead. Two or three sentences.",
