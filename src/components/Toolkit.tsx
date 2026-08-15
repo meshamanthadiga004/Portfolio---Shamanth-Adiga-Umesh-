@@ -8,16 +8,13 @@ export default function Toolkit() {
       <div className="grid gap-10 sm:grid-cols-2">
         {toolkit.map((group, i) => (
           <Reveal key={group.group} delay={i * 60}>
-            <div>
-              <h3 className="text-xs font-medium uppercase tracking-[0.16em] text-[var(--muted)]">
+            <div className="card p-6">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
                 {group.group}
               </h3>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded border border-[var(--hair)] px-2.5 py-1 text-sm text-[var(--ink)]"
-                  >
+                  <span key={item} className="chip">
                     {item}
                   </span>
                 ))}

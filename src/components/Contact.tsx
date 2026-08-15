@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <Section id="contact" num="05" label="Contact" title="Let's talk">
       <Reveal>
-        <p className="max-w-2xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
+        <p className="max-w-2xl text-lg leading-[1.65] text-[var(--muted)]">
           {profile.contactNote}
         </p>
       </Reveal>
@@ -14,7 +14,7 @@ export default function Contact() {
       <Reveal delay={80}>
         <a
           href={`mailto:${profile.email}`}
-          className="mt-8 inline-block font-serif text-2xl tracking-tight underline decoration-[var(--hair)] underline-offset-8 transition-colors hover:text-[var(--accent)] hover:decoration-[var(--accent)] sm:text-3xl"
+          className="script mt-8 inline-block text-3xl leading-tight transition-opacity hover:opacity-75 sm:text-5xl"
         >
           {profile.email}
         </a>

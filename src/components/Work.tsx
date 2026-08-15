@@ -32,10 +32,10 @@ export default function Work() {
               type="button"
               onClick={() => setFilter(cat)}
               aria-pressed={filter === cat}
-              className={`rounded-full border px-3.5 py-1 text-sm transition-colors ${
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
                 filter === cat
                   ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
-                  : "border-[var(--hair)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                  : "border-[var(--hair)] bg-[var(--surface)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
               }`}
             >
               {cat}
@@ -47,10 +47,10 @@ export default function Work() {
         </div>
       </Reveal>
 
-      <div>
+      <div className="grid gap-5">
         {shown.map((project, i) => (
           <Reveal key={project.slug} delay={Math.min(i, 3) * 60}>
-            <ProjectCard project={project} isFirst={i === 0} />
+            <ProjectCard project={project} />
           </Reveal>
         ))}
         {shown.length === 0 ? (

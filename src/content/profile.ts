@@ -35,6 +35,15 @@ export type Project = {
 export const profile = {
   // ---------------------------------------------------------------- identity
   name: "Shamanth Adiga Umesh",
+  /**
+   * The hero sets your name in two parts: `nameLead` in bold sans, then
+   * `nameAccent` in serif italic accent colour on its own line. Move the split
+   * wherever it reads best — "Shamanth" / "Adiga Umesh" is the default.
+   */
+  nameLead: "Shamanth",
+  nameAccent: "Adiga Umesh",
+  /** Short status shown in the nav pill and above the name. "" hides it. */
+  availability: "Open to internships",
   /** Appears in the browser tab and in Google results. */
   seoTitle: "Shamanth Adiga Umesh — MBA | Data Science & Analytics",
   seoDescription:
@@ -48,7 +57,7 @@ export const profile = {
     "I turn ambiguous business problems into decisions to can act on.",
   /** 1-2 sentences under the headline. Concrete beats grand. */
   subhead:
-    "TODO: MBA candidate at Jain Deemed-to be-University, [Data Science & Analytics]. I work across strategy, financial analysis and product analytics - building the case, the model, and the recommendation.",
+    "MBA candidate at Jain Deemed-to be-University specializing in Data Science & Analytics. I work across Strategy, Financial Analytics, Risk Analysis, and Product analytics - building the case, the model, and the recommendation.",
   location: "Bengaluru, KA, India",
   /**
    * Path to your resume PDF. Leave as "" and every Résumé button hides itself —
@@ -60,8 +69,19 @@ export const profile = {
 
   // ------------------------------------------------------------------- about
   about: [
-    "TODO: Paragraph one. What kind of problems you're drawn to and why. Avoid adjectives about yourself — describe the work instead. Two or three sentences.",
+    "TODO: Paragraph one. What kind of problems you're drawn to and why. Avoid adjectives about yourself  describe the work instead. Two or three sentences.",
     "TODO: Paragraph two. Your background before the MBA and what it gives you that a pure generalist doesn't have. End with what you're looking for next.",
+  ],
+
+  /**
+   * Headline figures shown in a bordered grid under the About text. Keep to
+   * 3 or 4 — these should be facts, not claims. Set to [] to hide the grid.
+   */
+  stats: [
+    { value: "TODO: 8.4", label: "CGPA / 10" },
+    { value: "990", label: "Records analysed" },
+    { value: "18", label: "Hypothesis tests" },
+    { value: "TODO: 2", label: "Certifications" },
   ],
 
   // ------------------------------------------------- what you're good at
@@ -82,7 +102,8 @@ export const profile = {
   ],
 
   // --------------------------------------------------------------- contact
-  email: "TODO: you@example.com",
+  email: "shamanthadiga@hotmail.com",
+  phone: "+91 8660572898",
   socials: [
     { label: "LinkedIn", href: "https://linkedin.com/in/TODO" },
     { label: "GitHub", href: "https://github.com/TODO" }, // delete if unused
@@ -108,7 +129,7 @@ export const projects: Project[] = [
     category: "Analytics",
     status: "shipped",
     timeframe: "Jul 2026",
-    context: "MBA data science capstone",
+    context: "MBA Data Science & Analytics",
     problem:
       "A smartphone retailer wanted to know whether price, adoption and satisfaction are driven by what a device is, or by who is buying it — the answer decides whether segmentation should be built on specifications or on demographics.",
     approach: [
@@ -174,23 +195,17 @@ export const projects: Project[] = [
 
 export const experience = [
   {
-    role: "TODO: Summer Intern — Strategy",
-    org: "TODO: Company Name",
-    location: "TODO: City",
-    period: "TODO: Apr 2026 — Jun 2026",
+    role: "Intern - Compliance and Regulatory Associate",
+    org: "Bharadwaj and Hosmat, Chartered Accountants",
+    location: "Bengaluru",
+    period: "Jan 2025 - Apr 2025",
     /** 2-3 bullets. Lead each with the verb, close with the number. */
     points: [
-      "TODO: What you owned, and the result. 'Rebuilt the vendor scorecard across 40 suppliers, cutting quarterly review time from 3 weeks to 4 days.'",
-      "TODO: Second bullet.",
-    ],
-  },
-  {
-    role: "TODO: Previous Role",
-    org: "TODO: Company Name",
-    location: "TODO: City",
-    period: "TODO: 2022 — 2025",
-    points: [
-      "TODO: Pre-MBA experience. This is what makes your MBA profile specific — don't undersell it.",
+      "Filed monthly GSTR-1, GSTR-3B, TDS, PF, and ESI returns for 10–20 clients on Tally Prime, on time and without errors.",
+      "Reconciled financial records and drafted responses to GST notices, including cases where the penalty demand was simply wrong.",
+      "Handled compliance for trusts and non-profits under the Indian Trusts Act, 1882, closure filings included.",
+      "Supported company incorporations, statutory registrations, and RoC filings under the Companies Act, plus post-incorporation compliance and record-keeping.",
+      "Worked directly with the GST Department, Income Tax Department, and Registrar of Companies to keep assignments on schedule.",
     ],
   },
 ];

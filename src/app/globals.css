@@ -7,47 +7,57 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Palette. Light is the base; dark is redefined in two places so that both the
-   OS preference and the manual toggle win in either direction.
+   Palette — warm paper, near-black ink, one confident coral accent.
+   Light is the base; dark is redefined twice so both the OS preference and
+   the manual toggle win in either direction.
    --------------------------------------------------------------------------- */
 :root {
-  --paper: #fbfaf8;
+  --paper: #f5f4f0;
   --surface: #ffffff;
-  --ink: #14161a;
-  --muted: #5c6470;
-  --hair: #e5e2dc;
-  --accent: #1e4d47;
-  --accent-soft: #eef3f1;
-  --shadow: 0 1px 2px rgb(20 22 26 / 0.04), 0 8px 24px rgb(20 22 26 / 0.06);
+  --ink: #14130f;
+  --muted: #5f5c55;
+  --hair: rgb(0 0 0 / 0.1);
+  --hair-soft: rgb(0 0 0 / 0.05);
+  --accent: #ff4d2e;
+  --accent-2: #ff8a6b;
+  --accent-soft: #fff1ed;
+  --lift: 0 8px 30px rgb(0 0 0 / 0.06);
+  --lift-strong: 0 16px 50px rgb(0 0 0 / 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0e1013;
-    --surface: #14171c;
-    --ink: #eceef1;
-    --muted: #9aa3af;
-    --hair: #262b33;
-    --accent: #7fd1c1;
-    --accent-soft: #16211f;
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.5);
+    --paper: #0f0e0c;
+    --surface: #1a1815;
+    --ink: #f2f0ec;
+    --muted: #a39e95;
+    --hair: rgb(255 255 255 / 0.12);
+    --hair-soft: rgb(255 255 255 / 0.06);
+    --accent: #ff7a5e;
+    --accent-2: #ffa78f;
+    --accent-soft: #2a1a15;
+    --lift: 0 8px 30px rgb(0 0 0 / 0.45);
+    --lift-strong: 0 16px 50px rgb(0 0 0 / 0.6);
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #0e1013;
-  --surface: #14171c;
-  --ink: #eceef1;
-  --muted: #9aa3af;
-  --hair: #262b33;
-  --accent: #7fd1c1;
-  --accent-soft: #16211f;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.5);
+  --paper: #0f0e0c;
+  --surface: #1a1815;
+  --ink: #f2f0ec;
+  --muted: #a39e95;
+  --hair: rgb(255 255 255 / 0.12);
+  --hair-soft: rgb(255 255 255 / 0.06);
+  --accent: #ff7a5e;
+  --accent-2: #ffa78f;
+  --accent-soft: #2a1a15;
+  --lift: 0 8px 30px rgb(0 0 0 / 0.45);
+  --lift-strong: 0 16px 50px rgb(0 0 0 / 0.6);
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 6.5rem;
 }
 
 body {
@@ -58,45 +68,203 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Editorial display type: tighter tracking, optical sizing at large sizes. */
-.font-serif {
-  font-family: var(--font-serif);
-  letter-spacing: -0.015em;
+::selection {
+  background: var(--accent);
+  color: #fff;
 }
 
-/* Figures line up in columns — matters for the metrics row. */
+/* --------------------------------------------------------------- typography */
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* The signature move: a serif italic in accent, set against bold sans. */
+.script {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
 .tabular {
   font-variant-numeric: tabular-nums;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--paper);
+/* ----------------------------------------------------------------- surfaces */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-/* Scroll reveal. Content is visible by default, so it never disappears for
-   users without JS or with reduced motion; the class only adds the entrance. */
+@media (hover: hover) {
+  .card-interactive:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--lift-strong);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+@media (hover: hover) {
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+/* Floating pill navigation. */
+.nav-pill {
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border: 1px solid var(--hair-soft);
+  border-radius: 9999px;
+  box-shadow: var(--lift);
+  backdrop-filter: saturate(1.6) blur(12px);
+  -webkit-backdrop-filter: saturate(1.6) blur(12px);
+}
+
+/* ------------------------------------------------------------------ buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+@media (hover: hover) {
+  .btn-primary:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn-ghost {
+  border: 1px solid var(--hair);
+  color: var(--ink);
+}
+@media (hover: hover) {
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+/* ---------------------------------------------------------------- ornaments */
+
+/* A soft coral wash behind the hero, so it isn't flat colour. */
+.hero-wash {
+  position: relative;
+  isolation: isolate;
+  /* The wash is inset past the viewport edges; clip it so it can't create a
+     horizontal scrollbar. `clip` avoids making a scroll container. */
+  overflow: hidden;
+  overflow: clip;
+}
+.hero-wash::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 150%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      55% 45% at 78% 12%,
+      color-mix(in srgb, var(--accent) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 35% at 12% 0%,
+      color-mix(in srgb, var(--accent-2) 12%, transparent),
+      transparent 70%
+    );
+}
+
+/* Small coral markers pinned to the corners of a bordered grid. */
+.corner-dots {
+  position: relative;
+}
+.corner-dots::before,
+.corner-dots::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: var(--accent);
+}
+.corner-dots::before {
+  top: -4.5px;
+  left: -4.5px;
+}
+.corner-dots::after {
+  top: -4.5px;
+  right: -4.5px;
+}
+
+/* Pulsing availability indicator. */
+.status-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--accent);
+}
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--accent);
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------- motion */
+
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
-}
-
-/* Project card hover: a quiet lift onto its own surface. */
-.card-hover {
-  transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-@media (hover: hover) {
-  .card-hover:hover {
-    background-color: var(--surface);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -108,10 +276,14 @@ body {
     transform: none;
     transition: none;
   }
-  .card-hover {
+  .card,
+  .btn {
     transition: none;
   }
-  .card-hover:hover {
+  .card-interactive:hover {
     transform: none;
+  }
+  .status-dot::after {
+    animation: none;
   }
 }

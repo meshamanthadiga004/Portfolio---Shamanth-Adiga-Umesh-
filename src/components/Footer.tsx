@@ -2,8 +2,8 @@ import { profile } from "@/content/profile";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[var(--hair)] px-6 py-10">
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-4">
+    <footer className="px-6 pb-12">
+      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-4 border-t border-[var(--hair)] pt-8">
         <p className="text-xs text-[var(--muted)]">
           © {new Date().getFullYear()} {profile.name}
         </p>
