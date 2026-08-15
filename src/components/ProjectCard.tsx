@@ -43,23 +43,21 @@ export default function ProjectCard({ project }: { project: Project }) {
         </span>
       </div>
 
-      <h3 className="font-serif text-2xl leading-[1.15] sm:text-[2rem]">
+      <h3 className="text-2xl leading-[1.25] sm:text-[1.9rem]">
         {project.title}
       </h3>
 
-      <p className="mt-4 max-w-2xl leading-relaxed text-[var(--muted)]">
-        {project.problem}
-      </p>
+      <p className="mt-5 text-[var(--muted)]">{project.problem}</p>
 
       {project.metrics.length > 0 ? (
         <dl className="mt-7 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-3">
           {project.metrics.map((m) => (
             <div key={m.label} className="bg-[var(--surface)] px-5 py-4">
               <dt className="sr-only">{m.label}</dt>
-              <dd className="tabular font-serif text-3xl leading-none">
+              <dd className="tabular grad-text text-3xl leading-none">
                 {m.value}
               </dd>
-              <p className="mt-2 text-xs leading-snug text-[var(--muted)]">
+              <p className="mt-2.5 text-xs leading-snug text-[var(--muted)]">
                 {m.label}
               </p>
             </div>

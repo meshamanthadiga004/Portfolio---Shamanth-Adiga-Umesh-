@@ -17,7 +17,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#f5f4f0",
+          background: "#f7f7fa",
           padding: "72px 80px",
         }}
       >
@@ -45,12 +45,12 @@ export default function OpengraphImage() {
               display: "flex",
               fontSize: 88,
               lineHeight: 1.05,
-              color: "#14130f",
+              color: "#14151a",
               letterSpacing: "-0.03em",
             }}
           >
             {profile.nameLead}&nbsp;
-            <span style={{ color: "#ff4d2e", fontStyle: "italic" }}>
+            <span style={{ color: "#5b4be0", fontStyle: "italic" }}>
               {profile.nameAccent}
             </span>
           </div>
@@ -59,7 +59,7 @@ export default function OpengraphImage() {
               display: "flex",
               fontSize: 34,
               lineHeight: 1.35,
-              color: "#5f5c55",
+              color: "#5a5d68",
               maxWidth: 900,
             }}
           >
@@ -71,12 +71,12 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              width: 64,
+              width: 120,
               height: 6,
-              background: "#ff4d2e",
+              background: "linear-gradient(120deg,#6d5ef6,#3b82f6,#06b6d4)",
             }}
           />
-          <div style={{ display: "flex", fontSize: 24, color: "#ff4d2e" }}>
+          <div style={{ display: "flex", fontSize: 24, color: "#5b4be0" }}>
             MBA · Data Science &amp; Analytics
           </div>
         </div>

@@ -36,14 +36,12 @@ export const profile = {
   // ---------------------------------------------------------------- identity
   name: "Shamanth Adiga Umesh",
   /**
-   * The hero sets your name in two parts: `nameLead` in bold sans, then
-   * `nameAccent` in serif italic accent colour on its own line. Move the split
-   * wherever it reads best — "Shamanth" / "Adiga Umesh" is the default.
+   * The hero sets your name in two parts: `nameLead` in roman, then
+   * `nameAccent` in gradient italic. Move the split wherever it reads best.
+   * The left rail uses the full `name` above, not these.
    */
   nameLead: "Shamanth",
   nameAccent: "Adiga Umesh",
-  /** Short status shown in the nav pill and above the name. "" hides it. */
-  availability: "Open to internships",
   /** Appears in the browser tab and in Google results. */
   seoTitle: "Shamanth Adiga Umesh — MBA | Data Science & Analytics",
   seoDescription:
@@ -103,6 +101,7 @@ export const profile = {
 
   // --------------------------------------------------------------- contact
   email: "shamanthadiga@hotmail.com",
+  /** Secondary contact, shown under the email. "" hides it. */
   phone: "+91 8660572898",
   socials: [
     { label: "LinkedIn", href: "https://linkedin.com/in/TODO" },

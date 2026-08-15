@@ -4,23 +4,14 @@ import { useEffect, useState } from "react";
 import { navLinks, profile } from "@/content/profile";
 import ThemeToggle from "./ThemeToggle";
 
-/** Initials for the compact nav mark, e.g. "Shamanth Adiga Umesh" -> "SAU". */
-const initials = profile.name
-  .split(/\s+/)
-  .filter(Boolean)
-  .map((w) => w[0]?.toUpperCase() ?? "")
-  .join("")
-  .slice(0, 3);
-
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
 
-  /* Highlight the section currently in view. */
+  /* Highlight whichever section is currently in view. */
   useEffect(() => {
-    const ids = navLinks.map((l) => l.href.replace("#", ""));
-    const sections = ids
-      .map((id) => document.getElementById(id))
+    const sections = navLinks
+      .map((l) => document.getElementById(l.href.replace("#", "")))
       .filter((el): el is HTMLElement => el !== null);
     if (sections.length === 0 || typeof IntersectionObserver === "undefined")
       return;
@@ -39,77 +30,77 @@ export default function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4">
-      <nav className="nav-pill mx-auto flex w-full max-w-3xl items-center justify-between gap-3 py-2 pl-4 pr-2">
+    <>
+      {/* ---------------------------------------------- desktop: vertical rail */}
+      <aside className="fixed inset-y-0 left-0 z-50 hidden w-20 flex-col items-center justify-between py-8 lg:flex">
         <a
           href="#top"
-          className="flex shrink-0 items-center gap-2 text-sm font-semibold tracking-tight"
+          className="rail-name py-2 transition-colors hover:text-[var(--accent)]"
         >
-          <span className="status-dot" aria-hidden="true" />
-          <span>{initials}</span>
+          {profile.name}
         </a>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <nav className="flex flex-col items-center gap-5">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
-                active === link.href
-                  ? "bg-[var(--accent-soft)] text-[var(--accent)]"
-                  : "text-[var(--muted)] hover:text-[var(--ink)]"
-              }`}
+              aria-label={link.label}
+              aria-current={active === link.href ? "true" : undefined}
+              className="group relative flex items-center justify-center p-1"
             >
-              {link.label}
+              <span
+                className={`block rounded-full transition-all duration-300 ${
+                  active === link.href
+                    ? "h-2.5 w-2.5 bg-[var(--accent)]"
+                    : "h-1.5 w-1.5 bg-[var(--muted)] opacity-45 group-hover:opacity-100"
+                }`}
+              />
+              <span className="pointer-events-none absolute left-6 whitespace-nowrap rounded-full border border-[var(--hair)] bg-[var(--surface)] px-3 py-1 text-xs opacity-0 shadow-[var(--lift)] transition-opacity duration-200 group-hover:opacity-100">
+                {link.label}
+              </span>
             </a>
           ))}
+        </nav>
+
+        <ThemeToggle />
+      </aside>
+
+      {/* ------------------------------------------------- mobile: compact bar */}
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--hair)] bg-[var(--paper)]/85 backdrop-blur-md lg:hidden">
+        <div className="mx-auto flex h-14 w-full max-w-3xl items-center justify-between px-6">
+          <a href="#top" className="text-sm tracking-wide">
+            {profile.name}
+          </a>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="text-sm text-[var(--muted)]"
+            >
+              {open ? "Close" : "Menu"}
+            </button>
+          </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <ThemeToggle />
-          {profile.resumeHref ? (
-            <a
-              href={profile.resumeHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden rounded-full bg-[var(--ink)] px-4 py-1.5 text-sm text-[var(--paper)] transition-opacity hover:opacity-85 sm:inline-block"
-            >
-              Résumé
-            </a>
-          ) : (
-            <a
-              href="#contact"
-              className="hidden rounded-full bg-[var(--ink)] px-4 py-1.5 text-sm text-[var(--paper)] transition-opacity hover:opacity-85 sm:inline-block"
-            >
-              Contact
-            </a>
-          )}
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="px-2 text-sm text-[var(--muted)] md:hidden"
-          >
-            {open ? "Close" : "Menu"}
-          </button>
-        </div>
-      </nav>
-
-      {open ? (
-        <div className="nav-pill mx-auto mt-2 w-full max-w-3xl overflow-hidden p-2 md:hidden">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="block rounded-full px-4 py-2.5 text-sm text-[var(--muted)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      ) : null}
-    </header>
+        {open ? (
+          <div className="border-t border-[var(--hair)] bg-[var(--paper)] px-6 py-2">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="block border-b border-[var(--hair-soft)] py-3 text-sm text-[var(--muted)] last:border-0"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        ) : null}
+      </header>
+    </>
   );
 }

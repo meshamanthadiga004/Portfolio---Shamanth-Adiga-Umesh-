@@ -11,7 +11,9 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main>
+      {/* Mobile clears the fixed top bar; the desktop rail overlays the left
+          margin, so the content column stays centred on the page itself. */}
+      <main className="pt-14 lg:pt-0">
         <Hero />
         <About />
         <Work />

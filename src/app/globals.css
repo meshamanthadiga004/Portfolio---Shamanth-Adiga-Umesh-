@@ -1,71 +1,117 @@
 @import "tailwindcss";
 
 @theme {
-  /* --font-display / --font-body are injected on <html> by next/font. */
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-display), ui-serif, Georgia, serif;
+  /* PT Serif throughout — --font-pt is injected on <html> by next/font. */
+  --font-sans: var(--font-pt), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-pt), Georgia, "Times New Roman", serif;
 }
 
 /* ---------------------------------------------------------------------------
-   Palette — warm paper, near-black ink, one confident coral accent.
+   Palette — cool paper, deep ink, violet→blue→cyan accent spectrum.
    Light is the base; dark is redefined twice so both the OS preference and
    the manual toggle win in either direction.
    --------------------------------------------------------------------------- */
 :root {
-  --paper: #f5f4f0;
+  --paper: #f7f7fa;
   --surface: #ffffff;
-  --ink: #14130f;
-  --muted: #5f5c55;
+  --ink: #14151a;
+  --muted: #5a5d68;
   --hair: rgb(0 0 0 / 0.1);
   --hair-soft: rgb(0 0 0 / 0.05);
-  --accent: #ff4d2e;
-  --accent-2: #ff8a6b;
-  --accent-soft: #fff1ed;
-  --lift: 0 8px 30px rgb(0 0 0 / 0.06);
-  --lift-strong: 0 16px 50px rgb(0 0 0 / 0.1);
+  --accent: #5b4be0;
+  --accent-2: #0ea5b7;
+  --accent-soft: #f0eefe;
+  --grad: linear-gradient(120deg, #6d5ef6 0%, #3b82f6 50%, #06b6d4 100%);
+  --lift: 0 8px 30px rgb(20 21 26 / 0.07);
+  --lift-strong: 0 18px 55px rgb(20 21 26 / 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0f0e0c;
-    --surface: #1a1815;
-    --ink: #f2f0ec;
-    --muted: #a39e95;
+    --paper: #0b0c10;
+    --surface: #14161c;
+    --ink: #edeef2;
+    --muted: #969aa6;
     --hair: rgb(255 255 255 / 0.12);
     --hair-soft: rgb(255 255 255 / 0.06);
-    --accent: #ff7a5e;
-    --accent-2: #ffa78f;
-    --accent-soft: #2a1a15;
-    --lift: 0 8px 30px rgb(0 0 0 / 0.45);
-    --lift-strong: 0 16px 50px rgb(0 0 0 / 0.6);
+    --accent: #9b8cff;
+    --accent-2: #4fd8eb;
+    --accent-soft: #191a2b;
+    --grad: linear-gradient(120deg, #9b8cff 0%, #5fa8ff 50%, #4fd8eb 100%);
+    --lift: 0 8px 30px rgb(0 0 0 / 0.5);
+    --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #0f0e0c;
-  --surface: #1a1815;
-  --ink: #f2f0ec;
-  --muted: #a39e95;
+  --paper: #0b0c10;
+  --surface: #14161c;
+  --ink: #edeef2;
+  --muted: #969aa6;
   --hair: rgb(255 255 255 / 0.12);
   --hair-soft: rgb(255 255 255 / 0.06);
-  --accent: #ff7a5e;
-  --accent-2: #ffa78f;
-  --accent-soft: #2a1a15;
-  --lift: 0 8px 30px rgb(0 0 0 / 0.45);
-  --lift-strong: 0 16px 50px rgb(0 0 0 / 0.6);
+  --accent: #9b8cff;
+  --accent-2: #4fd8eb;
+  --accent-soft: #191a2b;
+  --grad: linear-gradient(120deg, #9b8cff 0%, #5fa8ff 50%, #4fd8eb 100%);
+  --lift: 0 8px 30px rgb(0 0 0 / 0.5);
+  --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6.5rem;
+  scroll-padding-top: 6rem;
 }
 
+/* ---------------------------------------------------------------------------
+   Type — deliberately loose. Generous leading, a touch of positive tracking,
+   and a comfortable measure so nothing reads squeezed.
+   --------------------------------------------------------------------------- */
 body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.9;
+  letter-spacing: 0.006em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.24;
+  letter-spacing: -0.012em;
+}
+
+p {
+  max-width: 68ch;
+}
+
+.lead {
+  font-size: 1.25rem;
+  line-height: 1.85;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--muted);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Gradient-filled text, used for accents. */
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 ::selection {
@@ -73,30 +119,12 @@ body {
   color: #fff;
 }
 
-/* --------------------------------------------------------------- typography */
-
-.font-serif {
-  font-family: var(--font-serif);
-}
-
-/* The signature move: a serif italic in accent, set against bold sans. */
-.script {
-  font-family: var(--font-serif);
-  font-style: italic;
-  color: var(--accent);
-  letter-spacing: -0.01em;
-}
-
-.tabular {
-  font-variant-numeric: tabular-nums;
-}
-
 /* ----------------------------------------------------------------- surfaces */
 
 .card {
   background: var(--surface);
   border: 1px solid var(--hair);
-  border-radius: 16px;
+  border-radius: 18px;
   transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
     box-shadow 0.35s ease, border-color 0.35s ease;
 }
@@ -113,10 +141,10 @@ body {
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--hair);
-  border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 12px;
-  line-height: 1.6;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 0.8125rem;
+  line-height: 1.7;
   color: var(--muted);
   transition: border-color 0.25s ease, color 0.25s ease;
 }
@@ -128,26 +156,16 @@ body {
   }
 }
 
-/* Floating pill navigation. */
-.nav-pill {
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  border: 1px solid var(--hair-soft);
-  border-radius: 9999px;
-  box-shadow: var(--lift);
-  backdrop-filter: saturate(1.6) blur(12px);
-  -webkit-backdrop-filter: saturate(1.6) blur(12px);
-}
-
 /* ------------------------------------------------------------------ buttons */
 
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.7rem 1.4rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  border-radius: 999px;
+  padding: 0.75rem 1.6rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
   transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease,
     color 0.2s ease;
 }
@@ -156,12 +174,12 @@ body {
 }
 
 .btn-primary {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--grad);
+  color: #fff;
 }
 @media (hover: hover) {
   .btn-primary:hover {
-    opacity: 0.85;
+    opacity: 0.88;
   }
 }
 
@@ -176,83 +194,88 @@ body {
   }
 }
 
-/* ---------------------------------------------------------------- ornaments */
+/* ------------------------------------------------------- vertical name rail */
 
-/* A soft coral wash behind the hero, so it isn't flat colour. */
-.hero-wash {
-  position: relative;
-  isolation: isolate;
-  /* The wash is inset past the viewport edges; clip it so it can't create a
-     horizontal scrollbar. `clip` avoids making a scroll container. */
-  overflow: hidden;
-  overflow: clip;
-}
-.hero-wash::before {
-  content: "";
-  position: absolute;
-  inset: -20% -10% auto -10%;
-  height: 150%;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      55% 45% at 78% 12%,
-      color-mix(in srgb, var(--accent) 16%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      40% 35% at 12% 0%,
-      color-mix(in srgb, var(--accent-2) 12%, transparent),
-      transparent 70%
-    );
+.rail-name {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg); /* reads bottom-to-top */
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
 }
 
-/* Small coral markers pinned to the corners of a bordered grid. */
-.corner-dots {
-  position: relative;
-}
-.corner-dots::before,
-.corner-dots::after {
-  content: "";
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  border-radius: 9999px;
-  background: var(--accent);
-}
-.corner-dots::before {
-  top: -4.5px;
-  left: -4.5px;
-}
-.corner-dots::after {
-  top: -4.5px;
-  right: -4.5px;
-}
+/* --------------------------------------------------- interactive background */
 
-/* Pulsing availability indicator. */
-.status-dot {
-  position: relative;
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background: var(--accent);
-}
-.status-dot::after {
-  content: "";
+/* Aurora that drifts on its own and leans toward the pointer. --mx/--my are
+   written by InteractiveGradient on pointer move. */
+.aurora {
   position: absolute;
   inset: 0;
-  border-radius: 9999px;
-  background: var(--accent);
-  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+/* Kept deliberately faint — this sits behind body copy, so it has to read as
+   a tint rather than a graphic. */
+.aurora::before {
+  width: 30vmax;
+  height: 30vmax;
+  background: var(--grad);
+  opacity: 0.22;
+  top: calc(var(--my, 28%) - 15vmax);
+  left: calc(var(--mx, 62%) - 15vmax);
+  transition: top 1.1s cubic-bezier(0.2, 0.7, 0.3, 1),
+    left 1.1s cubic-bezier(0.2, 0.7, 0.3, 1);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+.aurora::after {
+  width: 26vmax;
+  height: 26vmax;
+  background: linear-gradient(300deg, var(--accent-2), var(--accent));
+  opacity: 0.14;
+  bottom: -10vmax;
+  right: -6vmax;
+  animation: drift 24s ease-in-out infinite alternate-reverse;
+}
+
+:root[data-theme="dark"] .aurora::before,
+:root[data-theme="dark"] .aurora::after {
+  opacity: 0.3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .aurora::before,
+  :root:not([data-theme="light"]) .aurora::after {
+    opacity: 0.3;
   }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
+}
+
+/* Gradient hairline used to separate sections. */
+.grad-rule {
+  height: 1px;
+  border: 0;
+  background: var(--grad);
+  opacity: 0.45;
 }
 
 /* ------------------------------------------------------------------- motion */
@@ -283,7 +306,9 @@ body {
   .card-interactive:hover {
     transform: none;
   }
-  .status-dot::after {
+  .aurora::before,
+  .aurora::after {
     animation: none;
+    transition: none;
   }
 }

@@ -1,48 +1,41 @@
 import { profile } from "@/content/profile";
+import InteractiveGradient from "./InteractiveGradient";
 import Reveal from "./Reveal";
 
 export default function Hero() {
   return (
     <section
       id="top"
-      className="hero-wash px-6 pb-24 pt-36 sm:pb-32 sm:pt-44"
+      className="relative isolate flex min-h-[92svh] items-center overflow-hidden px-6 py-32"
     >
-      <div className="mx-auto w-full max-w-5xl">
-        {profile.availability ? (
-          <Reveal>
-            <p className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-[var(--hair)] bg-[var(--surface)] px-3.5 py-1.5 text-xs text-[var(--muted)]">
-              <span className="status-dot" aria-hidden="true" />
-              {profile.availability}
-              <span className="text-[var(--hair)]">·</span>
-              {profile.location}
-            </p>
-          </Reveal>
-        ) : null}
+      <InteractiveGradient />
 
-        <Reveal delay={60}>
-          <h1 className="text-[3.25rem] font-semibold leading-[0.95] tracking-[-0.03em] sm:text-8xl">
-            {profile.nameLead}
-            <br />
-            <span className="script font-normal tracking-[-0.01em]">
-              {profile.nameAccent}
-            </span>
+      <div className="mx-auto w-full max-w-3xl text-center">
+        <Reveal>
+          <p className="eyebrow">{profile.location}</p>
+        </Reveal>
+
+        <Reveal delay={70}>
+          <h1 className="mt-8 text-[2.6rem] leading-[1.15] sm:text-6xl sm:leading-[1.12]">
+            {profile.nameLead}{" "}
+            <span className="grad-text italic">{profile.nameAccent}</span>
           </h1>
         </Reveal>
 
         <Reveal delay={140}>
-          <p className="mt-9 max-w-2xl text-xl leading-[1.45] tracking-[-0.01em] sm:text-2xl">
+          <p className="mx-auto mt-9 max-w-2xl text-xl leading-[1.7] sm:text-2xl sm:leading-[1.6]">
             {profile.headline}
           </p>
         </Reveal>
 
         <Reveal delay={200}>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--muted)]">
+          <p className="mx-auto mt-7 max-w-xl text-[var(--muted)]">
             {profile.subhead}
           </p>
         </Reveal>
 
         <Reveal delay={260}>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
             <a href="#work" className="btn btn-primary">
               See the work
             </a>

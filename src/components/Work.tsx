@@ -25,7 +25,7 @@ export default function Work() {
   return (
     <Section id="work" num="02" label="Work" title="Selected projects">
       <Reveal>
-        <div className="mb-10 flex flex-wrap items-center gap-2">
+        <div className="mb-12 flex flex-wrap items-center justify-center gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -41,7 +41,7 @@ export default function Work() {
               {cat}
             </button>
           ))}
-          <span className="ml-auto text-xs text-[var(--muted)]">
+          <span className="mt-2 w-full text-center text-xs text-[var(--muted)]">
             {completed} complete · {projects.length - completed} in the pipeline
           </span>
         </div>
