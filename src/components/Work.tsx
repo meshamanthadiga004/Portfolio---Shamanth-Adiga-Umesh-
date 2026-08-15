@@ -23,7 +23,7 @@ export default function Work() {
   const completed = projects.filter((p) => p.status === "shipped").length;
 
   return (
-    <Section id="work" label="Work" title="Selected projects">
+    <Section id="work" num="02" label="Work" title="Selected projects">
       <Reveal>
         <div className="mb-10 flex flex-wrap items-center gap-2">
           {categories.map((cat) => (

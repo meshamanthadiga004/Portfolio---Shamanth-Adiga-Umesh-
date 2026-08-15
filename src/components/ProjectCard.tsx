@@ -36,8 +36,8 @@ export default function ProjectCard({
   return (
     <article
       id={project.slug}
-      className={`grid gap-6 py-10 md:grid-cols-[152px_minmax(0,1fr)] md:gap-10 ${
-        isFirst ? "pt-0" : "border-t border-[var(--hair)]"
+      className={`card-hover -mx-4 grid gap-6 rounded-lg px-4 py-10 md:grid-cols-[152px_minmax(0,1fr)] md:gap-10 ${
+        isFirst ? "" : "border-t border-[var(--hair)]"
       }`}
     >
       {/* Left rail: when, where, status */}
@@ -72,7 +72,7 @@ export default function ProjectCard({
             {project.metrics.map((m) => (
               <div key={m.label}>
                 <dt className="sr-only">{m.label}</dt>
-                <dd className="font-serif text-2xl tracking-tight">{m.value}</dd>
+                <dd className="tabular font-serif text-3xl">{m.value}</dd>
                 <p className="mt-0.5 text-xs text-[var(--muted)]">{m.label}</p>
               </div>
             ))}

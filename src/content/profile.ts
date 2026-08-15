@@ -48,7 +48,7 @@ export const profile = {
     "I turn ambiguous business problems into decisions to can act on.",
   /** 1-2 sentences under the headline. Concrete beats grand. */
   subhead:
-    "TODO: MBA candidate at Jain Deemed-to be-University, [Data Science & Analytics]. I work across strategy, financial analysis and product analytics — building the case, the model, and the recommendation.",
+    "TODO: MBA candidate at Jain Deemed-to be-University, [Data Science & Analytics]. I work across strategy, financial analysis and product analytics - building the case, the model, and the recommendation.",
   location: "Bengaluru, KA, India",
   /**
    * Path to your resume PDF. Leave as "" and every Résumé button hides itself —

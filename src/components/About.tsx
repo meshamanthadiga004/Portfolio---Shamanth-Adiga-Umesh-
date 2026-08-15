@@ -4,7 +4,7 @@ import Section from "./Section";
 
 export default function About() {
   return (
-    <Section id="about" label="About">
+    <Section id="about" num="01" label="About">
       <div className="grid gap-14 md:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-5">
           {profile.about.map((para, i) => (

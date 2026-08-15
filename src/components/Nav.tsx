@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { navLinks, profile } from "@/content/profile";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -50,19 +51,22 @@ export default function Nav() {
               Résumé
             </a>
           ) : null}
+          <ThemeToggle />
         </div>
 
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden"
-        >
-          <span className="text-sm text-[var(--muted)]">
-            {open ? "Close" : "Menu"}
-          </span>
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="text-sm text-[var(--muted)]">
+              {open ? "Close" : "Menu"}
+            </span>
+          </button>
+        </div>
       </nav>
 
       {open ? (

@@ -4,7 +4,7 @@ import Section from "./Section";
 
 export default function Toolkit() {
   return (
-    <Section id="toolkit" label="Toolkit" title="How I work">
+    <Section id="toolkit" num="04" label="Toolkit" title="How I work">
       <div className="grid gap-10 sm:grid-cols-2">
         {toolkit.map((group, i) => (
           <Reveal key={group.group} delay={i * 60}>

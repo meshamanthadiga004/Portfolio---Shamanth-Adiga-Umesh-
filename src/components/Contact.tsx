@@ -4,7 +4,7 @@ import Section from "./Section";
 
 export default function Contact() {
   return (
-    <Section id="contact" label="Contact" title="Let's talk">
+    <Section id="contact" num="05" label="Contact" title="Let's talk">
       <Reveal>
         <p className="max-w-2xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
           {profile.contactNote}

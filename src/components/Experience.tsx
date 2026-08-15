@@ -4,7 +4,12 @@ import Section from "./Section";
 
 export default function Experience() {
   return (
-    <Section id="experience" label="Experience" title="Where I've worked">
+    <Section
+      id="experience"
+      num="03"
+      label="Experience"
+      title="Where I've worked"
+    >
       <div className="space-y-10">
         {experience.map((job, i) => (
           <Reveal key={`${job.org}-${job.period}`} delay={i * 60}>

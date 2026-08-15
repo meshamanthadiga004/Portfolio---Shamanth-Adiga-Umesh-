@@ -1,32 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
-
-  /* Ink on paper. One accent, used sparingly. */
-  --color-paper: #fbfaf8;
-  --color-surface: #ffffff;
-  --color-ink: #14161a;
-  --color-muted: #5c6470;
-  --color-hair: #e5e2dc;
-  --color-accent: #1e4d47;
-  --color-accent-soft: #eef3f1;
+  /* --font-display / --font-body are injected on <html> by next/font. */
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-display), ui-serif, Georgia, serif;
 }
 
+/* ---------------------------------------------------------------------------
+   Palette. Light is the base; dark is redefined in two places so that both the
+   OS preference and the manual toggle win in either direction.
+   --------------------------------------------------------------------------- */
 :root {
-  --paper: var(--color-paper);
-  --surface: var(--color-surface);
-  --ink: var(--color-ink);
-  --muted: var(--color-muted);
-  --hair: var(--color-hair);
-  --accent: var(--color-accent);
-  --accent-soft: var(--color-accent-soft);
+  --paper: #fbfaf8;
+  --surface: #ffffff;
+  --ink: #14161a;
+  --muted: #5c6470;
+  --hair: #e5e2dc;
+  --accent: #1e4d47;
+  --accent-soft: #eef3f1;
+  --shadow: 0 1px 2px rgb(20 22 26 / 0.04), 0 8px 24px rgb(20 22 26 / 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #0e1013;
     --surface: #14171c;
     --ink: #eceef1;
@@ -34,12 +30,23 @@
     --hair: #262b33;
     --accent: #7fd1c1;
     --accent-soft: #16211f;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.5);
   }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0e1013;
+  --surface: #14171c;
+  --ink: #eceef1;
+  --muted: #9aa3af;
+  --hair: #262b33;
+  --accent: #7fd1c1;
+  --accent-soft: #16211f;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.5);
 }
 
 html {
   scroll-behavior: smooth;
-  /* keep anchored sections clear of the fixed header */
   scroll-padding-top: 5.5rem;
 }
 
@@ -51,12 +58,23 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Editorial display type: tighter tracking, optical sizing at large sizes. */
+.font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.015em;
+}
+
+/* Figures line up in columns — matters for the metrics row. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
 ::selection {
   background: var(--accent);
   color: var(--paper);
 }
 
-/* Scroll-reveal: content is visible by default so it never disappears for
+/* Scroll reveal. Content is visible by default, so it never disappears for
    users without JS or with reduced motion; the class only adds the entrance. */
 .reveal {
   opacity: 0;
@@ -68,6 +86,19 @@ body {
   transform: none;
 }
 
+/* Project card hover: a quiet lift onto its own surface. */
+.card-hover {
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+@media (hover: hover) {
+  .card-hover:hover {
+    background-color: var(--surface);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -76,5 +107,11 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .card-hover {
+    transition: none;
+  }
+  .card-hover:hover {
+    transform: none;
   }
 }
