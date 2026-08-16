@@ -1,4 +1,4 @@
-import { certifications, toolkit } from "@/content/profile";
+﻿import { certifications, toolkit } from "@/content/profile";
 import Reveal from "./Reveal";
 import Section from "./Section";
 
@@ -43,10 +43,10 @@ export default function Toolkit() {
                 ) : (
                   <span>{cert.name}</span>
                 )}
-                <span className="text-sm text-[var(--muted)]">
+                <span className="text-[17px] text-[var(--muted)]">
                   {cert.issuer}
                 </span>
-                <span className="tabular ml-auto text-sm text-[var(--muted)]">
+                <span className="tabular ml-auto text-[17px] text-[var(--muted)]">
                   {cert.year}
                 </span>
               </li>

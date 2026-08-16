@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import type { Project, ProjectStatus } from "@/content/profile";
@@ -29,15 +29,15 @@ export default function ProjectCard({ project }: { project: Project }) {
     <article id={project.slug} className="card card-interactive p-6 sm:p-8">
       {/* Meta row */}
       <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
+        <span className="grad-text text-[13px] font-bold uppercase tracking-[0.16em]">
           {project.category}
         </span>
         <span className="text-[var(--hair)]">·</span>
-        <span className="text-xs text-[var(--muted)]">{project.timeframe}</span>
+        <span className="meta">{project.timeframe}</span>
         <span className="text-[var(--hair)]">·</span>
-        <span className="text-xs text-[var(--muted)]">{project.context}</span>
+        <span className="meta">{project.context}</span>
         <span
-          className={`ml-auto rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${status.className}`}
+          className={`ml-auto rounded-full border px-3 py-0.5 text-[13px] ${status.className}`}
         >
           {status.label}
         </span>
@@ -54,10 +54,10 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.metrics.map((m) => (
             <div key={m.label} className="bg-[var(--surface)] px-5 py-4">
               <dt className="sr-only">{m.label}</dt>
-              <dd className="tabular grad-text text-3xl leading-none">
+              <dd className="tabular grad-text text-4xl leading-none">
                 {m.value}
               </dd>
-              <p className="mt-2.5 text-xs leading-snug text-[var(--muted)]">
+              <p className="mt-3 text-[15px] leading-snug text-[var(--muted)]">
                 {m.label}
               </p>
             </div>
@@ -72,7 +72,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={`${project.slug}-detail`}
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-75"
+            className="mt-7 inline-flex items-center gap-1.5 text-[var(--accent)] transition-opacity hover:opacity-75"
           >
             {open ? "Hide detail" : "How I approached it"}
             <span
@@ -91,24 +91,24 @@ export default function ProjectCard({ project }: { project: Project }) {
               className="mt-6 grid gap-8 rounded-xl bg-[var(--accent-soft)] p-6 sm:grid-cols-2"
             >
               <div>
-                <h4 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                <h4 className="eyebrow">
                   Approach
                 </h4>
                 <ul className="mt-3 space-y-3">
                   {project.approach.map((point, i) => (
-                    <li key={i} className="text-sm leading-relaxed">
+                    <li key={i} className="text-[17px] leading-[1.8]">
                       {point}
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <h4 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                <h4 className="eyebrow">
                   {project.status === "shipped" ? "Outcome" : "Intended outcome"}
                 </h4>
                 <ul className="mt-3 space-y-3">
                   {project.outcome.map((point, i) => (
-                    <li key={i} className="text-sm leading-relaxed">
+                    <li key={i} className="text-[17px] leading-[1.8]">
                       {point}
                     </li>
                   ))}
@@ -135,7 +135,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-medium transition-colors hover:text-[var(--accent)]"
+              className="text-[17px] font-medium transition-colors hover:text-[var(--accent)]"
             >
               {link.label} ↗
             </a>

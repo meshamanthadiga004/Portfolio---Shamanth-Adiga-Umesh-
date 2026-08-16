@@ -1,4 +1,4 @@
-import { education, experience } from "@/content/profile";
+﻿import { education, experience } from "@/content/profile";
 import Reveal from "./Reveal";
 import Section from "./Section";
 
@@ -11,7 +11,7 @@ export default function Experience() {
             <div className="card p-6 sm:p-8">
               <p className="eyebrow">{job.period}</p>
               <h3 className="mt-4 text-xl sm:text-2xl">{job.role}</h3>
-              <p className="mt-1.5 text-sm text-[var(--muted)]">
+              <p className="mt-1.5 text-[17px] text-[var(--muted)]">
                 {job.org} · {job.location}
               </p>
               <ul className="mt-5 space-y-3">
@@ -37,7 +37,7 @@ export default function Experience() {
             <div className="card p-6 sm:p-8">
               <p className="eyebrow">{ed.period}</p>
               <h4 className="mt-4 text-xl sm:text-2xl">{ed.degree}</h4>
-              <p className="mt-1.5 text-sm text-[var(--muted)]">{ed.school}</p>
+              <p className="mt-1.5 text-[17px] text-[var(--muted)]">{ed.school}</p>
               <p className="mt-4 text-[var(--muted)]">{ed.detail}</p>
             </div>
           </Reveal>

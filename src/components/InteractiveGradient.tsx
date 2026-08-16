@@ -47,5 +47,5 @@ export default function InteractiveGradient() {
     };
   }, []);
 
-  return <div ref={ref} className="aurora" aria-hidden="true" />;
+  return <div ref={ref} className="page-gradient" aria-hidden="true" />;
 }

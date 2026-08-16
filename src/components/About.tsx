@@ -1,4 +1,4 @@
-import { profile } from "@/content/profile";
+﻿import { profile } from "@/content/profile";
 import Reveal from "./Reveal";
 import Section from "./Section";
 
@@ -25,7 +25,7 @@ export default function About() {
                 <dd className="tabular grad-text text-4xl leading-none">
                   {s.value}
                 </dd>
-                <p className="mx-auto mt-3 text-xs leading-snug text-[var(--muted)]">
+                <p className="mx-auto mt-3 text-[15px] leading-snug text-[var(--muted)]">
                   {s.label}
                 </p>
               </div>
@@ -39,7 +39,7 @@ export default function About() {
           <Reveal key={pillar.title} delay={i * 70}>
             <div className="card h-full p-6">
               <h3 className="text-base">{pillar.title}</h3>
-              <p className="mt-3 text-sm leading-[1.8] text-[var(--muted)]">
+              <p className="mt-3 text-[17px] leading-[1.8] text-[var(--muted)]">
                 {pillar.body}
               </p>
             </div>

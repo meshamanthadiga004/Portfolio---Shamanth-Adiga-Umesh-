@@ -3,6 +3,7 @@ import Contact from "@/components/Contact";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
+import InteractiveGradient from "@/components/InteractiveGradient";
 import Nav from "@/components/Nav";
 import Toolkit from "@/components/Toolkit";
 import Work from "@/components/Work";
@@ -10,18 +11,21 @@ import Work from "@/components/Work";
 export default function Home() {
   return (
     <>
-      <Nav />
-      {/* Mobile clears the fixed top bar; the desktop rail overlays the left
-          margin, so the content column stays centred on the page itself. */}
-      <main className="pt-14 lg:pt-24">
-        <Hero />
-        <About />
-        <Work />
-        <Experience />
-        <Toolkit />
-        <Contact />
-      </main>
-      <Footer />
+      {/* Fixed gradient wash spanning the whole page, behind everything. */}
+      <InteractiveGradient />
+
+      <div className="above">
+        <Nav />
+        <main>
+          <Hero />
+          <About />
+          <Work />
+          <Experience />
+          <Toolkit />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

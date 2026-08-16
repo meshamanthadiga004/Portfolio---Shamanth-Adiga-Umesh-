@@ -1,4 +1,4 @@
-import { profile } from "@/content/profile";
+﻿import { profile } from "@/content/profile";
 import Reveal from "./Reveal";
 import Section from "./Section";
 
@@ -47,7 +47,7 @@ export default function Contact() {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--accent)]"
+              className="text-[17px] text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--accent)]"
             >
               {s.label} ↗
             </a>
@@ -57,7 +57,7 @@ export default function Contact() {
               href={profile.resumeHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--accent)]"
+              className="text-[17px] text-[var(--muted)] underline underline-offset-4 transition-colors hover:text-[var(--accent)]"
             >
               Résumé ↗
             </a>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { projects } from "@/content/profile";
@@ -32,7 +32,7 @@ export default function Work() {
               type="button"
               onClick={() => setFilter(cat)}
               aria-pressed={filter === cat}
-              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+              className={`rounded-full border px-4 py-1.5 text-[17px] transition-colors ${
                 filter === cat
                   ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
                   : "border-[var(--hair)] bg-[var(--surface)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
@@ -41,7 +41,7 @@ export default function Work() {
               {cat}
             </button>
           ))}
-          <span className="mt-2 w-full text-center text-xs text-[var(--muted)]">
+          <span className="mt-2 w-full text-center text-[15px] text-[var(--muted)]">
             {completed} complete · {projects.length - completed} in the pipeline
           </span>
         </div>
@@ -54,7 +54,7 @@ export default function Work() {
           </Reveal>
         ))}
         {shown.length === 0 ? (
-          <p className="py-10 text-sm text-[var(--muted)]">
+          <p className="py-10 text-[17px] text-[var(--muted)]">
             Nothing here yet under {filter}.
           </p>
         ) : null}

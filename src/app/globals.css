@@ -7,73 +7,75 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Palette — cool paper, deep ink, violet→blue→cyan accent spectrum.
-   Light is the base; dark is redefined twice so both the OS preference and
-   the manual toggle win in either direction.
+   Palette — warm neutral paper with a plum → rose → amber spectrum. Saturated
+   but not fluorescent; it reads as dusk rather than neon.
    --------------------------------------------------------------------------- */
 :root {
-  --paper: #f7f7fa;
+  --paper: #faf8f6;
   --surface: #ffffff;
-  --ink: #14151a;
-  --muted: #5a5d68;
-  --hair: rgb(0 0 0 / 0.1);
-  --hair-soft: rgb(0 0 0 / 0.05);
-  --accent: #5b4be0;
-  --accent-2: #0ea5b7;
-  --accent-soft: #f0eefe;
-  --grad: linear-gradient(120deg, #6d5ef6 0%, #3b82f6 50%, #06b6d4 100%);
-  --lift: 0 8px 30px rgb(20 21 26 / 0.07);
-  --lift-strong: 0 18px 55px rgb(20 21 26 / 0.12);
+  --ink: #1a1418;
+  --muted: #6b6169;
+  --hair: rgb(26 20 24 / 0.12);
+  --hair-soft: rgb(26 20 24 / 0.06);
+  --accent: #a62f76;
+  --accent-2: #e07a3f;
+  --accent-soft: #fdf1f6;
+  --grad: linear-gradient(115deg, #7a2e8e 0%, #c43f73 48%, #e07a3f 100%);
+  --lift: 0 8px 30px rgb(26 20 24 / 0.07);
+  --lift-strong: 0 18px 55px rgb(26 20 24 / 0.13);
+  --wash: 0.16;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0b0c10;
-    --surface: #14161c;
-    --ink: #edeef2;
-    --muted: #969aa6;
-    --hair: rgb(255 255 255 / 0.12);
-    --hair-soft: rgb(255 255 255 / 0.06);
-    --accent: #9b8cff;
-    --accent-2: #4fd8eb;
-    --accent-soft: #191a2b;
-    --grad: linear-gradient(120deg, #9b8cff 0%, #5fa8ff 50%, #4fd8eb 100%);
+    --paper: #100c0f;
+    --surface: #191317;
+    --ink: #f2ecef;
+    --muted: #a2969e;
+    --hair: rgb(255 255 255 / 0.13);
+    --hair-soft: rgb(255 255 255 / 0.07);
+    --accent: #e48cc0;
+    --accent-2: #f2b27e;
+    --accent-soft: #241722;
+    --grad: linear-gradient(115deg, #c88ae0 0%, #f08cae 48%, #f5b77e 100%);
     --lift: 0 8px 30px rgb(0 0 0 / 0.5);
     --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
+    --wash: 0.26;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #0b0c10;
-  --surface: #14161c;
-  --ink: #edeef2;
-  --muted: #969aa6;
-  --hair: rgb(255 255 255 / 0.12);
-  --hair-soft: rgb(255 255 255 / 0.06);
-  --accent: #9b8cff;
-  --accent-2: #4fd8eb;
-  --accent-soft: #191a2b;
-  --grad: linear-gradient(120deg, #9b8cff 0%, #5fa8ff 50%, #4fd8eb 100%);
+  --paper: #100c0f;
+  --surface: #191317;
+  --ink: #f2ecef;
+  --muted: #a2969e;
+  --hair: rgb(255 255 255 / 0.13);
+  --hair-soft: rgb(255 255 255 / 0.07);
+  --accent: #e48cc0;
+  --accent-2: #f2b27e;
+  --accent-soft: #241722;
+  --grad: linear-gradient(115deg, #c88ae0 0%, #f08cae 48%, #f5b77e 100%);
   --lift: 0 8px 30px rgb(0 0 0 / 0.5);
   --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
+  --wash: 0.26;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 7rem;
 }
 
 /* ---------------------------------------------------------------------------
-   Type — deliberately loose. Generous leading, a touch of positive tracking,
-   and a comfortable measure so nothing reads squeezed.
+   Type — larger and looser than before. 18px base so section copy is
+   comfortable to read at arm's length.
    --------------------------------------------------------------------------- */
 body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  line-height: 1.9;
-  letter-spacing: 0.006em;
+  font-size: 1.125rem;
+  line-height: 1.85;
+  letter-spacing: 0.004em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -91,12 +93,18 @@ p {
 }
 
 .lead {
-  font-size: 1.25rem;
-  line-height: 1.85;
+  font-size: 1.375rem;
+  line-height: 1.75;
+}
+
+.meta {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--muted);
 }
 
 .eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   text-transform: uppercase;
   letter-spacing: 0.24em;
   color: var(--muted);
@@ -106,7 +114,6 @@ p {
   font-variant-numeric: tabular-nums;
 }
 
-/* Gradient-filled text, used for accents. */
 .grad-text {
   background: var(--grad);
   -webkit-background-clip: text;
@@ -119,10 +126,72 @@ p {
   color: #fff;
 }
 
+/* ---------------------------------------------------------------------------
+   Page-wide gradient. A fixed layer that sits above the body background and
+   below all content, so the wash follows the reader down the whole page
+   instead of living only behind the hero.
+   --------------------------------------------------------------------------- */
+.page-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.page-gradient::before,
+.page-gradient::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+/* Follows the pointer across the entire page. */
+.page-gradient::before {
+  width: 42vmax;
+  height: 42vmax;
+  background: var(--grad);
+  opacity: var(--wash);
+  top: calc(var(--my, 30%) - 21vmax);
+  left: calc(var(--mx, 60%) - 21vmax);
+  transition: top 1.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    left 1.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+.page-gradient::after {
+  width: 34vmax;
+  height: 34vmax;
+  background: linear-gradient(300deg, var(--accent-2), var(--accent));
+  opacity: calc(var(--wash) * 0.6);
+  bottom: -12vmax;
+  right: -8vmax;
+  animation: drift 26s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.14);
+  }
+}
+
+/* Content rides above the gradient layer. */
+.above {
+  position: relative;
+  z-index: 1;
+}
+
 /* ----------------------------------------------------------------- surfaces */
 
 .card {
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--hair);
   border-radius: 18px;
   transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
@@ -142,8 +211,8 @@ p {
   align-items: center;
   border: 1px solid var(--hair);
   border-radius: 999px;
-  padding: 3px 12px;
-  font-size: 0.8125rem;
+  padding: 4px 14px;
+  font-size: 0.9375rem;
   line-height: 1.7;
   color: var(--muted);
   transition: border-color 0.25s ease, color 0.25s ease;
@@ -163,8 +232,8 @@ p {
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0.75rem 1.6rem;
-  font-size: 0.95rem;
+  padding: 0.8rem 1.7rem;
+  font-size: 1rem;
   line-height: 1.4;
   transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease,
     color 0.2s ease;
@@ -194,88 +263,23 @@ p {
   }
 }
 
-/* ------------------------------------------------------- vertical name rail */
+/* --------------------------------------------------------- left section rail */
 
-.rail-name {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg); /* reads bottom-to-top */
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  font-size: 0.78rem;
+.rail-link {
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  transition: color 0.25s ease, transform 0.25s ease;
 }
-
-/* --------------------------------------------------- interactive background */
-
-/* Aurora that drifts on its own and leans toward the pointer. --mx/--my are
-   written by InteractiveGradient on pointer move. */
-.aurora {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+.rail-link:hover {
+  color: var(--ink);
+  transform: translateX(2px);
 }
-
-.aurora::before,
-.aurora::after {
-  content: "";
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(90px);
-  will-change: transform;
-}
-
-/* Kept deliberately faint — this sits behind body copy, so it has to read as
-   a tint rather than a graphic. */
-.aurora::before {
-  width: 30vmax;
-  height: 30vmax;
+.rail-link[aria-current="true"] {
+  color: transparent;
   background: var(--grad);
-  opacity: 0.22;
-  top: calc(var(--my, 28%) - 15vmax);
-  left: calc(var(--mx, 62%) - 15vmax);
-  transition: top 1.1s cubic-bezier(0.2, 0.7, 0.3, 1),
-    left 1.1s cubic-bezier(0.2, 0.7, 0.3, 1);
-  animation: drift 18s ease-in-out infinite alternate;
-}
-
-.aurora::after {
-  width: 26vmax;
-  height: 26vmax;
-  background: linear-gradient(300deg, var(--accent-2), var(--accent));
-  opacity: 0.14;
-  bottom: -10vmax;
-  right: -6vmax;
-  animation: drift 24s ease-in-out infinite alternate-reverse;
-}
-
-:root[data-theme="dark"] .aurora::before,
-:root[data-theme="dark"] .aurora::after {
-  opacity: 0.3;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .aurora::before,
-  :root:not([data-theme="light"]) .aurora::after {
-    opacity: 0.3;
-  }
-}
-
-@keyframes drift {
-  from {
-    transform: translate3d(-3%, -2%, 0) scale(1);
-  }
-  to {
-    transform: translate3d(4%, 3%, 0) scale(1.12);
-  }
-}
-
-/* Gradient hairline used to separate sections. */
-.grad-rule {
-  height: 1px;
-  border: 0;
-  background: var(--grad);
-  opacity: 0.45;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 /* ------------------------------------------------------------------- motion */
@@ -300,14 +304,15 @@ p {
     transition: none;
   }
   .card,
-  .btn {
+  .btn,
+  .rail-link {
     transition: none;
   }
   .card-interactive:hover {
     transform: none;
   }
-  .aurora::before,
-  .aurora::after {
+  .page-gradient::before,
+  .page-gradient::after {
     animation: none;
     transition: none;
   }
