@@ -52,7 +52,7 @@ export const profile = {
   // -------------------------------------------------------------------- hero
   /** Short. This is your positioning, not your job title. */
   headline:
-    "I turn ambiguous business problems into decisions to can act on.",
+    "I turn ambiguous business problems into decisions someone can act on.",
   /** 1-2 sentences under the headline. Concrete beats grand. */
   subhead:
     "MBA candidate at Jain Deemed-to be-University specializing in Data Science & Analytics. I work across Strategy, Financial Analytics, Risk Analysis, and Product analytics - building the case, the model, and the recommendation.",
