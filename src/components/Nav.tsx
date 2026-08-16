@@ -31,40 +31,34 @@ export default function Nav() {
 
   return (
     <>
-      {/* ---------------------------------------------- desktop: vertical rail */}
-      <aside className="fixed inset-y-0 left-0 z-50 hidden w-20 flex-col items-center justify-between py-8 lg:flex">
-        <a
-          href="#top"
-          className="rail-name py-2 transition-colors hover:text-[var(--accent)]"
-        >
-          {profile.name}
-        </a>
+      {/* ---------------------------------------------- desktop: top header */}
+      <header className="fixed inset-x-0 top-0 z-50 hidden border-b border-[var(--hair)] bg-[var(--paper)]/85 backdrop-blur-md lg:flex">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+          <a
+            href="#top"
+            className="text-lg font-medium tracking-[0.18em] text-[var(--ink)] uppercase transition-colors hover:text-[var(--accent)]"
+          >
+            {profile.name}
+          </a>
 
-        <nav className="flex flex-col items-center gap-5">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              aria-label={link.label}
-              aria-current={active === link.href ? "true" : undefined}
-              className="group relative flex items-center justify-center p-1"
-            >
-              <span
-                className={`block rounded-full transition-all duration-300 ${
-                  active === link.href
-                    ? "h-2.5 w-2.5 bg-[var(--accent)]"
-                    : "h-1.5 w-1.5 bg-[var(--muted)] opacity-45 group-hover:opacity-100"
+          <nav className="flex items-center gap-6 text-sm text-[var(--muted)]">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                aria-current={active === link.href ? "true" : undefined}
+                className={`transition-colors hover:text-[var(--ink)] ${
+                  active === link.href ? "text-[var(--ink)]" : ""
                 }`}
-              />
-              <span className="pointer-events-none absolute left-6 whitespace-nowrap rounded-full border border-[var(--hair)] bg-[var(--surface)] px-3 py-1 text-xs opacity-0 shadow-[var(--lift)] transition-opacity duration-200 group-hover:opacity-100">
+              >
                 {link.label}
-              </span>
-            </a>
-          ))}
-        </nav>
+              </a>
+            ))}
+          </nav>
 
-        <ThemeToggle />
-      </aside>
+          <ThemeToggle />
+        </div>
+      </header>
 
       {/* ------------------------------------------------- mobile: compact bar */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--hair)] bg-[var(--paper)]/85 backdrop-blur-md lg:hidden">
