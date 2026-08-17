@@ -115,9 +115,14 @@ export const profile = {
    *  is never cropped — update both if you swap the image. */
   portraitSize: { width: 413, height: 531 },
   /**
-   * Signature shown under the portrait. Supply it as white strokes on a
-   * black background; the page inverts it for the light theme and drops the
-   * background out in both. "" hides it.
+   * Signature shown under the portrait. Used as a CSS mask, not drawn — so
+   * the file must have a TRANSPARENT background with the strokes in its
+   * alpha channel. Colour is irrelevant; the page fills the strokes with the
+   * current theme's ink, which is why one file serves light and dark.
+   *
+   * If you replace it with a flat white-on-black export, every pixel will be
+   * opaque and you'll get a solid ink rectangle. Convert it first — set the
+   * alpha channel from the image's luminance. "" hides it.
    */
   signature: "/signature.png",
   signatureSize: { width: 895, height: 610 },

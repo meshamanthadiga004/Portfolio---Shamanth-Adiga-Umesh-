@@ -10,17 +10,16 @@ import { profile } from "@/content/profile";
  * square, so nothing is cropped. If you swap the image, update
  * profile.portraitSize to match.
  *
- * The signature file is white-on-black. Rather than shipping two versions,
- * the .signature class drops the background out with a blend mode and
- * inverts the strokes for the light theme — see globals.css.
+ * The signature is painted as a masked block rather than an <img>, so the
+ * area around the strokes stays fully transparent and the backdrop shows
+ * through. See .signature in globals.css.
  */
 export default function Portrait() {
   const [portraitFailed, setPortraitFailed] = useState(false);
-  const [signFailed, setSignFailed] = useState(false);
 
   const { portrait, portraitSize, signature, signatureSize, name } = profile;
   const showPortrait = portrait && !portraitFailed;
-  const showSignature = signature && !signFailed;
+  const showSignature = Boolean(signature);
 
   return (
     <figure className="mx-auto mt-16 max-w-[19rem] text-center">
@@ -42,17 +41,15 @@ export default function Portrait() {
 
       {showSignature ? (
         <figcaption className="mt-6">
-          <span className="signature-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={signature}
-              alt={`${name} signature`}
-              width={signatureSize.width}
-              height={signatureSize.height}
-              onError={() => setSignFailed(true)}
-              className="signature h-auto w-44"
-            />
-          </span>
+          {/* Masked block, not an <img> — see .signature in globals.css. */}
+          <span
+            role="img"
+            aria-label={`${name} signature`}
+            className="signature mx-auto w-44"
+            style={{
+              aspectRatio: `${signatureSize.width} / ${signatureSize.height}`,
+            }}
+          />
         </figcaption>
       ) : null}
     </figure>
