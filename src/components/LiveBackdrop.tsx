@@ -79,7 +79,8 @@ export default function LiveBackdrop() {
     let glyphs: Glyph[] = [];
     let sprites: HTMLCanvasElement[] = [];
     let frame = 0;
-    let restFrames = 0;
+    let fieldHeight = 0; // wrap distance for the credits scroll
+    let paused = false;
 
     const p = { x: -9999, y: -9999, dx: 0, dy: 0 };
 
@@ -115,17 +116,23 @@ export default function LiveBackdrop() {
       buildSprites();
 
       glyphs = [];
-      const cols = Math.ceil(w / cfg.spacing) + 1;
-      const rows = Math.ceil(h / cfg.spacing) + 1;
+      const cols = Math.ceil(w / cfg.spacing) + 2;
+      /* Two extra rows so wrapping happens off-screen, never in view. */
+      const rows = Math.ceil(h / cfg.spacing) + 2;
+      fieldHeight = rows * cfg.spacing;
+
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
           /* Deterministic pick + offset, so the layout is stable across
              resizes rather than reshuffling. */
           const hash = Math.abs((i * 73856093) ^ (j * 19349663));
-          const jitterX = ((hash % 37) - 18) * 0.8;
-          const jitterY = (((hash >> 5) % 37) - 18) * 0.8;
-          const hx = i * cfg.spacing + jitterX;
-          const hy = j * cfg.spacing + jitterY;
+          const jx = ((hash % 101) / 100 - 0.5) * cfg.jitter;
+          const jy = (((hash >> 7) % 101) / 100 - 0.5) * cfg.jitter;
+          /* Offsetting alternate rows breaks the square lattice — this is
+             what gives the field its zigzag. */
+          const stagger = (j % 2) * cfg.spacing * cfg.rowStagger;
+          const hx = i * cfg.spacing + stagger + jx;
+          const hy = j * cfg.spacing + jy;
           glyphs.push({
             hx,
             hy,
@@ -151,10 +158,19 @@ export default function LiveBackdrop() {
     };
 
     const step = () => {
-      let moving = false;
       const r2 = cfg.influenceRadius * cfg.influenceRadius;
+      const margin = cfg.spacing;
 
       for (const g of glyphs) {
+        /* Credits drift. Home and current position move together, so the
+           spring never fights the scroll — only cursor displacement does. */
+        g.hy -= cfg.creditSpeed;
+        g.y -= cfg.creditSpeed;
+        if (g.hy < -margin) {
+          g.hy += fieldHeight;
+          g.y += fieldHeight;
+        }
+
         if (interactive && (p.dx !== 0 || p.dy !== 0)) {
           const ax = g.hx - p.x;
           const ay = g.hy - p.y;
@@ -181,27 +197,24 @@ export default function LiveBackdrop() {
           g.x = g.hx + ox * k;
           g.y = g.hy + oy * k;
         }
-
-        if (Math.abs(g.vx) > 0.02 || Math.abs(g.vy) > 0.02 || off > 0.4) {
-          moving = true;
-        }
       }
 
       p.dx = 0;
       p.dy = 0;
       paint();
 
-      restFrames = moving ? 0 : restFrames + 1;
-      if (restFrames > 6) {
-        frame = 0;
-        return;
-      }
-      frame = requestAnimationFrame(step);
+      /* The field always drifts, so the loop runs continuously — but only
+         while the tab is actually visible. */
+      frame = paused ? 0 : requestAnimationFrame(step);
     };
 
     const kick = () => {
-      restFrames = 0;
-      if (!frame) frame = requestAnimationFrame(step);
+      if (!frame && !paused) frame = requestAnimationFrame(step);
+    };
+
+    const onVisibility = () => {
+      paused = document.hidden;
+      if (!paused) kick();
     };
 
     const onMove = (e: PointerEvent) => {
@@ -221,15 +234,19 @@ export default function LiveBackdrop() {
 
     build();
     paint();
+    /* Reduced motion gets a still field — no drift, no push. */
+    if (!reduced) kick();
 
     if (interactive) {
       window.addEventListener("pointermove", onMove, { passive: true });
     }
     window.addEventListener("resize", onResize);
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

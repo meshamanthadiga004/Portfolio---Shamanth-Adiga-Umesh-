@@ -6,18 +6,25 @@ import { theme } from "@/content/theme";
 /**
  * Synthesised UI sound. Renders nothing — it only wires up listeners.
  *
- * Everything is generated live with the Web Audio API. Nothing is sampled, so
- * no copyrighted game or film audio is reproduced; the sounds are built to sit
- * in a similar family, not to be copies.
+ * Everything is generated live with the Web Audio API; nothing is sampled.
  *
- *   intro   a slow orchestral swell — six chord tones, three detuned sawtooth
- *           voices each, entering staggered under a filter that opens as it
- *           rises. Vibrato from a shared LFO gives it the string-section wobble.
- *   click   a soft, muffled select. Deliberately flat in pitch: a downward
- *           glide is what made the previous version sound like a laser.
- *   scroll  a continuous rolling texture. A looping brown-noise source runs
- *           silently and its gain follows scroll speed, so it swells while the
- *           page moves in either direction and fades when it stops.
+ *   intro   a bowed string ensemble. Each chord tone is built additively from
+ *           a harmonic series of sines with 1/n^1.2 rolloff — that spectrum is
+ *           what reads as "strings"; a sawtooth through a lowpass reads as a
+ *           synth pad instead. Two voices per note detuned by a few cents give
+ *           section width, a shared LFO adds vibrato, and a short breath of
+ *           bandpassed noise at the onset stands in for bow bite.
+ *
+ *   click   a small bell: three inharmonic partials (1, 2.76, 5.4 — the ratios
+ *           that make struck metal sound like a bell rather than a tone) with
+ *           quick decay and no sustain. Pure sines, no noise transient; the
+ *           noise is what made the previous version sound like a cowbell.
+ *
+ *   scroll  a mouse-wheel ratchet. Distance scrolled is accumulated and one
+ *           very short click fires per detent, so scrolling fast runs the
+ *           ticks together into a "trrrr" and scrolling slowly ticks
+ *           individually — the way a real wheel behaves. Works in both
+ *           directions.
  *
  * Browsers block audio until the visitor interacts, so the context is built
  * lazily on the first gesture and the swell plays then — not on load.
@@ -31,14 +38,12 @@ export default function SoundSystem() {
     if (!cfg.enabled) return;
 
     let ac: AudioContext | null = null;
-    let clickNoise: AudioBuffer | null = null;
-    let rollGain: GainNode | null = null;
-    let rollStarted = false;
+    let noise: AudioBuffer | null = null;
     let unlocked = false;
 
     let lastY = window.scrollY;
-    let lastT = performance.now();
-    let idleTimer: number | undefined;
+    let travel = 0; // px accumulated since the last detent
+    let lastTick = 0;
 
     const ctx = () => {
       if (!ac) {
@@ -49,172 +54,160 @@ export default function SoundSystem() {
         if (!AC) return null;
         ac = new AC();
 
-        /* Short decaying white noise for the click transient. */
-        const n = Math.floor(ac.sampleRate * 0.04);
-        clickNoise = ac.createBuffer(1, n, ac.sampleRate);
-        const d = clickNoise.getChannelData(0);
-        for (let i = 0; i < n; i++) {
-          d[i] = (Math.random() * 2 - 1) * (1 - i / n);
-        }
+        const n = Math.floor(ac.sampleRate * 0.4);
+        noise = ac.createBuffer(1, n, ac.sampleRate);
+        const d = noise.getChannelData(0);
+        for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
       }
       if (ac.state === "suspended") void ac.resume();
       return ac;
     };
 
-    /* ------------------------------------------------------------- intro */
+    /* --------------------------------------------------------- intro: strings */
 
     const playIntro = () => {
       const a = ctx();
       if (!a) return;
       const t0 = a.currentTime + 0.05;
-      const {
-        introChord,
-        introAttack,
-        introRelease,
-        introDetune,
-        introVolume,
-      } = cfg;
+      const { introChord, introAttack, introRelease, introDetune } = cfg;
+      const end = t0 + introAttack + introRelease;
 
       const master = a.createGain();
-      const lp = a.createBiquadFilter();
-      lp.type = "lowpass";
-      lp.Q.value = 0.7;
-      lp.frequency.setValueAtTime(280, t0);
-      lp.frequency.exponentialRampToValueAtTime(
-        4200,
-        t0 + introAttack + 0.6
-      );
-
       master.gain.setValueAtTime(0.0001, t0);
       master.gain.exponentialRampToValueAtTime(
-        Math.max(0.0002, cfg.volume * introVolume),
+        Math.max(0.0002, cfg.volume * cfg.introVolume),
         t0 + introAttack
       );
-      master.gain.exponentialRampToValueAtTime(
-        0.0001,
-        t0 + introAttack + introRelease
-      );
+      master.gain.exponentialRampToValueAtTime(0.0001, end);
 
-      /* Shared vibrato, so the whole section moves together. */
+      /* Body resonance — a gentle peak in the low mids, like an instrument
+         cavity, keeps the additive stack from sounding sterile. */
+      const body = a.createBiquadFilter();
+      body.type = "peaking";
+      body.frequency.value = 320;
+      body.Q.value = 1.1;
+      body.gain.value = 4;
+      body.connect(master).connect(a.destination);
+
+      /* Shared vibrato so the whole section moves together. */
       const lfo = a.createOscillator();
       const lfoAmt = a.createGain();
-      lfo.frequency.value = 5.1;
-      lfoAmt.gain.value = 3.5; // cents
+      lfo.frequency.value = cfg.introVibrato;
+      lfoAmt.gain.value = 4; // cents
       lfo.connect(lfoAmt);
       lfo.start(t0);
-      lfo.stop(t0 + introAttack + introRelease + 0.2);
+      lfo.stop(end + 0.2);
 
       introChord.forEach((freq, i) => {
-        for (const cents of [-introDetune, 0, introDetune]) {
-          const osc = a.createOscillator();
-          const g = a.createGain();
-          osc.type = "sawtooth";
-          osc.frequency.value = freq;
-          osc.detune.value = cents;
-          lfoAmt.connect(osc.detune);
-          /* Upper voices quieter, so the chord doesn't turn shrill. */
-          g.gain.value = 0.14 / (i * 0.4 + 1);
-          osc.connect(g).connect(lp);
-          osc.start(t0 + i * 0.07); // staggered entry
-          osc.stop(t0 + introAttack + introRelease + 0.2);
+        /* Fewer harmonics as pitch rises — the upper ones would be inaudible
+           and only cost oscillators. */
+        const partials = Math.max(3, 8 - i);
+        const noteStart = t0 + i * 0.09; // staggered bows
+
+        for (const cents of [-introDetune, introDetune]) {
+          for (let n = 1; n <= partials; n++) {
+            const osc = a.createOscillator();
+            const g = a.createGain();
+            osc.type = "sine";
+            osc.frequency.value = freq * n;
+            osc.detune.value = cents + (n % 2 ? 1.5 : -1.5);
+            lfoAmt.connect(osc.detune);
+            /* 1/n^1.2 rolloff, scaled down for higher notes in the chord. */
+            g.gain.value = (0.13 / Math.pow(n, 1.2)) / (i * 0.45 + 1);
+            osc.connect(g).connect(body);
+            osc.start(noteStart);
+            osc.stop(end + 0.2);
+          }
         }
       });
 
-      lp.connect(master).connect(a.destination);
+      /* Bow bite: a breath of filtered noise under the attack. */
+      if (noise && cfg.introBow > 0) {
+        const src = a.createBufferSource();
+        const bp = a.createBiquadFilter();
+        const g = a.createGain();
+        src.buffer = noise;
+        src.loop = true;
+        bp.type = "bandpass";
+        bp.frequency.value = 2200;
+        bp.Q.value = 0.8;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(
+          Math.max(0.0002, cfg.volume * cfg.introBow * 0.06),
+          t0 + 0.25
+        );
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + introAttack + 0.8);
+        src.connect(bp).connect(g).connect(a.destination);
+        src.start(t0);
+        src.stop(t0 + introAttack + 1);
+      }
     };
 
-    /* ------------------------------------------------------------- click */
+    /* ------------------------------------------------------------ click: bell */
 
     const playClick = () => {
       const a = ctx();
       if (!a) return;
       const t0 = a.currentTime;
       const vol = cfg.volume * cfg.clickVolume;
-
-      /* Warm body — flat pitch, muffled. */
-      const osc = a.createOscillator();
-      const amp = a.createGain();
-      const lp = a.createBiquadFilter();
-      lp.type = "lowpass";
-      lp.frequency.value = 1500;
-      osc.type = "triangle";
-      osc.frequency.value = 523;
-      amp.gain.setValueAtTime(0.0001, t0);
-      amp.gain.exponentialRampToValueAtTime(Math.max(0.0002, vol), t0 + 0.005);
-      amp.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.07);
-      osc.connect(lp).connect(amp).connect(a.destination);
-      osc.start(t0);
-      osc.stop(t0 + 0.09);
-
-      /* Tiny transient so it reads as a physical select, not a beep. */
-      if (clickNoise) {
-        const src = a.createBufferSource();
-        const nlp = a.createBiquadFilter();
-        const namp = a.createGain();
-        src.buffer = clickNoise;
-        nlp.type = "lowpass";
-        nlp.frequency.value = 2200;
-        namp.gain.setValueAtTime(vol * 0.28, t0);
-        namp.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.035);
-        src.connect(nlp).connect(namp).connect(a.destination);
-        src.start(t0);
+      /* Inharmonic ratios — this is what separates a bell from a beep. */
+      const partials: [number, number, number][] = [
+        [1, 1, cfg.clickDecay],
+        [2.76, 0.5, cfg.clickDecay * 0.6],
+        [5.4, 0.22, cfg.clickDecay * 0.35],
+      ];
+      for (const [ratio, amp, dur] of partials) {
+        const osc = a.createOscillator();
+        const g = a.createGain();
+        osc.type = "sine";
+        osc.frequency.value = cfg.clickPitch * ratio;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(
+          Math.max(0.0002, vol * amp),
+          t0 + 0.003
+        );
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+        osc.connect(g).connect(a.destination);
+        osc.start(t0);
+        osc.stop(t0 + dur + 0.02);
       }
     };
 
-    /* ------------------------------------------------------------ scroll */
+    /* -------------------------------------------------------- scroll: ratchet */
 
-    const startRoll = () => {
+    const playDetent = () => {
       const a = ctx();
-      if (!a || rollStarted) return;
-      rollStarted = true;
-
-      /* Brown noise loops smoothly and sounds like rolling rather than hiss. */
-      const len = Math.floor(a.sampleRate * 2);
-      const buf = a.createBuffer(1, len, a.sampleRate);
-      const d = buf.getChannelData(0);
-      let last = 0;
-      for (let i = 0; i < len; i++) {
-        const white = Math.random() * 2 - 1;
-        last = (last + 0.02 * white) / 1.02;
-        d[i] = last * 3.5;
-      }
-
+      if (!a || !noise) return;
+      const t0 = a.currentTime;
       const src = a.createBufferSource();
-      const bp = a.createBiquadFilter();
-      rollGain = a.createGain();
-      src.buffer = buf;
-      src.loop = true;
-      bp.type = "bandpass";
-      bp.frequency.value = cfg.scrollTone;
-      bp.Q.value = 1.1;
-      rollGain.gain.value = 0;
-      src.connect(bp).connect(rollGain).connect(a.destination);
-      src.start();
+      const hp = a.createBiquadFilter();
+      const g = a.createGain();
+      src.buffer = noise;
+      /* Start at a random point so successive ticks aren't identical. */
+      const offset = Math.random() * 0.3;
+      hp.type = "highpass";
+      hp.frequency.value = 2600;
+      g.gain.setValueAtTime(cfg.volume * cfg.scrollVolume * 0.5, t0);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.018);
+      src.connect(hp).connect(g).connect(a.destination);
+      src.start(t0, offset, 0.03);
     };
 
     const onScroll = () => {
       if (!cfg.scroll || !unlocked) return;
-      startRoll();
-      if (!rollGain || !ac) return;
+      const y = window.scrollY;
+      travel += Math.abs(y - lastY);
+      lastY = y;
 
       const now = performance.now();
-      const dy = Math.abs(window.scrollY - lastY);
-      const dt = Math.max(1, now - lastT);
-      lastY = window.scrollY;
-      lastT = now;
-
-      /* Speed in px/ms, softly clamped. Direction is irrelevant — up and
-         down both roll. */
-      const speed = Math.min(1, dy / dt / 2.2);
-      const target = cfg.volume * cfg.scrollVolume * speed;
-      rollGain.gain.setTargetAtTime(target, ac.currentTime, 0.05);
-
-      window.clearTimeout(idleTimer);
-      idleTimer = window.setTimeout(() => {
-        if (rollGain && ac) {
-          rollGain.gain.setTargetAtTime(0, ac.currentTime, 0.09);
+      while (travel >= cfg.scrollDetent) {
+        travel -= cfg.scrollDetent;
+        /* Hard rate limit — a flung scroll must not queue 200 ticks. */
+        if (now - lastTick >= 11) {
+          lastTick = now;
+          playDetent();
         }
-      }, 90);
+      }
     };
 
     /* ------------------------------------------------------------- wiring */
@@ -222,6 +215,7 @@ export default function SoundSystem() {
     const onPointerDown = (e: PointerEvent) => {
       if (!unlocked) {
         unlocked = true;
+        lastY = window.scrollY;
         if (cfg.intro) playIntro();
         return; // the unlocking gesture shouldn't also fire a click
       }
@@ -236,7 +230,6 @@ export default function SoundSystem() {
     return () => {
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("scroll", onScroll);
-      window.clearTimeout(idleTimer);
       void ac?.close();
     };
   }, [cfg]);

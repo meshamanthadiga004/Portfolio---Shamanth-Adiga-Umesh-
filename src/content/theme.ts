@@ -52,14 +52,14 @@ export const theme = {
     // Section headings — left large on purpose, they anchor each section.
     sectionLabel: "0.9375rem", // the small ABOUT / WORK eyebrow
     sectionLabelTracking: "0.24em",
-    sectionTitle: "clamp(2.5rem, 5.5vw, 3.75rem)",
-    sectionTitleLeading: "1.12",
+    sectionTitle: "clamp(2rem, 4.4vw, 3.25rem)",
+    sectionTitleLeading: "1.14",
 
     // Cards
     cardTitle: "clamp(1.35rem, 2.6vw, 1.8rem)", // project titles
     subTitle: "1.3rem", // job roles, degrees
     metricValue: "2.25rem", // numbers inside project cards
-    statValue: "2.5rem", // numbers in the About stat grid
+    statValue: "2.25rem", // numbers in the About stat grid
     chipSize: "0.875rem",
   },
 
@@ -86,11 +86,20 @@ export const theme = {
     iconOpacity: 0.13, // resting opacity, 0-1. These sit behind body text,
     // so raise carefully — past ~0.18 they start to compete with it.
     strokeWidth: 1.5, // stencil line weight, in the icon's own 24px grid
-    influenceRadius: 150, // how far from the cursor icons react
-    pushStrength: 0.5, // how hard icons are shoved. Higher = more dramatic.
-    springBack: 0.045, // pull back home. Higher = snappier return.
-    damping: 0.89, // velocity decay. Lower = settles faster.
-    maxOffset: 30, // px cap on displacement
+
+    /* The field drifts upward forever, like film credits. */
+    creditSpeed: 0.22, // px per frame — roughly 13px/sec at 60fps
+    jitter: 30, // px of random offset per icon. Higher = more zigzag.
+    rowStagger: 0.5, // alternate rows shift by this fraction of `spacing`
+
+    /* Cursor interaction. Low springBack plus high damping is what makes the
+       field go messy on hover and take a couple of seconds to re-settle. */
+    influenceRadius: 165, // how far from the cursor icons react
+    pushStrength: 0.85, // how hard icons are shoved. Higher = messier.
+    springBack: 0.018, // pull back home. Lower = slower, looser recovery.
+    damping: 0.94, // velocity decay. Higher = drifts longer before settling.
+    maxOffset: 55, // px cap on displacement
+
     washOpacity: 0.16, // the soft gradient glow behind everything
   },
 
@@ -107,19 +116,29 @@ export const theme = {
     enabled: true, // false disables all sound site-wide
     volume: 0.2, // master volume, 0-1. Keep gentle.
 
-    intro: true, // orchestral swell on first interaction
+    /* Bowed string ensemble. Each note is built additively from a harmonic
+       series of sines rather than a sawtooth — that is the difference
+       between "strings" and "synth pad". */
+    intro: true,
     introVolume: 1.0, // relative to master
     introChord: [130.81, 196.0, 261.63, 329.63, 392.0, 523.25], // C major spread
-    introAttack: 0.9, // seconds to swell in — higher feels grander
-    introRelease: 3.4, // seconds to fade out
-    introDetune: 7, // cents of spread between ensemble voices
+    introAttack: 1.1, // seconds to swell in — the bow taking hold
+    introRelease: 3.6, // seconds to fade out
+    introDetune: 6, // cents between the two voices of each note
+    introVibrato: 5.2, // Hz — string section vibrato rate
+    introBow: 0.5, // breath of bow noise at onset, 0 = none
 
-    click: true, // soft select on links and buttons
-    clickVolume: 0.5,
+    /* Small bell. Inharmonic partials, quick decay, no sustain. */
+    click: true,
+    clickVolume: 0.42,
+    clickPitch: 1250, // Hz fundamental — higher is a thinner "ting"
+    clickDecay: 0.3, // seconds
 
-    scroll: true, // continuous roll while scrolling, either direction
+    /* Mouse-wheel ratchet. One detent tick per `scrollDetent` pixels, so a
+       fast scroll runs them together into a "trrrr" and a slow one ticks. */
+    scroll: true,
     scrollVolume: 0.5,
-    scrollTone: 900, // Hz centre of the rolling texture
+    scrollDetent: 13, // px of scroll between ticks
   },
 };
 
