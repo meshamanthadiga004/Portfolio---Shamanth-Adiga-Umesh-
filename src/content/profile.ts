@@ -47,7 +47,7 @@ export const profile = {
   seoDescription:
     "TODO: One line a recruiter would read in search results. e.g. MBA candidate at X, working at the intersection of strategy, finance and analytics.",
   /** Your live URL once deployed. Used for social share cards. */
-  siteUrl: "https://your-portfolio.vercel.app",
+  siteUrl: "https://portfolio-shamanth-adiga-umesh.vercel.app",
 
   // -------------------------------------------------------------------- hero
   /** Short. This is your positioning, not your job title. */
@@ -78,10 +78,10 @@ export const profile = {
    * boards were graded differently, write the unit into the label.
    */
   academics: [
-    { value: "TODO: 92%", label: "Class X" },
-    { value: "TODO: 88%", label: "Class XII" },
-    { value: "TODO: 8.1", label: "B.Com / 10" },
-    { value: "TODO: 8.4", label: "MBA / 10" },
+    { value: "96.4%", label: "Class X" },
+    { value: "100%", label: "Class XII" },
+    { value: "8.94", label: "B.Com / 10" },
+    { value: "9", label: "MBA / 10" },
   ],
 
   // ------------------------------------------------- what you're good at
@@ -243,26 +243,24 @@ export const experience = [
    it to reach the Adjacent page, where the full track is laid out. */
 export const education = [
   {
+    degree: "Masters in Business Administration, Data Science & Analytics",
+    school: "Jain Deemed-to-be-University",
+    period: "2025 — 2027",
+    detail: "9/10 CGPA (Till 2nd Semester)",
+  },
+  {
+    degree: "Bachelor of Commerce",
+    school: "Bengaluru City University",
+    period: "2021 — 2024",
+    detail: "8.94/10 CGPA",
+  },
+  {
     degree: "Company Secretary (CS)",
     school: "Institute of Company Secretaries of India (ICSI)",
-    period: "TODO: 2024 — present",
-    detail:
-      "TODO: One line on the current stage — which programme you're in and what's next.",
+    period: "2024 — present",
+    detail: "Currently pursuing the Executive Programme and I have scored an Exemption in the subject 'Setting Up of Business, Industrial & Labor Laws'",
     href: "/adjacent",
     hrefLabel: "See the full CS track",
-  },
-  {
-    degree: "TODO: MBA, [Specialisation]",
-    school: "TODO: Institute Name",
-    period: "TODO: 2025 — 2027",
-    detail:
-      "TODO: CGPA / rank / relevant coursework / club and committee roles. One line.",
-  },
-  {
-    degree: "TODO: B.[Tech/Com/A], [Major]",
-    school: "TODO: University Name",
-    period: "TODO: 2019 — 2023",
-    detail: "TODO: CGPA, honours, anything that still signals something.",
   },
 ];
 
