@@ -41,7 +41,7 @@ export default function Contact() {
       ) : null}
 
       <Reveal delay={160}>
-        <Socials className="mt-10 justify-center" includeEmail />
+        <Socials className="mt-10 justify-center" includeEmail includePhone />
       </Reveal>
 
       {/* ------------------------------------------------------------ portrait

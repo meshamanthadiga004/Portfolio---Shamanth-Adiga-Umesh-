@@ -83,9 +83,9 @@ export const theme = {
     enabled: true,
     spacing: 118, // px between icons — larger = sparser
     iconSize: 22, // icon width/height in px. Keep small.
-    iconOpacity: 0.07, // resting opacity, 0-1. Keep very low — these sit
-    // behind body text and must never compete with it.
-    strokeWidth: 1.4, // stencil line weight, in the icon's own 24px grid
+    iconOpacity: 0.13, // resting opacity, 0-1. These sit behind body text,
+    // so raise carefully — past ~0.18 they start to compete with it.
+    strokeWidth: 1.5, // stencil line weight, in the icon's own 24px grid
     influenceRadius: 150, // how far from the cursor icons react
     pushStrength: 0.5, // how hard icons are shoved. Higher = more dramatic.
     springBack: 0.045, // pull back home. Higher = snappier return.
@@ -104,12 +104,22 @@ export const theme = {
      unexpected noise is worse than no noise. The toggle in the header lets
      anyone turn it on, and the choice is remembered. */
   audio: {
-    enabled: true, // false removes the sound toggle entirely
-    startEnabled: false, // true = on by default once the visitor interacts
-    volume: 0.18, // master volume, 0-1. Keep gentle.
-    intro: true, // soft chord on first interaction
-    click: true, // tick on links and buttons
-    scroll: true, // faint tick as sections pass
+    enabled: true, // false disables all sound site-wide
+    volume: 0.2, // master volume, 0-1. Keep gentle.
+
+    intro: true, // orchestral swell on first interaction
+    introVolume: 1.0, // relative to master
+    introChord: [130.81, 196.0, 261.63, 329.63, 392.0, 523.25], // C major spread
+    introAttack: 0.9, // seconds to swell in — higher feels grander
+    introRelease: 3.4, // seconds to fade out
+    introDetune: 7, // cents of spread between ensemble voices
+
+    click: true, // soft select on links and buttons
+    clickVolume: 0.5,
+
+    scroll: true, // continuous roll while scrolling, either direction
+    scrollVolume: 0.5,
+    scrollTone: 900, // Hz centre of the rolling texture
   },
 };
 

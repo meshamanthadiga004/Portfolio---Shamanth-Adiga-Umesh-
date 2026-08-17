@@ -17,8 +17,22 @@ const ICONS: string[] = [
   "M12 3a9 9 0 1 0 9 9h-9V3z", // pie chart
   "M3 17l6-6 4 4 7-7M15 8h6v6", // trend arrow
   "M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3", // database
-  "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v3M12 19v3M2 12h3M19 12h3", // gauge / cog
+  "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v3M12 19v3M2 12h3M19 12h3", // gauge
   "M5 20V8M12 20V3M19 20v-7M2 20h20", // ascending bars
+  "M5 2h14v20H5zM8 6h8M8 11h2M12 11h2M16 11h2M8 15h2M12 15h2M16 15h2M8 19h6", // calculator
+  "M6 4h12l-7 8 7 8H6", // sigma / summation
+  "M6 5a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM18 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM19 5L5 19", // percent
+  "M3 3v18h18M7 15.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM11 11.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM15 13.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM18 7.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z", // scatter plot
+  "M3 4h18l-7 8v7l-4 2v-9z", // funnel
+  "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM16 16l5 5M8.5 12v2M11 9.5v4.5M13.5 11.5v2.5", // analysis / magnifier on data
+  "M9 3h6v3H9zM6 5H5v16h14V5h-1M9 11h6M9 15h6", // clipboard
+  "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 11.2a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6z", // target
+  "M12 3v18M7 21h10M5 7h14M5 7l-3 6h6zM19 7l3 6h-6z", // balance / weighing
+  "M3 3h18v12H3zM12 15v4M8 21l4-2 4 2M7 11l3-3 2 2 4-4", // presentation
+  "M3 21h18M6 21v-4M10 21v-8M14 21v-12M18 21v-6", // histogram
+  "M10 2h4v3h-4zM3 10h4v3H3zM17 10h4v3h-4zM10 18h4v3h-4zM12 5v5M5 13v3h14v-3M12 16v2", // flowchart
+  "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8.5 8h7M8.5 11h7M14 8c0 3-5.5 1-5.5 3.5L14 16", // currency / rupee
+  "M3 12h4l3-7 4 14 3-7h4", // waveform / signal
 ];
 
 type Glyph = {

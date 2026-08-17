@@ -15,10 +15,6 @@ export default function Hero() {
           </h1>
         </Reveal>
 
-        <Reveal delay={100}>
-          <p className="eyebrow mt-6">{profile.location}</p>
-        </Reveal>
-
         <Reveal delay={140}>
           <p className="hero-headline mx-auto mt-9 max-w-2xl">
             {profile.headline}
