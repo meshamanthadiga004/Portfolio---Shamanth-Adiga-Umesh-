@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
-import { navLinks, profile } from "@/content/profile";
+import { navLinks, pageLinks, profile } from "@/content/profile";
 import Socials from "./Socials";
 
 export default function Nav() {
@@ -19,8 +19,10 @@ export default function Nav() {
 
   /* Highlight whichever section is currently in view. */
   useEffect(() => {
+    /* Hrefs are "/#about" so they work from other pages too — take the id
+       from after the hash. */
     const sections = navLinks
-      .map((l) => document.getElementById(l.href.replace("#", "")))
+      .map((l) => document.getElementById(l.href.split("#")[1] ?? ""))
       .filter((el): el is HTMLElement => el !== null);
     if (sections.length === 0 || typeof IntersectionObserver === "undefined")
       return;
@@ -77,6 +79,23 @@ export default function Nav() {
               />
             </a>
           ))}
+
+          {/* Separate pages sit after a divider, so they read as a different
+              kind of destination from the in-page sections. */}
+          <span
+            aria-hidden="true"
+            className="mx-1 h-4 w-px bg-[var(--hair)]"
+          />
+
+          {pageLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-[15px] text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
         <div className="flex shrink-0 items-center gap-3">
@@ -103,6 +122,16 @@ export default function Nav() {
               className="block border-b border-[var(--hair-soft)] py-3 text-[17px] text-[var(--muted)] last:border-0"
             >
               {link.label}
+            </a>
+          ))}
+          {pageLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="mt-1 block border-t border-[var(--hair)] py-3 text-[17px] text-[var(--accent)]"
+            >
+              {link.label} →
             </a>
           ))}
         </div>

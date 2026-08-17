@@ -39,6 +39,14 @@ export default function Experience() {
               <h4 className="mt-4 sub-title">{ed.degree}</h4>
               <p className="mt-1.5 text-[17px] text-[var(--muted)]">{ed.school}</p>
               <p className="mt-4 text-[var(--muted)]">{ed.detail}</p>
+              {"href" in ed && ed.href ? (
+                <a
+                  href={ed.href}
+                  className="mt-4 inline-block text-[var(--accent)] transition-opacity hover:opacity-75"
+                >
+                  {("hrefLabel" in ed && ed.hrefLabel) || "Read more"} →
+                </a>
+              ) : null}
             </div>
           </Reveal>
         ))}

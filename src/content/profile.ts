@@ -223,7 +223,18 @@ export const experience = [
 // EDUCATION
 // ============================================================================
 
+/* `href` is optional — when set, the card gets a link out. The CS entry uses
+   it to reach the Adjacent page, where the full track is laid out. */
 export const education = [
+  {
+    degree: "Company Secretary (CS)",
+    school: "Institute of Company Secretaries of India (ICSI)",
+    period: "TODO: 2024 — present",
+    detail:
+      "TODO: One line on the current stage — which programme you're in and what's next.",
+    href: "/adjacent",
+    hrefLabel: "See the full CS track",
+  },
   {
     degree: "TODO: MBA, [Specialisation]",
     school: "TODO: Institute Name",
@@ -281,10 +292,105 @@ export const toolkit = [
 // NAV — remove an entry here to remove the section link from the header.
 // ============================================================================
 
+/* Sections of the single-scroll home page. Hrefs are absolute so they also
+   work from /adjacent, which is a separate page. */
 export const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Experience", href: "#experience" },
-  { label: "Toolkit", href: "#toolkit" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Work", href: "/#work" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Toolkit", href: "/#toolkit" },
+  { label: "Contact", href: "/#contact" },
 ];
+
+/* Separate pages, shown in the header after a visual gap. */
+export const pageLinks = [{ label: "Adjacent", href: "/adjacent" }];
+
+// ============================================================================
+// ADJACENT — lives on its own page at /adjacent, not in the home scroll.
+//
+// Company Secretary first, then everything extra-curricular. I have filled in
+// the structure (the ICSI route really does run CSEET -> Executive ->
+// Professional -> training), but every fact about YOU is a TODO — I won't
+// invent qualifications or performances, since those are exactly the claims a
+// recruiter or the institute would verify.
+// ============================================================================
+
+export const adjacent = {
+  intro:
+    "TODO: Two sentences on why these sit beside the MBA rather than under it — what the CS route gives you that a management degree doesn't, and what music gives you that neither does.",
+
+  companySecretary: {
+    heading: "Company Secretary",
+    body: "TODO: A short paragraph. Why you took up CS alongside the MBA, and where you intend it to lead — governance, compliance, secretarial practice, or as a complement to finance work.",
+    /** The ICSI route, in order. Set `status` honestly. */
+    stages: [
+      {
+        stage: "CSEET",
+        full: "Company Secretary Executive Entrance Test",
+        status: "TODO: Cleared / Registered / Planned",
+        detail: "TODO: Month and year, and score or percentile if you want it here.",
+      },
+      {
+        stage: "Executive Programme",
+        full: "CS Executive — Modules I & II",
+        status: "TODO: In progress / Cleared / Not started",
+        detail:
+          "TODO: Which modules and papers are cleared, and which attempt you're targeting next.",
+      },
+      {
+        stage: "Professional Programme",
+        full: "CS Professional",
+        status: "TODO: Planned",
+        detail: "TODO: Target window, and elective if you've chosen one.",
+      },
+      {
+        stage: "Practical Training",
+        full: "ICSI practical training",
+        status: "TODO: Planned",
+        detail: "TODO: Where, or the kind of firm you're aiming for.",
+      },
+    ],
+    /** Subjects worth naming because they overlap with the MBA. */
+    subjects: [
+      "TODO: Company Law",
+      "Securities Laws & Capital Markets",
+      "Corporate Governance",
+      "Tax Laws",
+      "Financial & Strategic Management",
+    ],
+  },
+
+  music: {
+    heading: "Music",
+    body: "TODO: A short paragraph. What you play, how long you've played it, and what it actually demands of you — the discipline angle lands better than the hobby angle.",
+    /** Instruments, voice, production — whatever applies. */
+    practice: [
+      {
+        name: "TODO: Instrument or discipline",
+        detail: "TODO: Years, training, style or tradition, teacher if relevant.",
+      },
+      {
+        name: "TODO: Second instrument or discipline",
+        detail: "TODO: Years, training, style.",
+      },
+    ],
+    /** Performances, recordings, competitions, ensembles. */
+    highlights: [
+      {
+        title: "TODO: Performance, ensemble or release",
+        year: "TODO: 2025",
+        detail: "TODO: One line — venue, occasion, role, or what came of it.",
+      },
+    ],
+    /** Optional. Public links: YouTube, SoundCloud, Spotify. Delete if none. */
+    links: [{ label: "TODO: Listen", href: "" }],
+  },
+
+  /** Anything else that belongs beside the CV — sport, volunteering, writing. */
+  other: [
+    {
+      title: "TODO: Activity",
+      detail: "TODO: One line on what it involved and over what period.",
+    },
+  ],
+};

@@ -66,9 +66,9 @@ export const theme = {
   /* ------------------------------------------------------------------ LAYOUT */
   layout: {
     contentWidth: "48rem", // centred column for all sections
-    headerWidth: "72rem", // wider, so nav sits near the screen edges
-    sectionPaddingY: "7rem", // vertical breathing room per section
-    sectionGap: "3.5rem", // gap under a section heading
+    headerWidth: "76rem", // wider, so nav sits near the screen edges
+    sectionPaddingY: "4rem", // vertical breathing room per section
+    sectionGap: "2.5rem", // gap under a section heading
     cardRadius: "18px",
     cardPadding: "2rem",
     cardGap: "1.25rem", // space between stacked cards
@@ -88,7 +88,7 @@ export const theme = {
     strokeWidth: 1.5, // stencil line weight, in the icon's own 24px grid
 
     /* The field drifts upward forever, like film credits. */
-    creditSpeed: 0.22, // px per frame — roughly 13px/sec at 60fps
+    creditSpeed: 0.3, // px per frame — roughly 18px/sec at 60fps
     jitter: 30, // px of random offset per icon. Higher = more zigzag.
     rowStagger: 0.5, // alternate rows shift by this fraction of `spacing`
 
@@ -121,24 +121,32 @@ export const theme = {
        between "strings" and "synth pad". */
     intro: true,
     introVolume: 1.0, // relative to master
-    introChord: [130.81, 196.0, 261.63, 329.63, 392.0, 523.25], // C major spread
-    introAttack: 1.1, // seconds to swell in — the bow taking hold
-    introRelease: 3.6, // seconds to fade out
-    introDetune: 6, // cents between the two voices of each note
+    /* Cello foundation through to a high shimmer — the low C2 is what gives
+       the chord its weight. */
+    introChord: [65.41, 130.81, 196.0, 261.63, 329.63, 392.0, 523.25],
+    introAttack: 1.3, // seconds to swell in — the bow taking hold
+    introSustain: 1.2, // seconds held at full before the fade begins
+    introRelease: 4.8, // seconds to fade out
+    introDetune: 7, // cents between voices of each note
     introVibrato: 5.2, // Hz — string section vibrato rate
     introBow: 0.5, // breath of bow noise at onset, 0 = none
+    introReverb: 0.55, // hall size, 0 = dry. This is most of the "grand".
+    introShimmer: true, // high octave entering late, for lift
 
     /* Small bell. Inharmonic partials, quick decay, no sustain. */
     click: true,
-    clickVolume: 0.42,
+    clickVolume: 0.16, // notification-gentle
     clickPitch: 1250, // Hz fundamental — higher is a thinner "ting"
     clickDecay: 0.3, // seconds
 
     /* Mouse-wheel ratchet. One detent tick per `scrollDetent` pixels, so a
-       fast scroll runs them together into a "trrrr" and a slow one ticks. */
+       fast scroll runs them together and a slow one ticks singly. Raise
+       scrollDetent for fewer ticks ("trr"), lower it for more ("trrrrr"). */
     scroll: true,
-    scrollVolume: 0.5,
-    scrollDetent: 13, // px of scroll between ticks
+    scrollVolume: 0.42,
+    scrollDetent: 26, // px of scroll between ticks
+    scrollTone: 1100, // Hz centre of each tick — lower is softer
+    scrollBody: 0.5, // low-end thump under each tick, 0 = none
   },
 };
 

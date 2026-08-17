@@ -69,8 +69,10 @@ export default function SoundSystem() {
       const a = ctx();
       if (!a) return;
       const t0 = a.currentTime + 0.05;
-      const { introChord, introAttack, introRelease, introDetune } = cfg;
-      const end = t0 + introAttack + introRelease;
+      const { introChord, introAttack, introSustain, introRelease, introDetune } =
+        cfg;
+      const hold = t0 + introAttack + introSustain;
+      const end = hold + introRelease;
 
       const master = a.createGain();
       master.gain.setValueAtTime(0.0001, t0);
@@ -78,7 +80,40 @@ export default function SoundSystem() {
         Math.max(0.0002, cfg.volume * cfg.introVolume),
         t0 + introAttack
       );
+      /* Hold at full before releasing — the pause is what makes it feel
+         deliberate rather than a passing swell. */
+      master.gain.setValueAtTime(
+        Math.max(0.0002, cfg.volume * cfg.introVolume),
+        hold
+      );
       master.gain.exponentialRampToValueAtTime(0.0001, end);
+      master.connect(a.destination);
+
+      /* Concert-hall tail. A synthesised impulse response — exponentially
+         decaying stereo noise — is most of what makes this sound grand
+         rather than flat. */
+      let sink: AudioNode = master;
+      if (cfg.introReverb > 0) {
+        const seconds = 2.2 + cfg.introReverb * 2.2;
+        const len = Math.floor(a.sampleRate * seconds);
+        const ir = a.createBuffer(2, len, a.sampleRate);
+        for (let ch = 0; ch < 2; ch++) {
+          const d = ir.getChannelData(ch);
+          for (let i = 0; i < len; i++) {
+            d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6);
+          }
+        }
+        const conv = a.createConvolver();
+        conv.buffer = ir;
+        const wet = a.createGain();
+        const dry = a.createGain();
+        wet.gain.value = cfg.introReverb;
+        dry.gain.value = 1 - cfg.introReverb * 0.45;
+        const bus = a.createGain();
+        bus.connect(dry).connect(master);
+        bus.connect(conv).connect(wet).connect(master);
+        sink = bus;
+      }
 
       /* Body resonance — a gentle peak in the low mids, like an instrument
          cavity, keeps the additive stack from sounding sterile. */
@@ -87,7 +122,14 @@ export default function SoundSystem() {
       body.frequency.value = 320;
       body.Q.value = 1.1;
       body.gain.value = 4;
-      body.connect(master).connect(a.destination);
+
+      /* Filter opens across the swell, so the chord brightens as it grows. */
+      const tone = a.createBiquadFilter();
+      tone.type = "lowpass";
+      tone.Q.value = 0.6;
+      tone.frequency.setValueAtTime(420, t0);
+      tone.frequency.exponentialRampToValueAtTime(6500, hold);
+      body.connect(tone).connect(sink);
 
       /* Shared vibrato so the whole section moves together. */
       const lfo = a.createOscillator();
@@ -101,10 +143,11 @@ export default function SoundSystem() {
       introChord.forEach((freq, i) => {
         /* Fewer harmonics as pitch rises — the upper ones would be inaudible
            and only cost oscillators. */
-        const partials = Math.max(3, 8 - i);
-        const noteStart = t0 + i * 0.09; // staggered bows
+        const partials = Math.max(3, 9 - i);
+        /* Low notes enter first and the chord builds upward. */
+        const noteStart = t0 + i * 0.11;
 
-        for (const cents of [-introDetune, introDetune]) {
+        for (const cents of [-introDetune, 0, introDetune]) {
           for (let n = 1; n <= partials; n++) {
             const osc = a.createOscillator();
             const g = a.createGain();
@@ -113,13 +156,38 @@ export default function SoundSystem() {
             osc.detune.value = cents + (n % 2 ? 1.5 : -1.5);
             lfoAmt.connect(osc.detune);
             /* 1/n^1.2 rolloff, scaled down for higher notes in the chord. */
-            g.gain.value = (0.13 / Math.pow(n, 1.2)) / (i * 0.45 + 1);
+            g.gain.value = (0.1 / Math.pow(n, 1.2)) / (i * 0.4 + 1);
+            /* Each voice swells in on its own, so the entry is a bloom
+               rather than a switch. */
+            g.gain.setValueAtTime(0.0001, noteStart);
+            g.gain.exponentialRampToValueAtTime(
+              Math.max(0.0002, (0.1 / Math.pow(n, 1.2)) / (i * 0.4 + 1)),
+              noteStart + introAttack * 0.7
+            );
             osc.connect(g).connect(body);
             osc.start(noteStart);
             osc.stop(end + 0.2);
           }
         }
       });
+
+      /* A high octave arriving late lifts the resolution. */
+      if (cfg.introShimmer) {
+        const shimmerStart = t0 + introAttack * 0.75;
+        for (const freq of [784.0, 1046.5]) {
+          const osc = a.createOscillator();
+          const g = a.createGain();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+          lfoAmt.connect(osc.detune);
+          g.gain.setValueAtTime(0.0001, shimmerStart);
+          g.gain.exponentialRampToValueAtTime(0.02, hold);
+          g.gain.exponentialRampToValueAtTime(0.0001, end);
+          osc.connect(g).connect(body);
+          osc.start(shimmerStart);
+          osc.stop(end + 0.2);
+        }
+      }
 
       /* Bow bite: a breath of filtered noise under the attack. */
       if (noise && cfg.introBow > 0) {
@@ -137,7 +205,7 @@ export default function SoundSystem() {
           t0 + 0.25
         );
         g.gain.exponentialRampToValueAtTime(0.0001, t0 + introAttack + 0.8);
-        src.connect(bp).connect(g).connect(a.destination);
+        src.connect(bp).connect(g).connect(sink);
         src.start(t0);
         src.stop(t0 + introAttack + 1);
       }
@@ -179,18 +247,39 @@ export default function SoundSystem() {
       const a = ctx();
       if (!a || !noise) return;
       const t0 = a.currentTime;
+      const vol = cfg.volume * cfg.scrollVolume;
+
+      /* Bandpassed rather than highpassed — the old highpass left only the
+         top end, which is what made it sharp. */
       const src = a.createBufferSource();
-      const hp = a.createBiquadFilter();
+      const bp = a.createBiquadFilter();
       const g = a.createGain();
       src.buffer = noise;
-      /* Start at a random point so successive ticks aren't identical. */
       const offset = Math.random() * 0.3;
-      hp.type = "highpass";
-      hp.frequency.value = 2600;
-      g.gain.setValueAtTime(cfg.volume * cfg.scrollVolume * 0.5, t0);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.018);
-      src.connect(hp).connect(g).connect(a.destination);
-      src.start(t0, offset, 0.03);
+      bp.type = "bandpass";
+      bp.frequency.value = cfg.scrollTone;
+      bp.Q.value = 1.4;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(vol * 0.45, t0 + 0.004); // softer edge
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.035);
+      src.connect(bp).connect(g).connect(a.destination);
+      src.start(t0, offset, 0.05);
+
+      /* A little low-end body under each tick, so it reads as a mechanism
+         rather than a hiss. */
+      if (cfg.scrollBody > 0) {
+        const osc = a.createOscillator();
+        const og = a.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(150, t0);
+        osc.frequency.exponentialRampToValueAtTime(80, t0 + 0.05);
+        og.gain.setValueAtTime(0.0001, t0);
+        og.gain.linearRampToValueAtTime(vol * cfg.scrollBody * 0.5, t0 + 0.004);
+        og.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.06);
+        osc.connect(og).connect(a.destination);
+        osc.start(t0);
+        osc.stop(t0 + 0.08);
+      }
     };
 
     const onScroll = () => {
