@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { PT_Serif } from "next/font/google";
 import { profile } from "@/content/profile";
+import { theme } from "@/content/theme";
 import "./globals.css";
 
-/* Self-hosted at build time by next/font — no external requests at runtime,
-   no layout shift, nothing to load before first paint. */
 const ptSerif = PT_Serif({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -31,9 +30,48 @@ export const metadata: Metadata = {
   },
 };
 
-/* Applies the saved theme before first paint so the page never flashes the
-   wrong palette. Falls through to the OS preference when nothing is saved. */
-const themeScript = `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}`;
+/* Everything in theme.ts becomes a CSS custom property here, so editing that
+   file is enough to restyle the site. */
+const { color: c, type: t, layout: l } = theme;
+const tokens = `:root{
+--paper:${c.paper};
+--surface:${c.surface};
+--surface-alpha:${c.surfaceAlpha};
+--ink:${c.ink};
+--muted:${c.muted};
+--accent:${c.gold};
+--accent-soft:${c.goldSoft};
+--grad-from:${c.gradFrom};
+--grad-to:${c.gradTo};
+--grad:linear-gradient(115deg,${c.gradFrom} 0%,${c.gradTo} 100%);
+--hair:${c.hair};
+--hair-soft:${c.hairSoft};
+--wash:${theme.backdrop.washOpacity};
+--body-size:${t.bodySize};
+--body-leading:${t.bodyLeading};
+--body-tracking:${t.bodyTracking};
+--lead-size:${t.leadSize};
+--lead-leading:${t.leadLeading};
+--meta-size:${t.metaSize};
+--hero-name:${t.heroName};
+--hero-headline:${t.heroHeadline};
+--section-label:${t.sectionLabel};
+--section-label-tracking:${t.sectionLabelTracking};
+--section-title:${t.sectionTitle};
+--section-title-leading:${t.sectionTitleLeading};
+--card-title:${t.cardTitle};
+--sub-title:${t.subTitle};
+--metric-value:${t.metricValue};
+--stat-value:${t.statValue};
+--chip-size:${t.chipSize};
+--content-width:${l.contentWidth};
+--header-width:${l.headerWidth};
+--section-pad-y:${l.sectionPaddingY};
+--section-gap:${l.sectionGap};
+--card-radius:${l.cardRadius};
+--card-padding:${l.cardPadding};
+--card-gap:${l.cardGap};
+}`;
 
 export default function RootLayout({
   children,
@@ -41,9 +79,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={ptSerif.variable} suppressHydrationWarning>
+    /* Dark only — no theme switching, so the browser is told up front. */
+    <html lang="en" className={ptSerif.variable} style={{ colorScheme: "dark" }}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <style dangerouslySetInnerHTML={{ __html: tokens }} />
       </head>
       <body>{children}</body>
     </html>

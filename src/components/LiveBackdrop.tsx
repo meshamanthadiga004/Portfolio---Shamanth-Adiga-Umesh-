@@ -1,25 +1,34 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { theme } from "@/content/theme";
 
-/* Grid geometry */
-const SPACING = 34; // px between dots
-const RADIUS = 165; // pointer influence radius
-const BASE_ALPHA = 0.16; // resting dot opacity
-const RING = 26; // cursor ring radius
+type Dot = {
+  hx: number; // home x
+  hy: number; // home y
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+};
 
 /**
- * Fixed-position dot grid that responds to the pointer: dots near the cursor
- * brighten and grow, thin lines connect them back to a ring that trails the
- * cursor. Everything is viewport-fixed, so scrolling costs nothing — the
- * canvas only redraws while the pointer is actually moving, then idles.
+ * A field of dots that gets shoved by the cursor.
  *
- * Degrades to a plain static grid for coarse pointers and reduced motion.
+ * Dots are pushed along the direction the pointer is actually travelling —
+ * not away from it — so the field parts like sand as you sweep across, then
+ * springs back. Nothing brightens or glows: the motion is the entire effect,
+ * which is what keeps text over the top readable.
+ *
+ * All tuning lives in theme.ts under `backdrop`.
  */
 export default function LiveBackdrop() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const cfg = theme.backdrop;
+    if (!cfg.enabled) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -33,23 +42,35 @@ export default function LiveBackdrop() {
 
     let w = 0;
     let h = 0;
+    let dots: Dot[] = [];
     let frame = 0;
-    let idleFrames = 0;
+    let restFrames = 0;
 
-    /* Actual pointer, and the ring that eases toward it. */
-    const target = { x: -9999, y: -9999 };
-    const ring = { x: -9999, y: -9999 };
+    /* Pointer position and the delta between the last two moves — the delta is
+       what gives us a direction to push in. */
+    const p = { x: -9999, y: -9999, dx: 0, dy: 0 };
 
-    /* Palette is read from CSS variables so the canvas tracks the theme. */
-    let dot = "23 26 29";
-    let hot = "176 141 87";
+    let ink = "236 238 240";
     const readPalette = () => {
-      const cs = getComputedStyle(document.documentElement);
-      dot = cs.getPropertyValue("--dot").trim() || dot;
-      hot = cs.getPropertyValue("--dot-hot").trim() || hot;
+      const v = getComputedStyle(document.documentElement)
+        .getPropertyValue("--ink")
+        .trim();
+      /* --ink is a hex; convert once to "r g b" for rgb(... / alpha). */
+      if (v.startsWith("#")) {
+        const hex = v.slice(1);
+        const full =
+          hex.length === 3
+            ? hex
+                .split("")
+                .map((ch) => ch + ch)
+                .join("")
+            : hex;
+        const n = parseInt(full, 16);
+        ink = `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+      }
     };
 
-    const resize = () => {
+    const build = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
@@ -58,147 +79,123 @@ export default function LiveBackdrop() {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
 
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-
-      /* Ease the ring toward the pointer for a trailing feel. */
-      if (interactive) {
-        ring.x += (target.x - ring.x) * 0.12;
-        ring.y += (target.y - ring.y) * 0.12;
-      }
-
-      const cols = Math.ceil(w / SPACING) + 1;
-      const rows = Math.ceil(h / SPACING) + 1;
-
+      dots = [];
+      const cols = Math.ceil(w / cfg.dotSpacing) + 1;
+      const rows = Math.ceil(h / cfg.dotSpacing) + 1;
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
-          const x = i * SPACING;
-          const y = j * SPACING;
-
-          let t = 0;
-          if (interactive) {
-            const dx = x - ring.x;
-            const dy = y - ring.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < RADIUS) t = 1 - dist / RADIUS;
-          }
-
-          if (t > 0) {
-            /* Connector back to the ring. */
-            ctx.beginPath();
-            ctx.moveTo(ring.x, ring.y);
-            ctx.lineTo(x, y);
-            ctx.strokeStyle = `rgb(${hot} / ${(t * t * 0.3).toFixed(3)})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-
-          ctx.beginPath();
-          ctx.arc(x, y, 1 + t * 1.7, 0, Math.PI * 2);
-          ctx.fillStyle =
-            t > 0
-              ? `rgb(${hot} / ${(BASE_ALPHA + t * 0.6).toFixed(3)})`
-              : `rgb(${dot} / ${BASE_ALPHA})`;
-          ctx.fill();
+          const hx = i * cfg.dotSpacing;
+          const hy = j * cfg.dotSpacing;
+          dots.push({ hx, hy, x: hx, y: hy, vx: 0, vy: 0 });
         }
       }
+    };
 
-      /* The cursor ring itself. */
-      if (interactive && target.x > -9998) {
+    const paint = () => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = `rgb(${ink} / ${cfg.dotOpacity})`;
+      for (const d of dots) {
         ctx.beginPath();
-        ctx.arc(ring.x, ring.y, RING, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgb(${hot} / 0.32)`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(ring.x, ring.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgb(${hot} / 0.6)`;
+        ctx.arc(d.x, d.y, cfg.dotSize, 0, Math.PI * 2);
         ctx.fill();
       }
     };
 
-    /* Run only while something is moving; stop once the ring settles. */
-    const loop = () => {
-      const settled =
-        Math.abs(target.x - ring.x) < 0.4 && Math.abs(target.y - ring.y) < 0.4;
-      draw();
-      idleFrames = settled ? idleFrames + 1 : 0;
-      if (idleFrames > 10) {
+    const step = () => {
+      let moving = false;
+      const r2 = cfg.influenceRadius * cfg.influenceRadius;
+
+      for (const d of dots) {
+        /* Push along the pointer's travel direction, strongest at the centre
+           of the influence circle. */
+        if (interactive && (p.dx !== 0 || p.dy !== 0)) {
+          const ax = d.hx - p.x;
+          const ay = d.hy - p.y;
+          const dist2 = ax * ax + ay * ay;
+          if (dist2 < r2) {
+            const falloff = 1 - Math.sqrt(dist2) / cfg.influenceRadius;
+            d.vx += p.dx * cfg.pushStrength * falloff;
+            d.vy += p.dy * cfg.pushStrength * falloff;
+          }
+        }
+
+        /* Spring home, then damp. */
+        d.vx += (d.hx - d.x) * cfg.springBack;
+        d.vy += (d.hy - d.y) * cfg.springBack;
+        d.vx *= cfg.damping;
+        d.vy *= cfg.damping;
+        d.x += d.vx;
+        d.y += d.vy;
+
+        /* Cap displacement so a fast sweep can't fling dots across the page. */
+        const ox = d.x - d.hx;
+        const oy = d.y - d.hy;
+        const off = Math.hypot(ox, oy);
+        if (off > cfg.maxOffset) {
+          const k = cfg.maxOffset / off;
+          d.x = d.hx + ox * k;
+          d.y = d.hy + oy * k;
+        }
+
+        if (Math.abs(d.vx) > 0.02 || Math.abs(d.vy) > 0.02 || off > 0.4) {
+          moving = true;
+        }
+      }
+
+      /* The delta is consumed each frame — one move, one shove. */
+      p.dx = 0;
+      p.dy = 0;
+
+      paint();
+
+      restFrames = moving ? 0 : restFrames + 1;
+      if (restFrames > 6) {
         frame = 0;
         return;
       }
-      frame = requestAnimationFrame(loop);
+      frame = requestAnimationFrame(step);
     };
 
     const kick = () => {
-      idleFrames = 0;
-      if (!frame) frame = requestAnimationFrame(loop);
+      restFrames = 0;
+      if (!frame) frame = requestAnimationFrame(step);
     };
 
     const onMove = (e: PointerEvent) => {
-      target.x = e.clientX;
-      target.y = e.clientY;
-      if (ring.x < -9998) {
-        ring.x = e.clientX;
-        ring.y = e.clientY;
+      if (p.x > -9998) {
+        /* Clamp the per-event delta so flicking the mouse isn't violent. */
+        p.dx = Math.max(-18, Math.min(18, e.clientX - p.x));
+        p.dy = Math.max(-18, Math.min(18, e.clientY - p.y));
       }
-      kick();
-    };
-
-    const onLeave = () => {
-      target.x = -9999;
-      target.y = -9999;
+      p.x = e.clientX;
+      p.y = e.clientY;
       kick();
     };
 
     const onResize = () => {
-      resize();
-      kick();
-      draw();
+      build();
+      paint();
     };
 
     readPalette();
-    resize();
-    draw();
+    build();
+    paint();
 
     if (interactive) {
       window.addEventListener("pointermove", onMove, { passive: true });
-      document.addEventListener("pointerleave", onLeave);
     }
     window.addEventListener("resize", onResize);
 
-    /* Repaint when the theme flips, so dot colours follow. */
-    const themeObserver = new MutationObserver(() => {
-      readPalette();
-      draw();
-    });
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-
-    const scheme = window.matchMedia?.("(prefers-color-scheme: dark)");
-    const onScheme = () => {
-      readPalette();
-      draw();
-    };
-    scheme?.addEventListener("change", onScheme);
-
     return () => {
       window.removeEventListener("pointermove", onMove);
-      document.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("resize", onResize);
-      scheme?.removeEventListener("change", onScheme);
-      themeObserver.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
   return (
-    <div className="page-gradient" aria-hidden="true">
+    <div className="page-backdrop" aria-hidden="true">
       <canvas ref={canvasRef} className="dot-canvas" />
     </div>
   );

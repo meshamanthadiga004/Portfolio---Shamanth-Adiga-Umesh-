@@ -72,14 +72,18 @@ export const profile = {
   ],
 
   /**
-   * Headline figures shown in a bordered grid under the About text. Keep to
-   * 3 or 4 — these should be facts, not claims. Set to [] to hide the grid.
+   * Academic record, shown in a bordered grid under the About text.
+   * Set to [] to hide the grid entirely.
+   *
+   * Keep the format consistent across all four — either every entry is a
+   * percentage or every entry is on a 10-point scale, not a mix. If your
+   * boards were graded differently, write the unit into the label.
    */
-  stats: [
-    { value: "TODO: 8.4", label: "CGPA / 10" },
-    { value: "990", label: "Records analysed" },
-    { value: "18", label: "Hypothesis tests" },
-    { value: "TODO: 2", label: "Certifications" },
+  academics: [
+    { value: "TODO: 92%", label: "Class X" },
+    { value: "TODO: 88%", label: "Class XII" },
+    { value: "TODO: 8.1", label: "B.Com / 10" },
+    { value: "TODO: 8.4", label: "MBA / 10" },
   ],
 
   // ------------------------------------------------- what you're good at

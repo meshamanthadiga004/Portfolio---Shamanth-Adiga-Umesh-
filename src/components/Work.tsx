@@ -47,7 +47,7 @@ export default function Work() {
         </div>
       </Reveal>
 
-      <div className="grid gap-5">
+      <div className="grid" style={{ gap: "var(--card-gap)" }}>
         {shown.map((project, i) => (
           <Reveal key={project.slug} delay={Math.min(i, 3) * 60}>
             <ProjectCard project={project} />

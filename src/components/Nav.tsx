@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { navLinks, profile } from "@/content/profile";
-import ThemeToggle from "./ThemeToggle";
+import SoundSystem from "./SoundSystem";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -47,7 +47,7 @@ export default function Nav() {
           : "border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-4">
+      <div className="mx-auto flex w-full max-w-[var(--header-width)] items-center justify-between gap-6 px-6 py-4">
         <a
           href="#top"
           className="shrink-0 text-[15px] tracking-[0.16em] uppercase transition-colors hover:text-[var(--accent)]"
@@ -80,7 +80,7 @@ export default function Nav() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-3">
-          <ThemeToggle />
+          <SoundSystem />
           <button
             type="button"
             aria-label="Toggle menu"

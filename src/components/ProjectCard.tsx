@@ -26,7 +26,11 @@ export default function ProjectCard({ project }: { project: Project }) {
   const hasDetail = project.approach.length > 0 || project.outcome.length > 0;
 
   return (
-    <article id={project.slug} className="card card-interactive p-6 sm:p-8">
+    <article
+      id={project.slug}
+      className="card card-interactive p-6"
+      style={{ padding: "var(--card-padding)" }}
+    >
       {/* Meta row */}
       <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
         <span className="grad-text text-[13px] font-bold uppercase tracking-[0.16em]">
@@ -43,9 +47,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         </span>
       </div>
 
-      <h3 className="text-2xl leading-[1.25] sm:text-[1.9rem]">
-        {project.title}
-      </h3>
+      <h3 className="card-title">{project.title}</h3>
 
       <p className="mt-5 text-[var(--muted)]">{project.problem}</p>
 
@@ -54,9 +56,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.metrics.map((m) => (
             <div key={m.label} className="bg-[var(--surface)] px-5 py-4">
               <dt className="sr-only">{m.label}</dt>
-              <dd className="tabular grad-text text-4xl leading-none">
-                {m.value}
-              </dd>
+              <dd className="tabular grad-text metric-value">{m.value}</dd>
               <p className="mt-3 text-[15px] leading-snug text-[var(--muted)]">
                 {m.label}
               </p>

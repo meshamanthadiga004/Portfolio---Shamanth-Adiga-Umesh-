@@ -7,20 +7,20 @@ export default function Hero() {
       id="top"
       className="flex min-h-[92svh] items-center px-6 py-32"
     >
-      <div className="mx-auto w-full max-w-3xl text-center">
+      <div className="shell text-center">
         <Reveal>
           <p className="eyebrow">{profile.location}</p>
         </Reveal>
 
         <Reveal delay={70}>
-          <h1 className="mt-8 text-[2.75rem] leading-[1.15] sm:text-6xl sm:leading-[1.12]">
+          <h1 className="hero-name mt-8">
             {profile.nameLead}{" "}
             <span className="grad-text italic">{profile.nameAccent}</span>
           </h1>
         </Reveal>
 
         <Reveal delay={140}>
-          <p className="mx-auto mt-9 max-w-2xl text-2xl leading-[1.6] sm:text-[1.75rem] sm:leading-[1.5]">
+          <p className="hero-headline mx-auto mt-9 max-w-2xl">
             {profile.headline}
           </p>
         </Reveal>

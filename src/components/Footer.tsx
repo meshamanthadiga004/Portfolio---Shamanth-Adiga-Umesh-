@@ -3,7 +3,7 @@
 export default function Footer() {
   return (
     <footer className="px-6 pb-16">
-      <div className="mx-auto w-full max-w-3xl border-t border-[var(--hair)] pt-8 text-center">
+      <div className="mx-auto w-full max-w-[var(--content-width)] border-t border-[var(--hair)] pt-8 text-center">
         <p className="text-[15px] text-[var(--muted)]">
           © {new Date().getFullYear()} {profile.name}
         </p>

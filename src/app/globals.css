@@ -1,89 +1,31 @@
 @import "tailwindcss";
 
+/* ============================================================================
+   All colour, size and spacing values come from src/content/theme.ts, injected
+   as CSS custom properties by src/app/layout.tsx. Edit that file, not this one,
+   for anything you can express as a token. This file holds structure only.
+
+   Dark theme only — there is no light mode.
+   ========================================================================== */
+
 @theme {
-  /* PT Serif throughout — --font-pt is injected on <html> by next/font. */
   --font-sans: var(--font-pt), Georgia, "Times New Roman", serif;
   --font-serif: var(--font-pt), Georgia, "Times New Roman", serif;
-}
-
-/* ---------------------------------------------------------------------------
-   Palette — warm neutral paper with a plum → rose → amber spectrum. Saturated
-   but not fluorescent; it reads as dusk rather than neon.
-   --------------------------------------------------------------------------- */
-:root {
-  --paper: #faf9f7;
-  --surface: #ffffff;
-  --ink: #171a1d;
-  --muted: #5c6469;
-  --hair: rgb(23 26 29 / 0.12);
-  --hair-soft: rgb(23 26 29 / 0.06);
-  /* Bronze rather than yellow — enough contrast to read as a link on paper. */
-  --accent: #7d6534;
-  --accent-2: #22303b;
-  --accent-soft: #f7f3ea;
-  --grad: linear-gradient(115deg, #22303b 0%, #b08d57 100%);
-  --lift: 0 8px 30px rgb(23 26 29 / 0.07);
-  --lift-strong: 0 18px 55px rgb(23 26 29 / 0.13);
-  --wash: 0.14;
-  /* Dot-grid backdrop */
-  --dot: 23 26 29;
-  --dot-hot: 176 141 87;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0e1114;
-    --surface: #171b1f;
-    --ink: #eceef0;
-    --muted: #98a2a9;
-    --hair: rgb(255 255 255 / 0.13);
-    --hair-soft: rgb(255 255 255 / 0.07);
-    --accent: #c9ac72;
-    --accent-2: #8ca0ae;
-    --accent-soft: #1c1c18;
-    --grad: linear-gradient(115deg, #8ca0ae 0%, #d4b87a 100%);
-    --lift: 0 8px 30px rgb(0 0 0 / 0.5);
-    --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
-    --wash: 0.2;
-    --dot: 236 238 240;
-    --dot-hot: 212 184 122;
-  }
-}
-
-:root[data-theme="dark"] {
-  --paper: #0e1114;
-  --surface: #171b1f;
-  --ink: #eceef0;
-  --muted: #98a2a9;
-  --hair: rgb(255 255 255 / 0.13);
-  --hair-soft: rgb(255 255 255 / 0.07);
-  --accent: #c9ac72;
-  --accent-2: #8ca0ae;
-  --accent-soft: #1c1c18;
-  --grad: linear-gradient(115deg, #8ca0ae 0%, #d4b87a 100%);
-  --lift: 0 8px 30px rgb(0 0 0 / 0.5);
-  --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
-  --wash: 0.2;
-  --dot: 236 238 240;
-  --dot-hot: 212 184 122;
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 7rem;
+  background: var(--paper);
 }
 
-/* ---------------------------------------------------------------------------
-   Type — larger and looser than before. 18px base so section copy is
-   comfortable to read at arm's length.
-   --------------------------------------------------------------------------- */
 body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 1.125rem;
-  line-height: 1.85;
-  letter-spacing: 0.004em;
+  font-size: var(--body-size);
+  line-height: var(--body-leading);
+  letter-spacing: var(--body-tracking);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -100,22 +42,63 @@ p {
   max-width: 68ch;
 }
 
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* ------------------------------------------------------------- type helpers */
+
 .lead {
-  font-size: 1.375rem;
-  line-height: 1.75;
+  font-size: var(--lead-size);
+  line-height: var(--lead-leading);
 }
 
 .meta {
-  font-size: 0.9375rem;
+  font-size: var(--meta-size);
   line-height: 1.7;
   color: var(--muted);
 }
 
 .eyebrow {
-  font-size: 0.8125rem;
+  font-size: var(--section-label);
   text-transform: uppercase;
-  letter-spacing: 0.24em;
+  letter-spacing: var(--section-label-tracking);
   color: var(--muted);
+}
+
+.section-title {
+  font-size: var(--section-title);
+  line-height: var(--section-title-leading);
+}
+
+.hero-name {
+  font-size: var(--hero-name);
+  line-height: 1.1;
+}
+
+.hero-headline {
+  font-size: var(--hero-headline);
+  line-height: 1.5;
+}
+
+.card-title {
+  font-size: var(--card-title);
+  line-height: 1.25;
+}
+
+.sub-title {
+  font-size: var(--sub-title);
+}
+
+.metric-value {
+  font-size: var(--metric-value);
+  line-height: 1;
+}
+
+.stat-value {
+  font-size: var(--stat-value);
+  line-height: 1;
 }
 
 .tabular {
@@ -129,17 +112,21 @@ p {
   color: transparent;
 }
 
-::selection {
-  background: var(--accent);
-  color: #fff;
+/* ---------------------------------------------------------------- structure */
+
+.shell {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
 }
 
-/* ---------------------------------------------------------------------------
-   Page-wide gradient. A fixed layer that sits above the body background and
-   below all content, so the wash follows the reader down the whole page
-   instead of living only behind the hero.
-   --------------------------------------------------------------------------- */
-.page-gradient {
+.section-pad {
+  padding-block: var(--section-pad-y);
+}
+
+/* ---------------------------------------------------------------- backdrop */
+
+.page-backdrop {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -147,41 +134,25 @@ p {
   pointer-events: none;
 }
 
-/* The dot grid + cursor connections. */
 .dot-canvas {
   position: absolute;
   inset: 0;
   display: block;
 }
 
-.page-gradient::before,
-.page-gradient::after {
+/* Soft gradient glow sitting under the dot field. */
+.page-backdrop::before {
   content: "";
   position: absolute;
+  width: 46vmax;
+  height: 46vmax;
+  top: -10vmax;
+  left: 42%;
   border-radius: 999px;
-  filter: blur(100px);
-  will-change: transform;
-}
-
-/* Slow ambient wash sitting under the grid. */
-.page-gradient::before {
-  width: 42vmax;
-  height: 42vmax;
   background: var(--grad);
   opacity: var(--wash);
-  top: -8vmax;
-  left: 45%;
-  animation: drift 20s ease-in-out infinite alternate;
-}
-
-.page-gradient::after {
-  width: 34vmax;
-  height: 34vmax;
-  background: linear-gradient(300deg, var(--accent-2), var(--accent));
-  opacity: calc(var(--wash) * 0.6);
-  bottom: -12vmax;
-  right: -8vmax;
-  animation: drift 26s ease-in-out infinite alternate-reverse;
+  filter: blur(110px);
+  animation: drift 22s ease-in-out infinite alternate;
 }
 
 @keyframes drift {
@@ -189,11 +160,10 @@ p {
     transform: translate3d(-3%, -2%, 0) scale(1);
   }
   to {
-    transform: translate3d(4%, 3%, 0) scale(1.14);
+    transform: translate3d(4%, 3%, 0) scale(1.13);
   }
 }
 
-/* Content rides above the gradient layer. */
 .above {
   position: relative;
   z-index: 1;
@@ -202,11 +172,15 @@ p {
 /* ----------------------------------------------------------------- surfaces */
 
 .card {
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: color-mix(
+    in srgb,
+    var(--surface) calc(var(--surface-alpha) * 100%),
+    transparent
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--hair);
-  border-radius: 18px;
+  border-radius: var(--card-radius);
   transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
     box-shadow 0.35s ease, border-color 0.35s ease;
 }
@@ -214,7 +188,7 @@ p {
 @media (hover: hover) {
   .card-interactive:hover {
     transform: translateY(-3px);
-    box-shadow: var(--lift-strong);
+    box-shadow: 0 18px 55px rgb(0 0 0 / 0.55);
     border-color: color-mix(in srgb, var(--accent) 45%, transparent);
   }
 }
@@ -225,7 +199,7 @@ p {
   border: 1px solid var(--hair);
   border-radius: 999px;
   padding: 4px 14px;
-  font-size: 0.9375rem;
+  font-size: var(--chip-size);
   line-height: 1.7;
   color: var(--muted);
   transition: border-color 0.25s ease, color 0.25s ease;
@@ -257,7 +231,7 @@ p {
 
 .btn-primary {
   background: var(--grad);
-  color: #fff;
+  color: #14100a;
 }
 @media (hover: hover) {
   .btn-primary:hover {
@@ -274,25 +248,6 @@ p {
     border-color: var(--accent);
     color: var(--accent);
   }
-}
-
-/* --------------------------------------------------------- left section rail */
-
-.rail-link {
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
-  color: var(--muted);
-  transition: color 0.25s ease, transform 0.25s ease;
-}
-.rail-link:hover {
-  color: var(--ink);
-  transform: translateX(2px);
-}
-.rail-link[aria-current="true"] {
-  color: transparent;
-  background: var(--grad);
-  -webkit-background-clip: text;
-  background-clip: text;
 }
 
 /* ------------------------------------------------------------------- motion */
@@ -317,19 +272,13 @@ p {
     transition: none;
   }
   .card,
-  .btn,
-  .rail-link {
+  .btn {
     transition: none;
   }
   .card-interactive:hover {
     transform: none;
   }
-  .page-gradient::before,
-  .page-gradient::after {
+  .page-backdrop::before {
     animation: none;
-    transition: none;
-  }
-  .dot-canvas {
-    opacity: 0.6;
   }
 }
