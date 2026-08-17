@@ -11,53 +11,61 @@
    but not fluorescent; it reads as dusk rather than neon.
    --------------------------------------------------------------------------- */
 :root {
-  --paper: #faf8f6;
+  --paper: #faf9f7;
   --surface: #ffffff;
-  --ink: #1a1418;
-  --muted: #6b6169;
-  --hair: rgb(26 20 24 / 0.12);
-  --hair-soft: rgb(26 20 24 / 0.06);
-  --accent: #a62f76;
-  --accent-2: #e07a3f;
-  --accent-soft: #fdf1f6;
-  --grad: linear-gradient(115deg, #7a2e8e 0%, #c43f73 48%, #e07a3f 100%);
-  --lift: 0 8px 30px rgb(26 20 24 / 0.07);
-  --lift-strong: 0 18px 55px rgb(26 20 24 / 0.13);
-  --wash: 0.16;
+  --ink: #171a1d;
+  --muted: #5c6469;
+  --hair: rgb(23 26 29 / 0.12);
+  --hair-soft: rgb(23 26 29 / 0.06);
+  /* Bronze rather than yellow — enough contrast to read as a link on paper. */
+  --accent: #7d6534;
+  --accent-2: #22303b;
+  --accent-soft: #f7f3ea;
+  --grad: linear-gradient(115deg, #22303b 0%, #b08d57 100%);
+  --lift: 0 8px 30px rgb(23 26 29 / 0.07);
+  --lift-strong: 0 18px 55px rgb(23 26 29 / 0.13);
+  --wash: 0.14;
+  /* Dot-grid backdrop */
+  --dot: 23 26 29;
+  --dot-hot: 176 141 87;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #100c0f;
-    --surface: #191317;
-    --ink: #f2ecef;
-    --muted: #a2969e;
+    --paper: #0e1114;
+    --surface: #171b1f;
+    --ink: #eceef0;
+    --muted: #98a2a9;
     --hair: rgb(255 255 255 / 0.13);
     --hair-soft: rgb(255 255 255 / 0.07);
-    --accent: #e48cc0;
-    --accent-2: #f2b27e;
-    --accent-soft: #241722;
-    --grad: linear-gradient(115deg, #c88ae0 0%, #f08cae 48%, #f5b77e 100%);
+    --accent: #c9ac72;
+    --accent-2: #8ca0ae;
+    --accent-soft: #1c1c18;
+    --grad: linear-gradient(115deg, #8ca0ae 0%, #d4b87a 100%);
     --lift: 0 8px 30px rgb(0 0 0 / 0.5);
     --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
-    --wash: 0.26;
+    --wash: 0.2;
+    --dot: 236 238 240;
+    --dot-hot: 212 184 122;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #100c0f;
-  --surface: #191317;
-  --ink: #f2ecef;
-  --muted: #a2969e;
+  --paper: #0e1114;
+  --surface: #171b1f;
+  --ink: #eceef0;
+  --muted: #98a2a9;
   --hair: rgb(255 255 255 / 0.13);
   --hair-soft: rgb(255 255 255 / 0.07);
-  --accent: #e48cc0;
-  --accent-2: #f2b27e;
-  --accent-soft: #241722;
-  --grad: linear-gradient(115deg, #c88ae0 0%, #f08cae 48%, #f5b77e 100%);
+  --accent: #c9ac72;
+  --accent-2: #8ca0ae;
+  --accent-soft: #1c1c18;
+  --grad: linear-gradient(115deg, #8ca0ae 0%, #d4b87a 100%);
   --lift: 0 8px 30px rgb(0 0 0 / 0.5);
   --lift-strong: 0 18px 55px rgb(0 0 0 / 0.65);
-  --wash: 0.26;
+  --wash: 0.2;
+  --dot: 236 238 240;
+  --dot-hot: 212 184 122;
 }
 
 html {
@@ -139,6 +147,13 @@ p {
   pointer-events: none;
 }
 
+/* The dot grid + cursor connections. */
+.dot-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .page-gradient::before,
 .page-gradient::after {
   content: "";
@@ -148,16 +163,14 @@ p {
   will-change: transform;
 }
 
-/* Follows the pointer across the entire page. */
+/* Slow ambient wash sitting under the grid. */
 .page-gradient::before {
   width: 42vmax;
   height: 42vmax;
   background: var(--grad);
   opacity: var(--wash);
-  top: calc(var(--my, 30%) - 21vmax);
-  left: calc(var(--mx, 60%) - 21vmax);
-  transition: top 1.2s cubic-bezier(0.2, 0.7, 0.3, 1),
-    left 1.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+  top: -8vmax;
+  left: 45%;
   animation: drift 20s ease-in-out infinite alternate;
 }
 
@@ -315,5 +328,8 @@ p {
   .page-gradient::after {
     animation: none;
     transition: none;
+  }
+  .dot-canvas {
+    opacity: 0.6;
   }
 }
