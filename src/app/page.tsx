@@ -1,6 +1,7 @@
 ﻿import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Experience from "@/components/Experience";
+import Dock from "@/components/Dock";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import LiveBackdrop from "@/components/LiveBackdrop";
@@ -27,6 +28,7 @@ export default function Home() {
           <Contact />
         </main>
         <Footer />
+        <Dock />
       </div>
     </>
   );

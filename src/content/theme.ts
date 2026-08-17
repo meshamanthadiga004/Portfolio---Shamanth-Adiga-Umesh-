@@ -44,8 +44,8 @@ export const theme = {
       paper: "#0D0F12",
       surface: "#15181C",
       surfaceAlpha: 1,
-      ink: "#ECEEF0",
-      muted: "#98A2A9",
+      ink: "#FBFCFD", // near-white body text
+      muted: "#BCC4CB", // secondary text — lifted so it stays readable
       gold: "#D4B87A",
       goldSoft: "#1C1C18",
       gradFrom: "#A8823A", // dark bronze

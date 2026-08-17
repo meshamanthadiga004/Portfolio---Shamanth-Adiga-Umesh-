@@ -110,10 +110,13 @@ export const profile = {
    * public/ and reference it from the site root, e.g. "/portrait.jpg".
    * Leave "" and a labelled placeholder holds the space instead.
    */
-  portrait: "/portrait.jpg",
+  portrait: "/portrait.png",
   socials: [
-    { label: "LinkedIn", href: "https://linkedin.com/in/TODO" },
-    { label: "GitHub", href: "https://github.com/TODO" }, // delete if unused
+    {
+      label: "LinkedIn",
+      href: "https://linkedin.com/in/shamanth-adigaumesh-286b45214",
+    },
+    { label: "GitHub", href: "https://github.com/meshamanthadiga004" },
   ],
   /** Closing line above the email address. */
   contactNote:

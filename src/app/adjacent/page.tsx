@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { adjacent, profile } from "@/content/profile";
+import Dock from "@/components/Dock";
 import Footer from "@/components/Footer";
 import LiveBackdrop from "@/components/LiveBackdrop";
 import Nav from "@/components/Nav";
@@ -170,6 +171,7 @@ export default function AdjacentPage() {
           </div>
         </main>
         <Footer />
+        <Dock />
       </div>
     </>
   );
