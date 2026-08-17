@@ -4,35 +4,57 @@ import { useState } from "react";
 import { profile } from "@/content/profile";
 
 /**
- * Square portrait for the Contact section. Falls back to a labelled
- * placeholder if the file is missing, so a not-yet-added photo shows a hint
- * rather than a broken-image icon.
+ * Portrait plus signature for the Contact section.
+ *
+ * The frame follows the photo's own aspect ratio rather than forcing a
+ * square, so nothing is cropped. If you swap the image, update
+ * profile.portraitSize to match.
+ *
+ * The signature file is white-on-black. Rather than shipping two versions,
+ * the .signature class drops the background out with a blend mode and
+ * inverts the strokes for the light theme — see globals.css.
  */
 export default function Portrait() {
-  const [failed, setFailed] = useState(false);
-  const show = profile.portrait && !failed;
+  const [portraitFailed, setPortraitFailed] = useState(false);
+  const [signFailed, setSignFailed] = useState(false);
+
+  const { portrait, portraitSize, signature, signatureSize, name } = profile;
+  const showPortrait = portrait && !portraitFailed;
+  const showSignature = signature && !signFailed;
 
   return (
-    <figure className="mx-auto mt-16 max-w-xs text-center">
-      {show ? (
+    <figure className="mx-auto mt-16 max-w-[19rem] text-center">
+      {showPortrait ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
-          src={profile.portrait}
-          alt={profile.name}
-          width={320}
-          height={320}
-          loading="lazy"
-          onError={() => setFailed(true)}
-          className="aspect-square w-full rounded-2xl border border-[var(--hair)] object-cover"
+          src={portrait}
+          alt={name}
+          width={portraitSize.width}
+          height={portraitSize.height}
+          onError={() => setPortraitFailed(true)}
+          className="h-auto w-full rounded-2xl border border-[var(--hair)]"
         />
       ) : (
-        <div className="flex aspect-square w-full items-center justify-center rounded-2xl border border-dashed border-[var(--hair)] bg-[var(--surface)]">
-          <span className="meta px-6">
-            Save your photo as public{profile.portrait || "/portrait.jpg"}
-          </span>
+        <div className="flex aspect-[413/531] w-full items-center justify-center rounded-2xl border border-dashed border-[var(--hair)] bg-[var(--surface)]">
+          <span className="meta px-6">Save your photo as public/portrait.png</span>
         </div>
       )}
-      <figcaption className="meta mt-4">{profile.name}</figcaption>
+
+      {showSignature ? (
+        <figcaption className="mt-6">
+          <span className="signature-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={signature}
+              alt={`${name} signature`}
+              width={signatureSize.width}
+              height={signatureSize.height}
+              onError={() => setSignFailed(true)}
+              className="signature h-auto w-44"
+            />
+          </span>
+        </figcaption>
+      ) : null}
     </figure>
   );
 }

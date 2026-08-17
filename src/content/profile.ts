@@ -111,6 +111,16 @@ export const profile = {
    * Leave "" and a labelled placeholder holds the space instead.
    */
   portrait: "/portrait.png",
+  /** Intrinsic size of the portrait. The frame uses this ratio so the photo
+   *  is never cropped — update both if you swap the image. */
+  portraitSize: { width: 413, height: 531 },
+  /**
+   * Signature shown under the portrait. Supply it as white strokes on a
+   * black background; the page inverts it for the light theme and drops the
+   * background out in both. "" hides it.
+   */
+  signature: "/signature.png",
+  signatureSize: { width: 895, height: 610 },
   socials: [
     {
       label: "LinkedIn",

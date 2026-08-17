@@ -105,6 +105,38 @@ p {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------------------------------------------------------------- signature
+   The source file is white strokes on solid black. Rather than maintaining a
+   second copy, each theme derives what it needs from that one image:
+
+   light  invert it (black strokes on white), then `multiply` turns the white
+          background into the paper colour, leaving only black strokes
+   dark   `screen` turns the black background into the paper colour, leaving
+          only white strokes
+
+   The wrapper carries an explicit paper background and isolates itself. Both
+   matter: mix-blend-mode composites against the backdrop *within the nearest
+   stacking context*, and the page colour is painted by <body>, outside the
+   .above stacking context. Without a local backdrop the blend has nothing to
+   work against and the image's own background shows as a solid block. */
+.signature-wrap {
+  display: inline-block;
+  background: var(--paper);
+  isolation: isolate;
+  line-height: 0;
+}
+
+.signature {
+  display: block;
+  filter: invert(1);
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .signature {
+  filter: none;
+  mix-blend-mode: screen;
+}
+
 .grad-text {
   background: var(--grad);
   -webkit-background-clip: text;
