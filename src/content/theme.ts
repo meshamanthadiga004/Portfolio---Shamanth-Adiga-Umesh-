@@ -35,7 +35,10 @@ export const theme = {
       gradTo: "#C6A353", // gradient end (gold)
       hair: "rgb(23 21 15 / 0.14)", // borders
       hairSoft: "rgb(23 21 15 / 0.07)", // faint dividers
-      glyphOpacity: 0.1, // backdrop icons — dark on light needs less
+      /* Backdrop stencils, inverted against the paper. Thin antialiased
+         strokes lose a lot of weight, so this sits higher than it looks. */
+      glyph: "#100E08", // near-black on light paper
+      glyphOpacity: 0.22,
     },
     dark: {
       paper: "#0D0F12",
@@ -49,6 +52,7 @@ export const theme = {
       gradTo: "#E7CE93", // pale gold
       hair: "rgb(255 255 255 / 0.13)",
       hairSoft: "rgb(255 255 255 / 0.07)",
+      glyph: "#ECEEF0", // white on black — unchanged
       glyphOpacity: 0.13,
     },
   },

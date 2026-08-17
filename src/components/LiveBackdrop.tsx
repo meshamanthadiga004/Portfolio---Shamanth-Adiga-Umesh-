@@ -90,7 +90,10 @@ export default function LiveBackdrop() {
     let opacity = cfg.iconOpacity;
     const readPalette = () => {
       const cs = getComputedStyle(document.documentElement);
-      strokeColor = cs.getPropertyValue("--ink").trim() || strokeColor;
+      strokeColor =
+        cs.getPropertyValue("--glyph").trim() ||
+        cs.getPropertyValue("--ink").trim() ||
+        strokeColor;
       const o = parseFloat(cs.getPropertyValue("--glyph-opacity"));
       opacity = Number.isFinite(o) ? o : cfg.iconOpacity;
     };

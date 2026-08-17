@@ -49,6 +49,7 @@ color-scheme:${scheme};
 --grad:linear-gradient(115deg,${c.gradFrom} 0%,${c.gradTo} 100%);
 --hair:${c.hair};
 --hair-soft:${c.hairSoft};
+--glyph:${c.glyph};
 --glyph-opacity:${c.glyphOpacity};`;
 
 const tokens = `:root{${palette(theme.color.light, "light")}
