@@ -53,9 +53,6 @@ export const profile = {
   /** Short. This is your positioning, not your job title. */
   headline:
     "I turn ambiguous business problems into decisions someone can act on.",
-  /** 1-2 sentences under the headline. Concrete beats grand. */
-  subhead:
-    "MBA candidate at JAIN (Deemed-to-be University), Bengaluru, specialising in Data Science & Analytics. I work across strategy, financial analytics, risk analysis and product analytics — building the case, the model, and the recommendation.",
   location: "Bengaluru, KA, India",
   /**
    * Path to your resume PDF. Leave as "" and every Résumé button hides itself —
@@ -67,8 +64,9 @@ export const profile = {
 
   // ------------------------------------------------------------------- about
   about: [
-    "TODO: Paragraph one. What kind of problems you're drawn to and why. Avoid adjectives about yourself  describe the work instead. Two or three sentences.",
-    "TODO: Paragraph two. Your background before the MBA and what it gives you that a pure generalist doesn't have. End with what you're looking for next.",
+    "MBA candidate at JAIN (Deemed-to-be University), Bengaluru, specialising in Data Science & Analytics. I work across strategy, financial analytics, risk analysis and product analytics — building the case, the model, and the recommendation.",
+    "TODO: Paragraph two. What kind of problems you're drawn to and why — describe the work rather than yourself. Two or three sentences.",
+    "TODO: Paragraph three. Your background before the MBA and what it gives you that a pure generalist doesn't have. End with what you're looking for next.",
   ],
 
   /**

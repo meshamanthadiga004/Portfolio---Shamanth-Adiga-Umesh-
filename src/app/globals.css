@@ -171,14 +171,15 @@ p {
 
 /* ----------------------------------------------------------------- surfaces */
 
+/* Solid by default. The drifting backdrop showing through translucent panels
+   made body copy hard to settle on; it now reads only in the gaps between
+   cards, which is where it belongs. */
 .card {
   background: color-mix(
     in srgb,
     var(--surface) calc(var(--surface-alpha) * 100%),
     transparent
   );
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--hair);
   border-radius: var(--card-radius);
   transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),

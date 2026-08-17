@@ -26,7 +26,7 @@ export const theme = {
     light: {
       paper: "#F7F5F1", // page background
       surface: "#FFFFFF", // cards, panels
-      surfaceAlpha: 0.74, // card translucency, 0 = invisible, 1 = solid
+      surfaceAlpha: 1, // card translucency, 0 = invisible, 1 = solid
       ink: "#17150F", // body text
       muted: "#6A6459", // secondary text
       gold: "#7A5C25", // accent: links, active nav — deep enough to read
@@ -43,7 +43,7 @@ export const theme = {
     dark: {
       paper: "#0D0F12",
       surface: "#15181C",
-      surfaceAlpha: 0.72,
+      surfaceAlpha: 1,
       ink: "#ECEEF0",
       muted: "#98A2A9",
       gold: "#D4B87A",
@@ -94,8 +94,10 @@ export const theme = {
   layout: {
     contentWidth: "48rem", // centred column for all sections
     headerWidth: "76rem", // wider, so nav sits near the screen edges
-    sectionPaddingY: "4rem", // vertical breathing room per section
-    sectionGap: "2.5rem", // gap under a section heading
+    /* With solid cards the panels supply their own weight, so the section
+       padding is the gap between cards rather than around loose text. */
+    sectionPaddingY: "3.25rem", // vertical breathing room per section
+    sectionGap: "2rem", // gap under a section heading
     cardRadius: "18px",
     cardPadding: "2rem",
     cardGap: "1.25rem", // space between stacked cards

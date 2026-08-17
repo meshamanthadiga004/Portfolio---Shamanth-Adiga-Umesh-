@@ -5,13 +5,15 @@ import Section from "./Section";
 export default function About() {
   return (
     <Section id="about" num="01" label="About" title="Who I am">
-      <div className="space-y-8">
-        {profile.about.map((para, i) => (
-          <Reveal key={i} delay={i * 70}>
-            <p className="lead mx-auto text-[var(--muted)]">{para}</p>
-          </Reveal>
-        ))}
-      </div>
+      <Reveal>
+        <div className="card space-y-6 p-6 sm:p-8">
+          {profile.about.map((para, i) => (
+            <p key={i} className="lead mx-auto text-[var(--muted)]">
+              {para}
+            </p>
+          ))}
+        </div>
+      </Reveal>
 
       {profile.academics.length > 0 ? (
         <Reveal delay={140}>

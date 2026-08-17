@@ -5,46 +5,43 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="flex min-h-[92svh] items-center px-6 py-32"
+      className="flex min-h-[82svh] items-center px-6 py-24"
     >
-      <div className="shell text-center">
-        <Reveal delay={70}>
-          <h1 className="hero-name">
-            {profile.nameLead}{" "}
-            <span className="grad-text italic">{profile.nameAccent}</span>
-          </h1>
-        </Reveal>
+      <div className="shell">
+        <Reveal>
+          <div className="card px-6 py-14 text-center sm:px-10 sm:py-16">
+            <h1 className="hero-name">
+              {profile.nameLead}{" "}
+              <span className="grad-text italic">{profile.nameAccent}</span>
+            </h1>
 
-        <Reveal delay={140}>
-          <p className="hero-headline mx-auto mt-9 max-w-2xl">
-            {profile.headline}
-          </p>
-        </Reveal>
+            <p className="hero-headline mx-auto mt-8 max-w-2xl">
+              {profile.headline}
+            </p>
 
-        <Reveal delay={200}>
-          <p className="lead mx-auto mt-7 max-w-2xl text-[var(--muted)]">
-            {profile.subhead}
-          </p>
-        </Reveal>
-
-        <Reveal delay={260}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            <a href="#work" className="btn btn-primary">
-              See the work
-            </a>
-            {profile.resumeHref ? (
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              {profile.resumeHref ? (
+                <a
+                  href={profile.resumeHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
+                  Résumé ↗
+                </a>
+              ) : null}
               <a
-                href={profile.resumeHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost"
+                href="#work"
+                className={
+                  profile.resumeHref ? "btn btn-ghost" : "btn btn-primary"
+                }
               >
-                Résumé ↗
+                See the work
               </a>
-            ) : null}
-            <a href="#contact" className="btn btn-ghost">
-              Get in touch
-            </a>
+              <a href="#contact" className="btn btn-ghost">
+                Get in touch
+              </a>
+            </div>
           </div>
         </Reveal>
       </div>

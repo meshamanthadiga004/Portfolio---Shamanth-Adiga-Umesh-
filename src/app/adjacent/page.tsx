@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { adjacent, profile } from "@/content/profile";
 import Footer from "@/components/Footer";
 import LiveBackdrop from "@/components/LiveBackdrop";
@@ -34,9 +34,11 @@ export default function AdjacentPage() {
                 <h1 className="section-title mt-5">Beside the MBA</h1>
               </Reveal>
               <Reveal delay={140}>
-                <p className="lead mx-auto mt-6 text-[var(--muted)]">
-                  {adjacent.intro}
-                </p>
+                <div className="card mt-8 p-6 text-left sm:p-8">
+                  <p className="lead mx-auto text-[var(--muted)]">
+                    {adjacent.intro}
+                  </p>
+                </div>
               </Reveal>
             </div>
           </section>
@@ -44,7 +46,9 @@ export default function AdjacentPage() {
           {/* --------------------------------------------- company secretary */}
           <Section id="cs" num="01" label="Qualification" title={cs.heading}>
             <Reveal>
-              <p className="lead mx-auto text-[var(--muted)]">{cs.body}</p>
+              <div className="card p-6 sm:p-8">
+                <p className="lead mx-auto text-[var(--muted)]">{cs.body}</p>
+              </div>
             </Reveal>
 
             <div
@@ -89,7 +93,9 @@ export default function AdjacentPage() {
             title={music.heading}
           >
             <Reveal>
-              <p className="lead mx-auto text-[var(--muted)]">{music.body}</p>
+              <div className="card p-6 sm:p-8">
+                <p className="lead mx-auto text-[var(--muted)]">{music.body}</p>
+              </div>
             </Reveal>
 
             <div className="mt-12 grid gap-5 sm:grid-cols-2">
