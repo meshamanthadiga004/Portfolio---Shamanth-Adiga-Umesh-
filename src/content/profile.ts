@@ -59,7 +59,7 @@ export const profile = {
    * better than linking to a 404. When you have the file, drop it in public/
    * with this exact name and restore the path below.
    */
-  resumeHref: "", // "/Shamanth_Adiga_Umesh_Resume.pdf"
+  resumeHref: "/Shamanth_Adiga_Umesh_Resume.pdf",
 
 
   // ------------------------------------------------------------------- about
@@ -110,7 +110,7 @@ export const profile = {
    * public/ and reference it from the site root, e.g. "/portrait.jpg".
    * Leave "" and a labelled placeholder holds the space instead.
    */
-  portrait: "",
+  portrait: "/portrait.jpg",
   socials: [
     { label: "LinkedIn", href: "https://linkedin.com/in/TODO" },
     { label: "GitHub", href: "https://github.com/TODO" }, // delete if unused

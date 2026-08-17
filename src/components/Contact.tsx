@@ -1,4 +1,5 @@
 import { profile } from "@/content/profile";
+import Portrait from "./Portrait";
 import Reveal from "./Reveal";
 import Section from "./Section";
 import Socials from "./Socials";
@@ -37,33 +38,22 @@ export default function Contact() {
           ) : null}
 
           <Socials className="mt-10 justify-center" includeEmail includePhone />
+
+          {profile.resumeHref ? (
+            <a
+              href={profile.resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost mt-8"
+            >
+              Download résumé ↗
+            </a>
+          ) : null}
         </div>
       </Reveal>
 
-      {/* ------------------------------------------------------------ portrait
-          Drop a square photo at public/portrait.jpg and set `portrait` in
-          profile.ts. Until then this renders a labelled placeholder so the
-          space is reserved and you can see how it sits. */}
       <Reveal delay={200}>
-        <figure className="mx-auto mt-20 max-w-xs text-center">
-          {profile.portrait ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={profile.portrait}
-              alt={profile.name}
-              width={320}
-              height={320}
-              className="aspect-square w-full rounded-2xl border border-[var(--hair)] object-cover"
-            />
-          ) : (
-            <div className="flex aspect-square w-full items-center justify-center rounded-2xl border border-dashed border-[var(--hair)] bg-[var(--surface)]/40">
-              <span className="meta px-6">
-                Your portrait goes here — add public/portrait.jpg
-              </span>
-            </div>
-          )}
-          <figcaption className="meta mt-4">{profile.name}</figcaption>
-        </figure>
+        <Portrait />
       </Reveal>
     </Section>
   );
