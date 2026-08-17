@@ -8,15 +8,15 @@ export default function Hero() {
       className="flex min-h-[92svh] items-center px-6 py-32"
     >
       <div className="shell text-center">
-        <Reveal>
-          <p className="eyebrow">{profile.location}</p>
-        </Reveal>
-
         <Reveal delay={70}>
-          <h1 className="hero-name mt-8">
+          <h1 className="hero-name">
             {profile.nameLead}{" "}
             <span className="grad-text italic">{profile.nameAccent}</span>
           </h1>
+        </Reveal>
+
+        <Reveal delay={100}>
+          <p className="eyebrow mt-6">{profile.location}</p>
         </Reveal>
 
         <Reveal delay={140}>

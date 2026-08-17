@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { navLinks, profile } from "@/content/profile";
-import SoundSystem from "./SoundSystem";
+import Socials from "./Socials";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -80,7 +80,7 @@ export default function Nav() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-3">
-          <SoundSystem />
+          <Socials className="hidden sm:flex" />
           <button
             type="button"
             aria-label="Toggle menu"

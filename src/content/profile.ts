@@ -107,6 +107,12 @@ export const profile = {
   email: "shamanthadiga@hotmail.com",
   /** Secondary contact, shown under the email. "" hides it. */
   phone: "+91 8660572898",
+  /**
+   * Square photo shown at the end of the Contact section. Put the file in
+   * public/ and reference it from the site root, e.g. "/portrait.jpg".
+   * Leave "" and a labelled placeholder holds the space instead.
+   */
+  portrait: "",
   socials: [
     { label: "LinkedIn", href: "https://linkedin.com/in/TODO" },
     { label: "GitHub", href: "https://github.com/TODO" }, // delete if unused

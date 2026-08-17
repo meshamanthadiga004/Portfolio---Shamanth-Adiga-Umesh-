@@ -38,29 +38,29 @@ export const theme = {
      To make something bigger everywhere, raise all three numbers. */
   type: {
     // Body copy
-    bodySize: "1.125rem", // 18px base
-    bodyLeading: "1.85", // line height — higher = looser
+    bodySize: "1rem", // 16px base
+    bodyLeading: "1.8", // line height — higher = looser
     bodyTracking: "0.004em", // letter spacing
-    leadSize: "1.375rem", // intro paragraphs (About, Contact)
+    leadSize: "1.1875rem", // intro paragraphs (About, Contact)
     leadLeading: "1.75",
-    metaSize: "0.9375rem", // dates, org names, small print
+    metaSize: "0.875rem", // dates, org names, small print
 
     // Hero
-    heroName: "clamp(2.75rem, 7vw, 4.75rem)",
-    heroHeadline: "clamp(1.5rem, 3.2vw, 2rem)",
+    heroName: "clamp(2.5rem, 6.4vw, 4.25rem)",
+    heroHeadline: "clamp(1.35rem, 2.8vw, 1.75rem)",
 
-    // Section headings — "About", "Selected projects", etc.
+    // Section headings — left large on purpose, they anchor each section.
     sectionLabel: "0.9375rem", // the small ABOUT / WORK eyebrow
     sectionLabelTracking: "0.24em",
     sectionTitle: "clamp(2.5rem, 5.5vw, 3.75rem)",
     sectionTitleLeading: "1.12",
 
     // Cards
-    cardTitle: "clamp(1.5rem, 3vw, 2.05rem)", // project titles
-    subTitle: "1.5rem", // job roles, degrees
-    metricValue: "2.5rem", // numbers inside project cards
-    statValue: "2.75rem", // numbers in the About stat grid
-    chipSize: "0.9375rem",
+    cardTitle: "clamp(1.35rem, 2.6vw, 1.8rem)", // project titles
+    subTitle: "1.3rem", // job roles, degrees
+    metricValue: "2.25rem", // numbers inside project cards
+    statValue: "2.5rem", // numbers in the About stat grid
+    chipSize: "0.875rem",
   },
 
   /* ------------------------------------------------------------------ LAYOUT */
@@ -81,15 +81,17 @@ export const theme = {
      readable. */
   backdrop: {
     enabled: true,
-    dotSpacing: 36, // px between dots — larger = sparser
-    dotSize: 1.3, // dot radius in px
-    dotOpacity: 0.17, // resting opacity, 0-1. Keep low.
-    influenceRadius: 120, // how far from the cursor dots react
-    pushStrength: 0.55, // how hard dots are shoved. Higher = more dramatic.
-    springBack: 0.05, // pull back home. Higher = snappier return.
-    damping: 0.88, // velocity decay. Lower = settles faster.
-    maxOffset: 26, // px cap on displacement, stops dots flying away
-    washOpacity: 0.16, // the soft gradient glow behind the dots
+    spacing: 118, // px between icons — larger = sparser
+    iconSize: 22, // icon width/height in px. Keep small.
+    iconOpacity: 0.07, // resting opacity, 0-1. Keep very low — these sit
+    // behind body text and must never compete with it.
+    strokeWidth: 1.4, // stencil line weight, in the icon's own 24px grid
+    influenceRadius: 150, // how far from the cursor icons react
+    pushStrength: 0.5, // how hard icons are shoved. Higher = more dramatic.
+    springBack: 0.045, // pull back home. Higher = snappier return.
+    damping: 0.89, // velocity decay. Lower = settles faster.
+    maxOffset: 30, // px cap on displacement
+    washOpacity: 0.16, // the soft gradient glow behind everything
   },
 
   /* ------------------------------------------------------------------- AUDIO
