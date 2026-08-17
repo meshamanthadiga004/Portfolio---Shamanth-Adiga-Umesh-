@@ -22,7 +22,11 @@ export default function Portrait() {
   const showSignature = Boolean(signature);
 
   return (
-    <figure className="mx-auto mt-16 max-w-[19rem] text-center">
+    /* Widths come from theme.ts -> media.portraitWidth / signatureWidth. */
+    <figure
+      className="mx-auto mt-16 text-center"
+      style={{ maxWidth: "var(--portrait-width)" }}
+    >
       {showPortrait ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -45,8 +49,9 @@ export default function Portrait() {
           <span
             role="img"
             aria-label={`${name} signature`}
-            className="signature mx-auto w-44"
+            className="signature mx-auto"
             style={{
+              width: "var(--signature-width)",
               aspectRatio: `${signatureSize.width} / ${signatureSize.height}`,
             }}
           />

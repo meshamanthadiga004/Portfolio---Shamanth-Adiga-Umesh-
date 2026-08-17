@@ -1,4 +1,5 @@
 ﻿import { certifications, toolkit } from "@/content/profile";
+import { theme } from "@/content/theme";
 import Reveal from "./Reveal";
 import Section from "./Section";
 
@@ -22,7 +23,8 @@ export default function Toolkit() {
         ))}
       </div>
 
-      {certifications.length > 0 ? (
+      {/* Switched off in theme.ts -> sections.certifications. */}
+      {theme.sections.certifications && certifications.length > 0 ? (
         <>
           <h3 className="eyebrow mt-20 mb-8 text-center">Certifications</h3>
           <ul className="card divide-y divide-[var(--hair-soft)] px-6 py-2 sm:px-8">

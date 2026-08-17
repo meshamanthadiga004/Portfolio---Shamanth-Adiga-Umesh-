@@ -2,7 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { navLinks, pageLinks, profile } from "@/content/profile";
+import { theme } from "@/content/theme";
 import Socials from "./Socials";
+
+/* Hide the link when its section is switched off in theme.ts. */
+type SectionKey = keyof typeof theme.sections;
+const isOn = (href: string) => {
+  const id = href.split("#")[1] ?? href.replace(/^\//, "");
+  return theme.sections[id as SectionKey] !== false;
+};
+const visibleNavLinks = navLinks.filter((l) => isOn(l.href));
+const visiblePageLinks = pageLinks.filter((l) => isOn(l.href));
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -21,7 +31,7 @@ export default function Nav() {
   useEffect(() => {
     /* Hrefs are "/#about" so they work from other pages too — take the id
        from after the hash. */
-    const sections = navLinks
+    const sections = visibleNavLinks
       .map((l) => document.getElementById(l.href.split("#")[1] ?? ""))
       .filter((el): el is HTMLElement => el !== null);
     if (sections.length === 0 || typeof IntersectionObserver === "undefined")
@@ -58,7 +68,7 @@ export default function Nav() {
         </a>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -82,12 +92,11 @@ export default function Nav() {
 
           {/* Separate pages sit after a divider, so they read as a different
               kind of destination from the in-page sections. */}
-          <span
-            aria-hidden="true"
-            className="mx-1 h-4 w-px bg-[var(--hair)]"
-          />
+          {visiblePageLinks.length > 0 ? (
+            <span aria-hidden="true" className="mx-1 h-4 w-px bg-[var(--hair)]" />
+          ) : null}
 
-          {pageLinks.map((link) => (
+          {visiblePageLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -114,7 +123,7 @@ export default function Nav() {
 
       {open ? (
         <div className="mx-6 mb-3 rounded-2xl border border-[var(--hair)] bg-[var(--surface)] px-5 py-2 shadow-[var(--lift)] lg:hidden">
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -124,7 +133,7 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
-          {pageLinks.map((link) => (
+          {visiblePageLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}

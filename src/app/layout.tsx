@@ -78,6 +78,11 @@ const tokens = `:root{${palette(theme.color.light, "light")}
 --card-radius:${l.cardRadius};
 --card-padding:${l.cardPadding};
 --card-gap:${l.cardGap};
+--hero-min-height:${l.heroMinHeight};
+--hero-card-pad-y:${l.heroCardPadY};
+--hero-card-pad-x:${l.heroCardPadX};
+--portrait-width:${theme.media.portraitWidth};
+--signature-width:${theme.media.signatureWidth};
 }
 :root[data-theme="dark"]{${palette(theme.color.dark, "dark")}}`;
 

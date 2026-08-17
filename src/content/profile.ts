@@ -125,7 +125,7 @@ export const profile = {
    * alpha channel from the image's luminance. "" hides it.
    */
   signature: "/signature.png",
-  signatureSize: { width: 895, height: 610 },
+  signatureSize: { width: 950, height: 610 },
   socials: [
     {
       label: "LinkedIn",

@@ -8,14 +8,29 @@
    Content (your name, projects, experience) lives in profile.ts instead.
 
    HOW IT WORKS
-   The `color`, `type` and `layout` blocks are injected into the page as CSS
-   custom properties by src/app/layout.tsx. The `backdrop` and `audio` blocks
-   are read directly by their components.
-
-   The site is dark-only. There is no light theme.
+   The `color`, `type`, `layout` and `media` blocks are injected into the page
+   as CSS custom properties by src/app/layout.tsx. The `sections`, `backdrop`
+   and `audio` blocks are read directly by their components.
    ========================================================================== */
 
 export const theme = {
+  /* ---------------------------------------------------------------- SECTIONS
+     Switch any part of the site off without deleting it. `false` removes the
+     section from the page AND its link from the navigation; the code and your
+     content stay exactly where they are, ready to switch back on.
+
+     Use this rather than commenting code out — nothing gets lost, and turning
+     something back on is a one-word edit. */
+  sections: {
+    about: true,
+    work: true,
+    experience: true,
+    toolkit: true,
+    certifications: false, // the list at the bottom of Toolkit
+    contact: true,
+    adjacent: true, // the /adjacent page and its header link
+  },
+
   /* ------------------------------------------------------------------ COLOUR
      Black and gold. `gold` is the accent used for links and highlights;
      `gradFrom`/`gradTo` are the two ends of every gradient on the site. */
@@ -101,6 +116,20 @@ export const theme = {
     cardRadius: "18px",
     cardPadding: "2rem",
     cardGap: "1.25rem", // space between stacked cards
+
+    /* Hero — the panel above About. */
+    heroMinHeight: "82svh", // height of the hero band. "auto" shrinks to fit.
+    heroCardPadY: "3.5rem", // padding inside the hero card, top and bottom
+    heroCardPadX: "2.5rem", // and left/right
+  },
+
+  /* ------------------------------------------------------------------- MEDIA
+     Displayed sizes for the portrait and signature. The images keep their own
+     aspect ratios (set in profile.ts), so changing the width here scales the
+     height with it — nothing is ever stretched or cropped. */
+  media: {
+    portraitWidth: "19rem", // ~304px
+    signatureWidth: "11rem", // ~176px
   },
 
   /* ---------------------------------------------------------------- BACKDROP

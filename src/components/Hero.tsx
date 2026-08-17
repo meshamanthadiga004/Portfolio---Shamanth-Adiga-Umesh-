@@ -3,13 +3,22 @@ import Reveal from "./Reveal";
 
 export default function Hero() {
   return (
+    /* Height and padding come from theme.ts -> layout.heroMinHeight /
+       heroCardPadY / heroCardPadX. */
     <section
       id="top"
-      className="flex min-h-[82svh] items-center px-6 py-24"
+      className="flex items-center px-6 py-20"
+      style={{ minHeight: "var(--hero-min-height)" }}
     >
       <div className="shell">
         <Reveal>
-          <div className="card px-6 py-14 text-center sm:px-10 sm:py-16">
+          <div
+            className="card text-center"
+            style={{
+              paddingBlock: "var(--hero-card-pad-y)",
+              paddingInline: "var(--hero-card-pad-x)",
+            }}
+          >
             <h1 className="hero-name">
               {profile.nameLead}{" "}
               <span className="grad-text italic">{profile.nameAccent}</span>
