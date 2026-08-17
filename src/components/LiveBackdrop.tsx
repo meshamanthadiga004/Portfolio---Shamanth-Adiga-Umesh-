@@ -84,6 +84,17 @@ export default function LiveBackdrop() {
 
     const p = { x: -9999, y: -9999, dx: 0, dy: 0 };
 
+    /* Stencil colour and weight follow the active theme, so the field is
+       light-on-dark or dark-on-light as appropriate. */
+    let strokeColor = "#ffffff";
+    let opacity = cfg.iconOpacity;
+    const readPalette = () => {
+      const cs = getComputedStyle(document.documentElement);
+      strokeColor = cs.getPropertyValue("--ink").trim() || strokeColor;
+      const o = parseFloat(cs.getPropertyValue("--glyph-opacity"));
+      opacity = Number.isFinite(o) ? o : cfg.iconOpacity;
+    };
+
     /** Render each stencil once at device resolution. */
     const buildSprites = () => {
       const px = Math.ceil(cfg.iconSize * dpr);
@@ -94,7 +105,7 @@ export default function LiveBackdrop() {
         const g = c.getContext("2d");
         if (!g) return c;
         g.scale(px / 24, px / 24);
-        g.strokeStyle = "#ffffff";
+        g.strokeStyle = strokeColor;
         g.lineWidth = cfg.strokeWidth;
         g.lineJoin = "round";
         g.lineCap = "round";
@@ -104,6 +115,7 @@ export default function LiveBackdrop() {
     };
 
     const build = () => {
+      readPalette();
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
@@ -148,7 +160,7 @@ export default function LiveBackdrop() {
 
     const paint = () => {
       ctx.clearRect(0, 0, w, h);
-      ctx.globalAlpha = cfg.iconOpacity;
+      ctx.globalAlpha = opacity;
       const s = cfg.iconSize;
       for (const g of glyphs) {
         const sp = sprites[g.sprite];
@@ -243,10 +255,23 @@ export default function LiveBackdrop() {
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVisibility);
 
+    /* Re-stroke the sprites when the theme flips — they carry a baked-in
+       colour, so a token change alone isn't enough. */
+    const themeObserver = new MutationObserver(() => {
+      readPalette();
+      buildSprites();
+      paint();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
+      themeObserver.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

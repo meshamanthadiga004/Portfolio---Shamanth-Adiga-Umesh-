@@ -19,19 +19,42 @@ export const theme = {
   /* ------------------------------------------------------------------ COLOUR
      Black and gold. `gold` is the accent used for links and highlights;
      `gradFrom`/`gradTo` are the two ends of every gradient on the site. */
+  /* Two palettes. Light is the default; the header toggle switches to dark and
+     remembers the choice. Both gradients run bronze -> gold with no cool
+     tones, so gradient text never picks up a blue cast. */
   color: {
-    paper: "#0D0F12", // page background
-    surface: "#15181C", // cards, panels
-    surfaceAlpha: 0.72, // card translucency, 0 = invisible, 1 = solid
-    ink: "#ECEEF0", // body text
-    muted: "#98A2A9", // secondary text
-    gold: "#C9AC72", // accent: links, active nav, bullets
-    goldSoft: "#1C1C18", // tinted panel behind expanded project detail
-    gradFrom: "#8CA0AE", // gradient start (cool slate)
-    gradTo: "#D4B87A", // gradient end (warm gold)
-    hair: "rgb(255 255 255 / 0.13)", // borders
-    hairSoft: "rgb(255 255 255 / 0.07)", // faint dividers
+    light: {
+      paper: "#F7F5F1", // page background
+      surface: "#FFFFFF", // cards, panels
+      surfaceAlpha: 0.74, // card translucency, 0 = invisible, 1 = solid
+      ink: "#17150F", // body text
+      muted: "#6A6459", // secondary text
+      gold: "#7A5C25", // accent: links, active nav — deep enough to read
+      goldSoft: "#F5EEDF", // tinted panel behind expanded project detail
+      gradFrom: "#7A5C25", // gradient start (dark bronze)
+      gradTo: "#C6A353", // gradient end (gold)
+      hair: "rgb(23 21 15 / 0.14)", // borders
+      hairSoft: "rgb(23 21 15 / 0.07)", // faint dividers
+      glyphOpacity: 0.1, // backdrop icons — dark on light needs less
+    },
+    dark: {
+      paper: "#0D0F12",
+      surface: "#15181C",
+      surfaceAlpha: 0.72,
+      ink: "#ECEEF0",
+      muted: "#98A2A9",
+      gold: "#D4B87A",
+      goldSoft: "#1C1C18",
+      gradFrom: "#A8823A", // dark bronze
+      gradTo: "#E7CE93", // pale gold
+      hair: "rgb(255 255 255 / 0.13)",
+      hairSoft: "rgb(255 255 255 / 0.07)",
+      glyphOpacity: 0.13,
+    },
   },
+
+  /** Which palette a first-time visitor sees. */
+  defaultTheme: "light" as "light" | "dark",
 
   /* -------------------------------------------------------------------- TYPE
      `clamp(min, preferred, max)` scales smoothly between phone and desktop.
@@ -139,12 +162,12 @@ export const theme = {
     clickPitch: 1250, // Hz fundamental — higher is a thinner "ting"
     clickDecay: 0.3, // seconds
 
-    /* Mouse-wheel ratchet. One detent tick per `scrollDetent` pixels, so a
-       fast scroll runs them together and a slow one ticks singly. Raise
-       scrollDetent for fewer ticks ("trr"), lower it for more ("trrrrr"). */
-    scroll: true,
+    /* Mouse-wheel ratchet. Off — the ticking competed with the bell on every
+       link. Set true to bring it back; scrollDetent is px between ticks, so
+       raise it for fewer ("trr"), lower it for more ("trrrrr"). */
+    scroll: false,
     scrollVolume: 0.42,
-    scrollDetent: 26, // px of scroll between ticks
+    scrollDetent: 26,
     scrollTone: 1100, // Hz centre of each tick — lower is softer
     scrollBody: 0.5, // low-end thump under each tick, 0 = none
   },

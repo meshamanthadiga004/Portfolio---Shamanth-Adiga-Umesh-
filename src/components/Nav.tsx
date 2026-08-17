@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { navLinks, pageLinks, profile } from "@/content/profile";
 import Socials from "./Socials";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -100,6 +101,7 @@ export default function Nav() {
 
         <div className="flex shrink-0 items-center gap-3">
           <Socials className="hidden sm:flex" />
+          <ThemeToggle />
           <button
             type="button"
             aria-label="Toggle menu"

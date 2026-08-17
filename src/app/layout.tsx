@@ -32,8 +32,11 @@ export const metadata: Metadata = {
 
 /* Everything in theme.ts becomes a CSS custom property here, so editing that
    file is enough to restyle the site. */
-const { color: c, type: t, layout: l } = theme;
-const tokens = `:root{
+const { type: t, layout: l } = theme;
+
+type Palette = (typeof theme.color)["light"];
+const palette = (c: Palette, scheme: "light" | "dark") => `
+color-scheme:${scheme};
 --paper:${c.paper};
 --surface:${c.surface};
 --surface-alpha:${c.surfaceAlpha};
@@ -46,6 +49,9 @@ const tokens = `:root{
 --grad:linear-gradient(115deg,${c.gradFrom} 0%,${c.gradTo} 100%);
 --hair:${c.hair};
 --hair-soft:${c.hairSoft};
+--glyph-opacity:${c.glyphOpacity};`;
+
+const tokens = `:root{${palette(theme.color.light, "light")}
 --wash:${theme.backdrop.washOpacity};
 --body-size:${t.bodySize};
 --body-leading:${t.bodyLeading};
@@ -71,7 +77,13 @@ const tokens = `:root{
 --card-radius:${l.cardRadius};
 --card-padding:${l.cardPadding};
 --card-gap:${l.cardGap};
-}`;
+}
+:root[data-theme="dark"]{${palette(theme.color.dark, "dark")}}`;
+
+/* Applies the saved choice before first paint, so there is no flash of the
+   wrong palette. No prefers-color-scheme fallback — the default is fixed by
+   theme.defaultTheme, and only an explicit toggle overrides it. */
+const themeScript = `try{var t=localStorage.getItem('theme')||'${theme.defaultTheme}';if(t==='dark'){document.documentElement.setAttribute('data-theme','dark')}}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -79,10 +91,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    /* Dark only — no theme switching, so the browser is told up front. */
-    <html lang="en" className={ptSerif.variable} style={{ colorScheme: "dark" }}>
+    <html lang="en" className={ptSerif.variable} suppressHydrationWarning>
       <head>
         <style dangerouslySetInnerHTML={{ __html: tokens }} />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>{children}</body>
     </html>
