@@ -26,7 +26,7 @@ export const theme = {
     work: true,
     experience: true,
     toolkit: true,
-    certifications: true, // the list at the bottom of Toolkit
+    certifications: false, // the list at the bottom of Toolkit
     contact: true,
     adjacent: true, // the /adjacent page and its header link
   },

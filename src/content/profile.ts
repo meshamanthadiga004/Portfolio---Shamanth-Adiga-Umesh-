@@ -45,7 +45,7 @@ export const profile = {
   // -------------------------------------------------------------------- hero
   /** Short. This is your positioning, not your job title. */
   headline:
-    "I turn ambiguous business problems into decisions someone can act on.",
+    "I turn ambiguous business problems into decisions to act on.",
   location: "Bengaluru, KA, India",
   /**
    * Path to your resume PDF. Leave as "" and every Résumé button hides itself —
