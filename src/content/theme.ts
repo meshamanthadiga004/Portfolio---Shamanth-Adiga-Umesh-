@@ -27,6 +27,10 @@ export const theme = {
     experience: true,
     toolkit: true,
     certifications: false, // the list at the bottom of Toolkit
+    /* false hides every project that isn't finished — anything marked
+       "in-progress" or "planned" — and drops them from the counter. The
+       finished ones stay. Your text stays in profile.ts either way. */
+    pipelineProjects: false,
     contact: true,
     adjacent: true, // the /adjacent page and its header link
   },

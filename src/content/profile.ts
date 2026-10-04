@@ -23,6 +23,14 @@ export type Project = {
   tools: string[];
   /** Deck, model, dashboard, write-up. Omit or leave empty if not public yet. */
   links?: { label: string; href: string }[];
+  /**
+   * Set `hidden: true` to take this one project off the site while keeping it
+   * here. Delete the line, or set it to false, to bring it back.
+   *
+   * To hide ALL unfinished projects at once instead, use
+   * theme.sections.pipelineProjects.
+   */
+  hidden?: boolean;
 };
 
 export const profile = {
@@ -71,10 +79,10 @@ export const profile = {
    * boards were graded differently, write the unit into the label.
    */
   academics: [
-    { value: "96.4%", label: "Class X" },
-    { value: "100%", label: "Class XII" },
-    { value: "8.94", label: "B.Com / 10" },
     { value: "9", label: "MBA / 10" },
+    { value: "8.94", label: "B.Com / 10" },
+    { value: "100%", label: "Class XII" },
+    { value: "96.4%", label: "Class X" },
   ],
 
   // ------------------------------------------------- what you're good at
@@ -89,7 +97,7 @@ export const profile = {
       body: "SQL, Python and Power BI/Tableau, end to end - one completed EDA-and-dashboard project, and the current portfolio analysis in progress.",
     },
     {
-      title: "Data & analytics",
+      title:"TODO: Data & analytics",
       body: "TODO: SQL, Python and dashboarding to get from raw data to a number a decision can hang on.",
     },
   ],
