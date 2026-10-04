@@ -1,0 +1,9 @@
+{
+  // Use Command Prompt for this project's terminal instead of PowerShell.
+  //
+  // PowerShell refuses to run npm because npm ships as a .ps1 script and this
+  // machine's execution policy blocks scripts. Command Prompt uses npm.cmd
+  // instead, which isn't affected. This only applies to this folder, and it
+  // changes no security settings.
+  "terminal.integrated.defaultProfile.windows": "Command Prompt"
+}

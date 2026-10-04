@@ -1,5 +1,14 @@
 {
   "version": "2.0.0",
+  // Both tasks are forced through cmd.exe. PowerShell's execution policy
+  // blocks npm's .ps1 wrapper on this machine; cmd.exe uses npm.cmd and is
+  // unaffected, so these keep working regardless of the default shell.
+  "options": {
+    "shell": {
+      "executable": "cmd.exe",
+      "args": ["/d", "/c"]
+    }
+  },
   "tasks": [
     {
       "label": "Deploy site",
