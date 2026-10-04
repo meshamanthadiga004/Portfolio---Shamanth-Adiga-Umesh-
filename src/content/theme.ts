@@ -26,7 +26,7 @@ export const theme = {
     work: true,
     experience: true,
     toolkit: true,
-    certifications: false, // the list at the bottom of Toolkit
+    certifications: true, // the list at the bottom of Toolkit
     contact: true,
     adjacent: true, // the /adjacent page and its header link
   },
@@ -146,7 +146,7 @@ export const theme = {
     strokeWidth: 1.5, // stencil line weight, in the icon's own 24px grid
 
     /* The field drifts upward forever, like film credits. */
-    creditSpeed: 0.3, // px per frame — roughly 18px/sec at 60fps
+    creditSpeed: 0.7, // px per frame — roughly 18px/sec at 60fps
     jitter: 30, // px of random offset per icon. Higher = more zigzag.
     rowStagger: 0.5, // alternate rows shift by this fraction of `spacing`
 

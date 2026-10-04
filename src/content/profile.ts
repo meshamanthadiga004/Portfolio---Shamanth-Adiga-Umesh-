@@ -1,10 +1,3 @@
-/* ============================================================================
-   THIS IS THE ONLY FILE YOU NEED TO EDIT.
-   Everything on the site is driven from here. Replace the placeholder values
-   (marked with TODO) with your own. Adding a project = adding one object to
-   the `projects` array below.
-   ========================================================================== */
-
 export type ProjectStatus = "shipped" | "in-progress" | "planned";
 
 export type Project = {
@@ -43,7 +36,7 @@ export const profile = {
   nameLead: "Shamanth",
   nameAccent: "Adiga Umesh",
   /** Appears in the browser tab and in Google results. */
-  seoTitle: "Shamanth Adiga Umesh — MBA | Data Science & Analytics",
+  seoTitle: "Shamanth Adiga Umesh - MBA | Data Science & Analytics",
   seoDescription:
     "TODO: One line a recruiter would read in search results. e.g. MBA candidate at X, working at the intersection of strategy, finance and analytics.",
   /** Your live URL once deployed. Used for social share cards. */
@@ -64,9 +57,9 @@ export const profile = {
 
   // ------------------------------------------------------------------- about
   about: [
-    "MBA candidate at JAIN (Deemed-to-be University), Bengaluru, specialising in Data Science & Analytics. I work across strategy, financial analytics, risk analysis and product analytics — building the case, the model, and the recommendation.",
-    "TODO: Paragraph two. What kind of problems you're drawn to and why — describe the work rather than yourself. Two or three sentences.",
-    "TODO: Paragraph three. Your background before the MBA and what it gives you that a pure generalist doesn't have. End with what you're looking for next.",
+    "MBA candidate at JAIN (Deemed-to-be University), Bengaluru, specialising in Data Science & Analytics. A B.Com base and company-law coursework fed into an early-2025 internship in statutory compliance - GST filings, RoC incorporations, trust accounts, the occasional litigation notice - that taught me to read a rule or a number for what it actually requires before acting on it, and to check a conclusion holds before it goes out the door. The habit carried straight into analysis. I test the assumption everyone's stopped questioning, verify a result from a second angle, and report what the data supports even when it complicates the plan.",
+    "Python, SQL and statistical testing get me to the answer. Power BI, Tableau and Excel make it legible to people who won't open the notebook. I use AI tooling heavily and say so. It extends what I can build past my own coding depth, and the value I add is in specifying the problem, directing the work, and verifying the output.",
+    "I'm building toward data and analytics roles where that grounding in rigor meets real numbers, starting with business analytics and regulatory or risk reporting, with predictive modelling and product metrics as the next stretch. Statistical inference, SQL, Power BI and Tableau are in hand already; the rest is what I'm closing the distance on.",
   ],
 
   /**
@@ -89,11 +82,11 @@ export const profile = {
   pillars: [
     {
       title: "Structured problem-solving",
-      body: "TODO: Issue trees, hypothesis-driven analysis, MECE breakdowns — and knowing when the framework is getting in the way.",
+      body: "Applied in scoping the current portfolio project — issue-tree and hypothesis checks to choose between two verified analysis paths, with a built-in kill point to cut one early if its core assumption didn't hold.",
     },
     {
-      title: "Financial modelling",
-      body: "TODO: Three-statement models, DCF and comparables, unit economics and scenario analysis in Excel.",
+      title: "Data & Analytics",
+      body: "SQL, Python and Power BI/Tableau, end to end - one completed EDA-and-dashboard project, and the current portfolio analysis in progress.",
     },
     {
       title: "Data & analytics",
@@ -135,7 +128,7 @@ export const profile = {
   ],
   /** Closing line above the email address. */
   contactNote:
-    "TODO: I'm looking for [summer internship / full-time] roles in [consulting / corporate finance / product]. Happy to talk about anything on this page.",
+    "TODO: I'm looking for [part-time internship / full-time] roles in [consulting / corporate finance / product]. Happy to talk about anything on this page.",
 };
 
 // ============================================================================
@@ -150,7 +143,7 @@ export const projects: Project[] = [
   {
     slug: "smartphone-market-analytics",
     title:
-      "What Drives Smartphone Pricing — Specifications or the Buyer?",
+      "What Drives Smartphone Pricing - Specifications or the Buyer?",
     category: "Analytics",
     status: "shipped",
     timeframe: "Jul 2026",
@@ -245,20 +238,20 @@ export const education = [
   {
     degree: "Masters in Business Administration, Data Science & Analytics",
     school: "Jain Deemed-to-be-University",
-    period: "2025 — 2027",
+    period: "2025 - 2027",
     detail: "9/10 CGPA (Till 2nd Semester)",
   },
   {
     degree: "Bachelor of Commerce",
     school: "Bengaluru City University",
-    period: "2021 — 2024",
+    period: "2021 - 2024",
     detail: "8.94/10 CGPA",
   },
   {
     degree: "Company Secretary (CS)",
     school: "Institute of Company Secretaries of India (ICSI)",
-    period: "2024 — present",
-    detail: "Currently pursuing the Executive Programme and I have scored an Exemption in the subject 'Setting Up of Business, Industrial & Labor Laws'",
+    period: "2024 - present",
+    detail: "Currently pursuing the Executive Programme and I have scored an Exemption in 'Group 1'",
     href: "/adjacent",
     hrefLabel: "See the full CS track",
   },
